@@ -80,9 +80,19 @@ typedef union u_objects
 	t_cylinder cylinder;
 }	t_objects;
 
+typedef enum e_type
+{
+	AMBIANT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER
+}t_type;
+
 typedef struct s_list
 {
-	int type; // 0 ambiant 1 camera 2 light 3 sphere 4 plane 5 cylinder
+	t_type type; // 0 AMBIANT 1 CAMERA 2 LIGHT 3 SPHERE 4 PLANE 5 CYLINDER // union için gerekli ama union neden gerekli
 	t_objects objects;
 	struct s_list *next;
 };
