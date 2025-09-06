@@ -1,76 +1,78 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "vector.h"
 # include <stdio.h>
+
+# include "vector.h"
+
 
 // typedef struct s_ambient
 // {
-// 	float	range;
-// 	float	color_r;
-// 	float	color_b;
-// 	float	color_g;
+// 	double	range;
+// 	double	color_r;
+// 	double	color_b;
+// 	double	color_g;
 // }	t_ambient;
 
 // typedef struct s_camera
 // {
-// 	float	pos_x;
-// 	float	pos_y;
-// 	float	pos_z;
-// 	float	normal_x;
-// 	float	normal_y;
-// 	float	normal_z;
-// 	float	fov;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	pos_z;
+// 	double	normal_x;
+// 	double	normal_y;
+// 	double	normal_z;
+// 	double	fov;
 // }t_camera;
 
 // typedef struct s_light
 // {
-// 	float	pos_x;
-// 	float	pos_y;
-// 	float	pos_z;
-// 	float	range;
-// 	// float	color_r;
-// 	// float	color_b;
-// 	// float	color_g;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	pos_z;
+// 	double	range;
+// 	// double	color_r;
+// 	// double	color_b;
+// 	// double	color_g;
 // }t_light;
 
 // typedef struct s_sphere
 // {
-// 	float	pos_x;
-// 	float	pos_y;
-// 	float	pos_z;
-// 	float	diameter;
-// 	float	color_r;
-// 	float	color_b;
-// 	float	color_g;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	pos_z;
+// 	double	diameter;
+// 	double	color_r;
+// 	double	color_b;
+// 	double	color_g;
 // }t_sphere;
 
 // typedef struct s_plane
 // {
-// 	float	pos_x;
-// 	float	pos_y;
-// 	float	pos_z;
-// 	float	normal_x;
-// 	float	normal_y;
-// 	float	normal_z;
-// 	float	color_r;
-// 	float	color_b;
-// 	float	color_g;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	pos_z;
+// 	double	normal_x;
+// 	double	normal_y;
+// 	double	normal_z;
+// 	double	color_r;
+// 	double	color_b;
+// 	double	color_g;
 // }t_plane;
 
 // typedef struct s_cylinder
 // {
-// 	float	pos_x;
-// 	float	pos_y;
-// 	float	pos_z;
-// 	float	normal_x;
-// 	float	normal_y;
-// 	float	normal_z;
-// 	float	diameter;
-// 	float	height;
-// 	float	color_r;
-// 	float	color_b;
-// 	float	color_g;
+// 	double	pos_x;
+// 	double	pos_y;
+// 	double	pos_z;
+// 	double	normal_x;
+// 	double	normal_y;
+// 	double	normal_z;
+// 	double	diameter;
+// 	double	height;
+// 	double	color_r;
+// 	double	color_b;
+// 	double	color_g;
 // }t_cylinder;
 
 // typedef union u_objects
