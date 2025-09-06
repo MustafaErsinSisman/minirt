@@ -16,6 +16,4 @@ t_vector3 vec_cross(t_vector3 v1, t_vector3 v2);
 float vec_len(t_vector3 v1);
 t_vector3 vec_normalize(t_vector3 v1);
 
-
-
 #endif

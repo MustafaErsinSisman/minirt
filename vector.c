@@ -1,10 +1,14 @@
 #include "vector.h"
 
+#include <stdio.h> // !sil printf test için var
+
 t_vector3 vec_sum(t_vector3 v1, t_vector3 v2)
 {
     t_vector3 sum;
 
-    sum = {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z};
+    sum.x = v1.x + v2.x;
+    sum.y = v1.y + v2.y;
+    sum.z = v1.z + v2.z;
     return  (sum);
 }
 
