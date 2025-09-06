@@ -1,6 +1,8 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "vector.h"
+
 typedef struct s_ambient
 {
 	float	range;
