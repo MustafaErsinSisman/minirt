@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 17:19:38 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:38:27 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/07 19:21:07 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_vector3	*vec_cross(t_vector3 *v1, t_vector3 *v2)
 	cross = ft_malloc(sizeof(t_vector3));
 	if (!cross)
 		return (NULL);
-	cross->x = (v1->x + v1->y + v1->z) * v2->x;
-	cross->y = (v1->x + v1->y + v1->z) * v2->y;
-	cross->z = (v1->x + v1->y + v1->z) * v2->z;
+	cross->x = (v1->y * v2->z) - (v1->z * v2->y);
+	cross->y = (v1->z * v2->x) - (v1->x * v2->z);
+	cross->z = (v1->x * v2->y) - (v1->y * v2->x);
 	return (cross);
 }
 

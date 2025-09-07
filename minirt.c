@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:01:24 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:40:25 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/07 19:21:42 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	main(int ac, char **av)
 	v1.x = 1;
 	v1.y = 2;
 	v1.z = 3;
-	v2.x = 4;
-	v2.y = 5;
-	v2.z = 6;
+	v2.x = 3;
+	v2.y = 4;
+	v2.z = 5;
 	printf("v1: x: %.2f y: %.2f z: %.2f\n", v1.x, v1.y, v1.z);
 	printf("v2: x: %.2f y: %.2f z: %.2f\n", v2.x, v2.y, v2.z);
 	printf("\n");
