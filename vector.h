@@ -13,6 +13,8 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
+# include <math.h>
+
 # include "Libft/libft.h"
 # include "collector/collector.h"
 

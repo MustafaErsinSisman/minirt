@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:01:24 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:11:35 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/07 17:40:25 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	main(int ac, char **av)
 	printf("cross: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
 	dot = vec_len(&v1);
 	printf("len v1: %f \n", *dot);
+	res = vec_normalize(&v1);
+	printf("normalize v1: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
 	ft_free();
 	printf("\n");
 	return (0);

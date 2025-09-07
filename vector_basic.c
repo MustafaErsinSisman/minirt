@@ -14,7 +14,7 @@
 
 t_vector3	*new_vector(double new_x, double new_y, double new_z)
 {
-	t_vector3 *new;
+	t_vector3	*new;
 
 	new = ft_malloc(sizeof(t_vector3));
 	if (!new)
@@ -63,4 +63,3 @@ t_vector3	*vec_scale(t_vector3 *v1, double k)
 	scale->z = k * v1->z;
 	return (scale);
 }
-

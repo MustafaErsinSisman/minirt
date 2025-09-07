@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:10:17 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/07 17:34:44 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,11 @@ typedef enum e_type
 	CYLINDER
 }t_type;
 
-typedef struct s_list
+typedef struct s_obje_list
 {
 	t_type			type; // 0 AMBIANT 1 CAMERA 2 LIGHT 3 SPHERE 4 PLANE 5 CYLINDER //union için gerekli ama union neden gerekli
 	t_objects		objects;
-	struct s_list	*next;
-}t_list;
+	struct s_obje_list	*next;
+}t_obje_list;
 
 #endif

@@ -1,7 +1,7 @@
 NAME 		= minirt
 CC		= cc
-CFLAGS 		= -Wall -Wextra -Werror
-SRCS		= minirt.c  vector.c
+CFLAGS 		= -Wall -Wextra -Werror -lm
+SRCS		= minirt.c  vector_basic.c vector_geo.c
 RM		= rm -f
 
 LIBFT		= Libft/libft.a
