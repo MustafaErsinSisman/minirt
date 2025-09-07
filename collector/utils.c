@@ -6,11 +6,19 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 02:00:00 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 01:30:03 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/07 16:01:07 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "collector.h"
+
+void	*ft_exit(void)
+{
+	write(STDERR_FILENO, "collector: Out of memory\n", 26);
+	ft_free();
+	exit(EXIT_FAILURE);
+	return (NULL);
+}
 
 t_memblock	*ft_add_new_block(void *data, size_t size)
 {

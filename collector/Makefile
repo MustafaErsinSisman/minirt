@@ -1,16 +1,12 @@
-CC = cc
-RM = rm -rf
-AR = ar rc
+NAME	= collector.a
+CC	= cc
+CFLAGS	= -Wall -Werror -Wextra
+SRCS	= collector.c utils.c 
+OBJS	= $(SRCS:.c=.o)
+RM	= rm -f
+AR	= ar rc
 
-CFLAGS = -Wall -Werror -Wextra
-
-SRCS = utils.c collector.c
-
-OBJS = $(SRCS:.c=.o)
-
-NAME = collector.a
-
-all: dir $(NAME)
+all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(AR) $(NAME) $(OBJS)
@@ -23,4 +19,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re dir
+.PHONY: all clean fclean re
