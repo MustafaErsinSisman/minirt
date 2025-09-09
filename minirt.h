@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:34:44 by musisman         ###   ########.fr       */
+/*   Updated: 2025/09/09 19:27:02 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # include "vector.h"
 # include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 typedef struct s_ambient
 {
@@ -85,5 +88,7 @@ typedef struct s_obje_list
 	t_objects		objects;
 	struct s_obje_list	*next;
 }t_obje_list;
+
+void	file_extension(char *file_name);
 
 #endif
