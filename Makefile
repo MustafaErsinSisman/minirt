@@ -23,6 +23,9 @@ $(NAME): $(OBJS)
 run: all
 	@./$(NAME)
 
+leak:all
+	valgrind --leak-check=full --show-leak-kinds=all ./${NAME}
+
 clean:
 	$(RM) $(OBJS)
 	make -s -C $(DIR_LIBFT) clean

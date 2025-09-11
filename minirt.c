@@ -12,40 +12,49 @@
 
 #include "minirt.h"
 
-int	main(int ac, char **av)
-{
-	t_vector3	v1;
-	t_vector3	v2;
-	t_vector3	*res;
-	double		*dot;
+#define WIDTH 800
+#define HEIGHT 600
 
-	printf("\n");
-	(void)ac;
-	(void)av;
-	v1.x = 1;
-	v1.y = 2;
-	v1.z = 3;
-	v2.x = 3;
-	v2.y = 4;
-	v2.z = 5;
-	printf("v1: x: %.2f y: %.2f z: %.2f\n", v1.x, v1.y, v1.z);
-	printf("v2: x: %.2f y: %.2f z: %.2f\n", v2.x, v2.y, v2.z);
-	printf("\n");
-	res = vec_sum(&v1, &v2);
-	printf("sum: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
-	res = vec_sub(&v1, &v2);
-	printf("sub: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
-	res = vec_scale(&v1, 5);
-	printf("5x scale v1: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
-	dot = vec_dot(&v1, &v2);
-	printf("dot: %f \n", *dot);
-	res = vec_cross(&v1, &v2);
-	printf("cross: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
-	dot = vec_len(&v1);
-	printf("len v1: %f \n", *dot);
-	res = vec_normalize(&v1);
-	printf("normalize v1: x: %.2f y: %.2f z: %.2f\n", res->x, res->y, res->z);
-	ft_free();
-	printf("\n");
-	return (0);
+typedef struct s_vars
+{
+    void *mlx;
+    void *win;
+    void *img;
+    char *addr;
+} t_vars;
+
+int exit_func(t_vars *vars)
+{
+	mlx_destroy_image(vars->mlx, vars->img);
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
+}
+
+int key_hook(int keycode, t_vars *vars)
+{
+    if (keycode == 65307)  // ESC
+        exit_func(vars);
+    return (0);
+}
+
+int main(void)
+{
+    t_vars vars;
+    int bpp, line_len, endian, x, y;
+
+    vars.mlx = mlx_init();
+    vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT");
+    vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
+    vars.addr = mlx_get_data_addr(vars.img, &bpp, &line_len, &endian);
+
+    // kırmızı ekran
+    for (y = 0; y < HEIGHT; y++)
+        for (x = 0; x < WIDTH; x++)
+            *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x00FF0000;
+
+    mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+    mlx_key_hook(vars.win, key_hook, &vars);
+    mlx_hook(vars.win, 17, 0, exit_func, &vars); // çarpıya tıklayınca
+    mlx_loop(vars.mlx);
+    return (0);
 }
