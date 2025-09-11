@@ -1,6 +1,6 @@
 NAME 		= minirt
 CC		= cc
-CFLAGS 		= -Wall -Wextra -Werror -lm
+CFLAGS 		= -Wall -Wextra -Werror -lmlx -lXext -lX11 -lm
 SRCS		= minirt.c  vector_basic.c vector_geo.c
 RM		= rm -f
 
