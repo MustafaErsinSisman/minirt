@@ -13,8 +13,10 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "vector.h"
 # include <stdio.h>
+
+# include "minilibx-linux/mlx.h"
+# include "vector.h"
 
 typedef struct s_ambient
 {
