@@ -1,7 +1,7 @@
 NAME 		= minirt
 CC		= cc
-CFLAGS 		= -Wall -Wextra -Werror -lm
-SRCS		= minirt.c main.c vector_basic.c vector_geo.c gnl/get_next_line.c gnl/get_next_line_utils.c
+CFLAGS 		= -Wall -Wextra -Werror 
+SRCS		= minirt.c main.c vector_basic.c vector_geo.c gnl/get_next_line.c gnl/get_next_line_utils.c controller/controller.c controller/controller_utils.c
 RM		= rm -f
 
 LIBFT		= Libft/libft.a
@@ -14,7 +14,7 @@ all: $(NAME)
 $(NAME): $(SRCS)
 	make -s  -C $(DIR_LIBFT)
 	make -s  -C $(DIR_COLLECTOR)
-	$(CC) $(CFLAGS) $(SRCS) $(COLLECTOR) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) $(COLLECTOR) $(LIBFT) -o $(NAME) -lm
 
 run: $(NAME)
 	@./$(NAME)

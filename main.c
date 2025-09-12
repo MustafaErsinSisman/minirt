@@ -6,11 +6,11 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/09 19:26:38 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/12 17:59:27 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minirt.h>
+#include "minirt.h"
 
 int	map_height(char *file)
 {
@@ -20,11 +20,15 @@ int	map_height(char *file)
 	
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (free_game(game), error_message(4), 0);
+	{
+		//hata durumu gelecek
+	}
 	i = 0;
 	line = get_next_line(fd);
 	if (!line)
-		return (free_game(game), error_message(0), 0);
+	{
+		//hata durumu gelecek
+	}
 	while (line)
 	{
 		i++;
@@ -35,40 +39,45 @@ int	map_height(char *file)
 	return (i);
 }
 
-int	read_map(char *file)
+char	**read_map(char *file)
 {
 	int		i;
 	int		fd;
     int     line_count;
 	char	*line;
-	char	**map;
+	char	**values;
 
 	line_count = map_height(file);/// VERİLEN DOSYAYI OKUYUP SONRASINDA KONTROLE GÖNDERECEĞİM
-	map = malloc(line_count * sizeof(char *) + 1);
-	if (!map)
+	values = malloc(line_count * sizeof(char *) + 1);
+	if (!values)
 		return (0);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-		return (free_game(game), error_message(4), 0);
+	{
+		//hata durumu gelecek
+	}
 	i = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
 	{
 		if (line[ft_strlen(line) - 1] == '\n')
 			line[ft_strlen(line) - 1] = '\0';
-		map[i++] = line;
+		values[i++] = line;
 		line = get_next_line(fd);
 	}
 	close(fd);
-	game->map = map;
-	game->width = ft_strlen(map[0]);
-	return (1);
+	return (values);
 }
 
 int main(int argc, char **argv)
 {
+	char **values;
     if (argc == 1)
 		exit(EXIT_SUCCESS);
     file_extension(argv[1]);
+	values = read_map(argv[1]);
+	int i = 0;
+	while (values[i])
+		printf("%s\n", values[i++]);
     return 0;
 }
