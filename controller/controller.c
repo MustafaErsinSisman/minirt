@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/12 19:04:50 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/16 16:39:25 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,27 +22,23 @@ int controller(char **values)
     {
         t_obje_list *obj; 
         obj = malloc(sizeof(t_obje_list));
-        if (!ft_strncmp(values[i], "A ", 2))
-        {
-            ambient_obj(values[i], obj);
-        }
-        else if (!ft_strncmp(values[i], "C ", 2))
-        {
-            // KAMERA FONKSİYONU
-        }
-        else if (!ft_strncmp(values[i], "L ", 2))
+        if (!ft_strcmp(values[i], "A "))
+            return ambient_obj(values[i], obj);
+        else if (!ft_strcmp(values[i], "C "))
+            return camera_obj(values[i], obj);
+        else if (!ft_strcmp(values[i], "L "))
         {
             // IŞIK FONKSİYONU
         }
-        else if (!ft_strncmp(values[i], "sp ", 2))
+        else if (!ft_strcmp(values[i], "sp "))
         {
             // KARE FONKSİYONU 
         }
-        else if (!ft_strncmp(values[i], "pl ", 2))
+        else if (!ft_strcmp(values[i], "pl "))
         {
             // DÜZLEM FONKSİYONU
         }
-        else if (!ft_strncmp(values[i], "cy ", 2))
+        else if (!ft_strcmp(values[i], "cy "))
         {
             // SİLİNDİR FONKSİYONU
         }

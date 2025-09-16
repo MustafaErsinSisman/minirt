@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/12 17:59:27 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/16 15:49:29 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,15 @@ char	**read_map(char *file)
 int main(int argc, char **argv)
 {
 	char **values;
+	
     if (argc == 1)
 		exit(EXIT_SUCCESS);
     file_extension(argv[1]);
 	values = read_map(argv[1]);
+	if(chr_control(values))
+	{
+		//hata durumu
+	}
 	int i = 0;
 	while (values[i])
 		printf("%s\n", values[i++]);

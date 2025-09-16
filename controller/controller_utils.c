@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:12:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/12 18:57:56 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/16 15:48:19 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,22 @@ void add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_ob
     *last = new_obj;            // son elemanı güncelle
 }
 
-int	ft_strcmp(const char *str1, const char *str2)
+int chr_control(char **values)
 {
-	while (*str2 == '0')
-		str2++;
-	while (*str1 == '0')
-		str1++;
-	while (*str1 && (*str1 == *str2))
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (values[i])
 	{
-		str1++;
-		str2++;
+		if (ft_strcmp(values[i], "A ") || ft_strcmp(values[i], "C "))
+			count++;
+		i++;
 	}
-	return (*str1 - *str2);
+	if (count >= 3)
+		return 1;
+	return 0;
 }
 
 void	file_extension(char *file_name)

@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:27:19 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/15 18:02:28 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/16 17:15:06 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,54 @@ int ambient_obj(char *value, t_obje_list *obj)
 {
 	char **temp;
 	char **rgb;
+	int i;
 	
+	i = -1;
 	temp = ft_split(value, ' ');
 	if (!temp)
-	{
-		// hata durumu
-	}
+		return 1;
 	obj->type = AMBIANT;
-	obj->objects.ambiant.range = 
+	obj->objects.ambiant.range = ft_atod(temp[1], 0, 1);
+	rgb = ft_split(temp[2], ',');
+	if (!rgb)
+		return 1;
+	while (rgb[++i])
+		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+			return 1;
+	obj->objects.ambiant.rgb.x = ft_atoi(rgb[0]);	
+	obj->objects.ambiant.rgb.y = ft_atoi(rgb[1]);	
+	obj->objects.ambiant.rgb.z = ft_atoi(rgb[2]);
+	
+	//RGB VE TEMP FRELENECEK
+	return 0;
+}
+
+int camera_obj(char *value, t_obje_list *obj)
+{
+	char **temp;
+	char **xyz;
+	char **normal;
+	int i;
+	
+	i = -1;
+	temp = ft_split(value, ' ');
+	if (!temp)
+		return 1;
+	obj->type = CAMERA;
+	xyz = ft_split(temp[1], ',');
+	obj->objects.camera.pos.x = ft_atod(xyz[0], 0, 1);
+	obj->objects.camera.pos.y = ft_atod(xyz[1], 0, 1);
+	obj->objects.camera.pos.z = ft_atod(xyz[2], 0, 1);
+	normal = ft_split(temp[2], ',');
+	while (normal[++i])
+		if (ft_atod(normal[i], 0, 1) < -1.0 || ft_atod(normal[i], 0, 1) > 1.0)
+			return 1;
+	obj->objects.camera.normal.x = ft_atod(normal[0], 0, 1);
+	obj->objects.camera.normal.y = ft_atod(normal[1], 0, 1);
+	obj->objects.camera.normal.z = ft_atod(normal[2], 0, 1);
+	if (ft_atod(temp[3], 0, 1) < 0 || ft_atod(temp[3], 0, 1) > 180)
+		return 1;
+	obj->objects.camera.fov = ft_atod(temp[3], 0, 1);
+	//RGB VE TEMP FRELENECEK
+	return 0;
 }

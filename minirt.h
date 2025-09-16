@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/12 19:01:16 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/16 15:47:36 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ typedef struct s_obje_list
 
 void	file_extension(char *file_name);
 void 	add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj);
+int 	chr_control(char **values);
 
 #endif
