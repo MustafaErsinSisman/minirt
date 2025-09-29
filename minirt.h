@@ -18,7 +18,7 @@
 # include <unistd.h>
 
 # include "minilibx-linux/mlx.h"
-# include "vector.h"
+# include "vector/vector.h"
 
 typedef struct s_ambient
 {
@@ -85,7 +85,7 @@ typedef enum e_type
 
 typedef struct s_obje_list
 {
-	t_type			type; // 0 AMBIANT 1 CAMERA 2 LIGHT 3 SPHERE 4 PLANE 5 CYLINDER //union için gerekli ama union neden gerekli
+	t_type			type;
 	t_objects		objects;
 	struct s_obje_list	*next;
 }t_obje_list;
