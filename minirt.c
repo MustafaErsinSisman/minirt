@@ -39,6 +39,14 @@ int key_hook(int keycode, t_vars *vars)
 	return (0);
 }
 
+unsigned int color(int r, int g, int b)
+{
+	unsigned int	hex_color;
+
+	hex_color = (r << 16) | (g << 8) | b;
+	return hex_color;
+}
+
 int main(void)
 {
 	t_vars vars;
@@ -51,29 +59,29 @@ int main(void)
 
 	// kırmızı ekran
 	for (y = 0; y < HEIGHT; y++)
-    {
+    	{
 		for (x = 0; x < WIDTH; x++)
-        {
-            if (y < HEIGHT / 2)
-            {
-                if (x < WIDTH / 3)
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x00FF0000;
-                else if (x < 2 * WIDTH / 3)
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x0000FF00;
-                else
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x000000FF;
-            }
-            else
-            {
-                if (x < WIDTH / 3)
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x00FFFF00;
-                else if (x < 2 * WIDTH / 3)
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x00FFFFFF;
-                else
-			        *(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = 0x00000000;
-            }
-        }
-    }
+    		{
+    	        	if (y < HEIGHT / 2)
+    	        	{
+    	        	    if (x < WIDTH / 3)
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(255,0,0);
+    	        	    else if (x < 2 * WIDTH / 3)
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(0,255,0);
+    	        	    else
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(0,0,255);
+    	        	}
+    	        	else
+    	        	{
+    	        	    if (x < WIDTH / 3)
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(255,255,0);
+    	        	    else if (x < 2 * WIDTH / 3)
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(255,255,255);
+    	        	    else
+					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = color(0,0,0);
+    	        	}
+    		}
+    	}
 
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_key_hook(vars.win, key_hook, &vars);
