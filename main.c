@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/16 15:49:29 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/02 16:49:51 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int main(int argc, char **argv)
 	{
 		//hata durumu
 	}
+	controller(values);
 	int i = 0;
 	while (values[i])
 		printf("%s\n", values[i++]);

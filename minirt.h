@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/16 15:47:36 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/02 16:49:38 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_light
 {
 	t_vector3	pos;
 	double		range;
-	// t_vector3 rgb;
+	 // t_vector3 rgb;
 }t_light;
 
 typedef struct s_sphere
@@ -92,6 +92,12 @@ typedef struct s_obje_list
 
 void	file_extension(char *file_name);
 void 	add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj);
+int		controller(char **values);
 int 	chr_control(char **values);
+int 	ambient_obj(char *value, t_obje_list *obj);
+int 	camera_obj(char *value, t_obje_list *obj);
+int 	light_obj(char *value, t_obje_list *obj);
+int 	sphere_obj(char *value, t_obje_list *obj);
+
 
 #endif

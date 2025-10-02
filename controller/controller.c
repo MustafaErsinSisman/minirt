@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/16 16:39:25 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/09/25 07:51:58 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ int controller(char **values)
         else if (!ft_strcmp(values[i], "C "))
             return camera_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "L "))
-        {
-            // IŞIK FONKSİYONU
-        }
+            return light_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "sp "))
-        {
-            // KARE FONKSİYONU 
-        }
+            return sphere_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "pl "))
         {
             // DÜZLEM FONKSİYONU

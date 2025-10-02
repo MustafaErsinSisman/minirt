@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:12:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/16 15:48:19 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/02 16:47:22 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,31 @@ void add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_ob
     *last = new_obj;            // son elemanı güncelle
 }
 
+char 	*ft_strcat(char *restrict dst, const char *restrict src)
+{
+    ft_strlcpy(dst + ft_strlen(dst), src, ft_strlen(dst) + ft_strlen(src));
+    return dst;
+}
+
 int chr_control(char **values)
 {
 	int i;
 	int count;
+	char *control;
 
-	i = 0;
 	count = 0;
+	i = 0;
 	while (values[i])
-	{
-		if (ft_strcmp(values[i], "A ") || ft_strcmp(values[i], "C "))
-			count++;
+	{	
+		if (ft_strcmp(values[i], "A ") || ft_strcmp(values[i], "C ") || ft_strcmp(values[i], "L ")) // L de eklenecek
+		{
+			if (ft_strlen(control) < 3)
+				control = ft_strcat(control, ft_substr(values[i], 0, 1));
+			count++;	
+		}
 		i++;
 	}
-	if (count >= 3)
+	if (count >= 4 || !ft_strchr(control, 'A') || !ft_strchr(control, 'C') || !ft_strchr(control, 'L'))
 		return 1;
 	return 0;
 }
