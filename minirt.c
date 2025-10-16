@@ -22,7 +22,7 @@
 //     return h;
 // }
 
-#define WIDTH 400.0
+#define WIDTH 1920.0
 #define ASPECT_RATIO (16.0 / 9.0)
 #define HEIGHT (WIDTH / ASPECT_RATIO)
 
@@ -68,8 +68,20 @@ t_vector3 ray_calculate(t_vector3 orig, t_vector3 dir, double t)
 
 unsigned int ray_color(t_vector3 ray)
 {
-	return color(ray.x, ray.y, ray.z);
+	t_vector3 unit_direction = vec_normalize(ray);
+	double a = 0.5 * (unit_direction.y + 1.0);
+
+	double r = (1.0 - a) * 1.0 + a * 0.5;
+	double g = (1.0 - a) * 1.0 + a * 0.7;
+	double b = (1.0 - a) * 1.0 + a * 1.0;
+
+	int ir = (int)(255.999 * r); // .999 ifadesi cast ederken kaybolan değeri tutmak için sadece 255 yazsaydık çarpınca virgülden sorası gidecekti
+	int ig = (int)(255.999 * g);
+	int ib = (int)(255.999 * b);
+
+	return color(ir, ig, ib);
 }
+
 
 int main(void)
 {
@@ -91,7 +103,6 @@ int main(void)
 	t_vector3 camera_center = *new_vector(0, 0, 0);
 
 	t_vector3 view_u = *new_vector(view_witdh, 0, 0);
-
 	t_vector3 view_v = *new_vector(0, -view_height, 0);
 
 	t_vector3 delta_view_u = vec_scale(view_u, 1.0 / WIDTH);
@@ -108,10 +119,13 @@ int main(void)
 		for (x = 0; x < WIDTH; x++)
 		{
 			t_vector3 pixel_center = vec_sum(vec_sum(pixel00_loc, vec_scale(delta_view_u, x)), vec_scale(delta_view_v, y));
+			// printf("pixel center: %f %f %f\n", pixel_center.x, pixel_center.y, pixel_center.z);
 			t_vector3 ray_direction = vec_sub(pixel_center, camera_center);
+			// printf("ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
 
-			t_vector3 r = ray_calculate(camera_center, ray_direction, 10);
+			t_vector3 r = ray_calculate(camera_center, ray_direction, 1);
 			*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = ray_color(r);
+			// printf("pixel: %u\n", ray_color(r));
 		}
 	}
 
