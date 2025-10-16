@@ -12,26 +12,17 @@
 
 #include "minirt.h"
 
-// #define HEIGHT get_height(WIDTH, ASPECT_RATIO)
-
-// static inline int get_height(int width, double aspect_ratio) // küçük bir değer verilirse diye
-// {
-//     int h = (int)(width / aspect_ratio);
-//     if (h < 1)
-//         return 1;
-//     return h;
-// }
-
-#define WIDTH 1920.0
-#define ASPECT_RATIO (16.0 / 9.0)
-#define HEIGHT (WIDTH / ASPECT_RATIO)
+#define WIDTH 3840.0
+// #define ASPECT_RATIO 1.777777778 (16.0 / 9.0)
+// #define HEIGHT (WIDTH / ASPECT_RATIO)
+#define HEIGHT 2160.0
 
 typedef struct s_vars
 {
-    void *mlx;
-    void *win;
-    void *img;
-    char *addr;
+	void *mlx;
+	void *win;
+	void *img;
+	char *addr;
 } t_vars;
 
 int exit_func(t_vars *vars)
@@ -72,18 +63,23 @@ t_vector3 ray_at(t_ray r, double t)
 	return (vec_sum(r.origin, vec_scale(r.direction, t)));
 }
 
-double hit_sphere(const t_vector3 center, double radius, const t_ray r)
+double	hit_sphere(const t_vector3 center, double radius, const t_ray r)
 {
+	t_vector3	oc;
+	double		a;
+	double		h;
+	double		c;
+	double		discriminant;
 
-	t_vector3 oc = vec_sub(r.origin, center);
-	double a = vec_dot(r.direction, r.direction);
-	double b = 2.0 * vec_dot(oc, r.direction);
-	double c = vec_dot(oc, oc) - radius * radius;
-	double discriminant = b * b - 4 * a * c;
+	oc = vec_sub(center, r.origin);
+	a = vec_len(r.direction);
+	h = vec_dot(r.direction, oc);
+	c = vec_len(oc) - radius * radius;
+	discriminant = h * h - a * c;
 	if (discriminant < 0)
-		return -1.0;
+		return (-1.0);
 	else
-		return ((-b - sqrt(discriminant)) / (2.0 * a)); // eksi b bölü 2 a
+		return ((h - sqrt(discriminant)) / a);
 }
 
 unsigned int ray_color(t_ray ray)
