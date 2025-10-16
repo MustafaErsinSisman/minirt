@@ -61,18 +61,14 @@ unsigned int color(int r, int g, int b)
 	return hex_color;
 }
 
-t_vector3 *ray_calculate(t_vector3 *orig, t_vector3 *dir, double t)
+t_vector3 ray_calculate(t_vector3 orig, t_vector3 dir, double t)
 {
 	return (vec_sum(orig, vec_scale(dir, t)));
 }
 
-t_vector3 *ray_color(t_vector3 *ray)
+unsigned int ray_color(t_vector3 ray)
 {
-	ray->x = (double)color(255, 0, 0); // red
-	ray->y = (double)color(0, 255, 0); // green
-	ray->z = (double)color(0, 0, 255); // blue
-
-	return ray;
+	return color(ray.x, ray.y, ray.z);
 }
 
 int main(void)
@@ -92,25 +88,18 @@ int main(void)
 	float view_height = 2.0;
 	float view_witdh = view_height * (WIDTH / HEIGHT);
 
-	t_vector3 *camera_center = new_vector(0, 0, 0);
-	if (!camera_center)// malloc error;
-		ft_exit();
+	t_vector3 camera_center = *new_vector(0, 0, 0);
 
-	t_vector3 *view_u = new_vector(view_witdh, 0, 0);
-	if (!view_u)// malloc error;
-		ft_exit();
+	t_vector3 view_u = *new_vector(view_witdh, 0, 0);
 
-	t_vector3 *view_v = new_vector(0, -view_height, 0);
-	if (!view_v)// malloc error;
-		ft_exit();
+	t_vector3 view_v = *new_vector(0, -view_height, 0);
 
-	t_vector3 *delta_view_u = vec_scale(view_u, 1.0 / WIDTH);
-	t_vector3 *delta_view_v = vec_scale(view_v, 1.0 / HEIGHT);
+	t_vector3 delta_view_u = vec_scale(view_u, 1.0 / WIDTH);
+	t_vector3 delta_view_v = vec_scale(view_v, 1.0 / HEIGHT);
 
 
-	t_vector3 *view_upper_left = vec_sub(vec_sub(vec_sub(camera_center, new_vector(0, 0, focal_lentgh)), vec_scale(view_u, 1.0 / 2.0)), vec_scale(view_v, 1.0 / 2.0));
-	t_vector3 *pixel00_loc = vec_sum(view_upper_left, vec_scale(vec_sum(delta_view_u, delta_view_v), 0.5));
-	t_vector3 *pixel_color = new_vector(0, 0, 0);
+	t_vector3 view_upper_left = vec_sub(vec_sub(vec_sub(camera_center, *new_vector(0, 0, focal_lentgh)), vec_scale(view_u, 1.0 / 2.0)), vec_scale(view_v, 1.0 / 2.0));
+	t_vector3 pixel00_loc = vec_sum(view_upper_left, vec_scale(vec_sum(delta_view_u, delta_view_v), 0.5));
 
 	int x;
 	int y;
@@ -118,39 +107,13 @@ int main(void)
 	{
 		for (x = 0; x < WIDTH; x++)
 		{
-			t_vector3 *pixel_center = vec_sum(vec_sum(pixel00_loc, vec_scale(delta_view_u, x)), vec_scale(delta_view_v, y));
-			t_vector3 *ray_direction = vec_sub(pixel_center, camera_center);
+			t_vector3 pixel_center = vec_sum(vec_sum(pixel00_loc, vec_scale(delta_view_u, x)), vec_scale(delta_view_v, y));
+			t_vector3 ray_direction = vec_sub(pixel_center, camera_center);
 
-			t_vector3 *r = ray_calculate(camera_center, ray_direction, 10);
-			pixel_color = ray_color(r);
-			// printf("color: %f %f %f\n", pixel_color->x, pixel_color->y, pixel_color->z);
+			t_vector3 r = ray_calculate(camera_center, ray_direction, 10);
+			*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = ray_color(r);
 		}
 	}
-
-	for (y = 0; y < HEIGHT; y++)
-    	{
-		for (x = 0; x < WIDTH; x++)
-    		{
-    	        	if (y < HEIGHT / 2)
-    	        	{
-    	        	    if (x < WIDTH / 3)
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = (unsigned int)pixel_color->x;
-    	        	    else if (x < 2 * WIDTH / 3)
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = (unsigned int)pixel_color->y;
-    	        	    else
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = (unsigned int)pixel_color->z;
-    	        	}
-    	        	else
-    	        	{
-    	        	    if (x < WIDTH / 3)
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) =  (unsigned int)pixel_color->x;
-    	        	    else if (x < 2 * WIDTH / 3)
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) =  (unsigned int)pixel_color->x;
-    	        	    else
-					*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) =  (unsigned int)pixel_color->x;
-    	        	}
-    		}
-    	}
 
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_key_hook(vars.win, key_hook, &vars);
