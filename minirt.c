@@ -22,7 +22,7 @@
 //     return h;
 // }
 
-#define WIDTH 1920.0
+#define WIDTH 400.0
 #define ASPECT_RATIO (16.0 / 9.0)
 #define HEIGHT (WIDTH / ASPECT_RATIO)
 
@@ -61,27 +61,47 @@ unsigned int color(int r, int g, int b)
 	return hex_color;
 }
 
-t_vector3 ray_calculate(t_vector3 orig, t_vector3 dir, double t)
+t_ray ray_calculate(t_vector3 orig, t_vector3 dir, double t)
 {
-	return (vec_sum(orig, vec_scale(dir, t)));
+	t_ray r;
+
+	r.origin = orig;
+	r.direction = dir;
+	r.t = t;
+	r.ray = vec_sum(orig, vec_scale(dir, t));
+	return (r);
+}
+int hit_sphere(const t_vector3 center, double radius, const t_ray r)
+{
+
+	t_vector3 oc = vec_sub(r.origin, center);
+	double a = vec_dot(r.direction, r.direction);
+	double b = 2.0 * vec_dot(oc, r.direction);
+	double c = vec_dot(oc, oc) - radius * radius;
+	double discriminant = b * b - 4 * a * c;
+	if (discriminant >= 0)
+		return 1;
+	else
+		return 0;
 }
 
-unsigned int ray_color(t_vector3 ray)
+unsigned int ray_color(t_ray ray)
 {
-	t_vector3 unit_direction = vec_normalize(ray);
+	if (hit_sphere(new_vector(0, 0,-1), 0.5, ray))
+		return (color(255, 0 ,0));
+	t_vector3 unit_direction = vec_normalize(ray.direction);
 	double a = 0.5 * (unit_direction.y + 1.0);
 
 	double r = (1.0 - a) * 1.0 + a * 0.5;
 	double g = (1.0 - a) * 1.0 + a * 0.7;
 	double b = (1.0 - a) * 1.0 + a * 1.0;
 
-	int ir = (int)(255.999 * r); // .999 ifadesi cast ederken kaybolan değeri tutmak için sadece 255 yazsaydık çarpınca virgülden sorası gidecekti
-	int ig = (int)(255.999 * g);
-	int ib = (int)(255.999 * b);
+	int ir = (int)(255.999 * r); // .999 ifadesi cast ederken kaybolan değeri tutmak için
+	int ig = (int)(255.999 * g); // sadece 255 yazsaydık çarpınca virgülden sonrası gidecekti 
+	int ib = (int)(255.999 * b); // 0.999 gibi bir durumda 255 yerine 254 gelecekti yanlış değer olacaktı
 
 	return color(ir, ig, ib);
 }
-
 
 int main(void)
 {
@@ -100,16 +120,16 @@ int main(void)
 	float view_height = 2.0;
 	float view_witdh = view_height * (WIDTH / HEIGHT);
 
-	t_vector3 camera_center = *new_vector(0, 0, 0);
+	t_vector3 camera_center = new_vector(0, 0, 0);
 
-	t_vector3 view_u = *new_vector(view_witdh, 0, 0);
-	t_vector3 view_v = *new_vector(0, -view_height, 0);
+	t_vector3 view_u = new_vector(view_witdh, 0, 0);
+	t_vector3 view_v = new_vector(0, -view_height, 0);
 
 	t_vector3 delta_view_u = vec_scale(view_u, 1.0 / WIDTH);
 	t_vector3 delta_view_v = vec_scale(view_v, 1.0 / HEIGHT);
 
 
-	t_vector3 view_upper_left = vec_sub(vec_sub(vec_sub(camera_center, *new_vector(0, 0, focal_lentgh)), vec_scale(view_u, 1.0 / 2.0)), vec_scale(view_v, 1.0 / 2.0));
+	t_vector3 view_upper_left = vec_sub(vec_sub(vec_sub(camera_center, new_vector(0, 0, focal_lentgh)), vec_scale(view_u, 1.0 / 2.0)), vec_scale(view_v, 1.0 / 2.0));
 	t_vector3 pixel00_loc = vec_sum(view_upper_left, vec_scale(vec_sum(delta_view_u, delta_view_v), 0.5));
 
 	int x;
@@ -119,13 +139,10 @@ int main(void)
 		for (x = 0; x < WIDTH; x++)
 		{
 			t_vector3 pixel_center = vec_sum(vec_sum(pixel00_loc, vec_scale(delta_view_u, x)), vec_scale(delta_view_v, y));
-			// printf("pixel center: %f %f %f\n", pixel_center.x, pixel_center.y, pixel_center.z);
 			t_vector3 ray_direction = vec_sub(pixel_center, camera_center);
-			// printf("ray direction: %f %f %f\n", ray_direction.x, ray_direction.y, ray_direction.z);
 
-			t_vector3 r = ray_calculate(camera_center, ray_direction, 1);
+			t_ray r = ray_calculate(camera_center, ray_direction, 1);
 			*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = ray_color(r);
-			// printf("pixel: %u\n", ray_color(r));
 		}
 	}
 

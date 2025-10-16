@@ -12,16 +12,13 @@
 
 #include "vector.h"
 
-t_vector3	*new_vector(double new_x, double new_y, double new_z)
+t_vector3	new_vector(double new_x, double new_y, double new_z)
 {
-	t_vector3	*new;
+	t_vector3	new;
 
-	new = ft_malloc(sizeof(t_vector3));
-	if (!new)
-		ft_exit();
-	new->x = new_x;
-	new->y = new_y;
-	new->z = new_z;
+	new.x = new_x;
+	new.y = new_y;
+	new.z = new_z;
 	return (new);
 }
 
