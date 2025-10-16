@@ -22,10 +22,8 @@
 
 typedef struct s_ray
 {
-	t_vector3 ray;
 	t_vector3 origin;
 	t_vector3 direction;
-	double t;
 }t_ray;
 
 typedef struct s_ambient

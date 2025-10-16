@@ -22,11 +22,9 @@
 //     return h;
 // }
 
-#define WIDTH 400.0
+#define WIDTH 1920.0
 #define ASPECT_RATIO (16.0 / 9.0)
 #define HEIGHT (WIDTH / ASPECT_RATIO)
-
-
 
 typedef struct s_vars
 {
@@ -61,17 +59,20 @@ unsigned int color(int r, int g, int b)
 	return hex_color;
 }
 
-t_ray ray_calculate(t_vector3 orig, t_vector3 dir, double t)
+t_ray new_ray(t_vector3 origin, t_vector3 direction)
 {
 	t_ray r;
-
-	r.origin = orig;
-	r.direction = dir;
-	r.t = t;
-	r.ray = vec_sum(orig, vec_scale(dir, t));
+	r.origin = origin;
+	r.direction = direction;
 	return (r);
 }
-int hit_sphere(const t_vector3 center, double radius, const t_ray r)
+
+t_vector3 ray_at(t_ray r, double t)
+{
+	return (vec_sum(r.origin, vec_scale(r.direction, t)));
+}
+
+double hit_sphere(const t_vector3 center, double radius, const t_ray r)
 {
 
 	t_vector3 oc = vec_sub(r.origin, center);
@@ -79,28 +80,32 @@ int hit_sphere(const t_vector3 center, double radius, const t_ray r)
 	double b = 2.0 * vec_dot(oc, r.direction);
 	double c = vec_dot(oc, oc) - radius * radius;
 	double discriminant = b * b - 4 * a * c;
-	if (discriminant >= 0)
-		return 1;
+	if (discriminant < 0)
+		return -1.0;
 	else
-		return 0;
+		return ((-b - sqrt(discriminant)) / (2.0 * a)); // eksi b bölü 2 a
 }
 
 unsigned int ray_color(t_ray ray)
 {
-	if (hit_sphere(new_vector(0, 0,-1), 0.5, ray))
-		return (color(255, 0 ,0));
+	t_vector3 sphere_center = new_vector(0, 0, -1);
+	double sphere_radius = 0.5;
+	double t = hit_sphere(sphere_center, sphere_radius, ray);
+	if (t > 0.0)
+	{
+		t_vector3 n = vec_normalize(vec_sub(ray_at(ray, t), sphere_center));
+		double r1 = 0.5 * (n.x + 1.0);
+		double g1 = 0.5 * (n.y + 1.0);
+		double b1 = 0.5 * (n.z + 1.0);
+		return (color((int)(255.999 * r1), (int)(255.999 * g1), (int)(255.999 * b1)));
+	}
+
 	t_vector3 unit_direction = vec_normalize(ray.direction);
 	double a = 0.5 * (unit_direction.y + 1.0);
-
 	double r = (1.0 - a) * 1.0 + a * 0.5;
 	double g = (1.0 - a) * 1.0 + a * 0.7;
 	double b = (1.0 - a) * 1.0 + a * 1.0;
-
-	int ir = (int)(255.999 * r); // .999 ifadesi cast ederken kaybolan değeri tutmak için
-	int ig = (int)(255.999 * g); // sadece 255 yazsaydık çarpınca virgülden sonrası gidecekti 
-	int ib = (int)(255.999 * b); // 0.999 gibi bir durumda 255 yerine 254 gelecekti yanlış değer olacaktı
-
-	return color(ir, ig, ib);
+	return color((int)(255.999 * r), (int)(255.999 * g), (int)(255.999 * b));
 }
 
 int main(void)
@@ -140,8 +145,7 @@ int main(void)
 		{
 			t_vector3 pixel_center = vec_sum(vec_sum(pixel00_loc, vec_scale(delta_view_u, x)), vec_scale(delta_view_v, y));
 			t_vector3 ray_direction = vec_sub(pixel_center, camera_center);
-
-			t_ray r = ray_calculate(camera_center, ray_direction, 1);
+			t_ray r = new_ray(camera_center, ray_direction);
 			*(unsigned int *)(vars.addr + y * line_len + x * (bpp / 8)) = ray_color(r);
 		}
 	}

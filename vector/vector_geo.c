@@ -41,9 +41,19 @@ double	vec_len(t_vector3 v1)
 t_vector3	vec_normalize(t_vector3 v1)
 {
 	t_vector3	normal;
+	double	len = vec_len(v1);
 
-	normal.x = v1.x / vec_len(v1);
-	normal.y = v1.y / vec_len(v1);
-	normal.z = v1.z / vec_len(v1);
+	if (len > 0)
+	{
+		normal.x = v1.x / len;
+		normal.y = v1.y / len;
+		normal.z = v1.z / len;
+	}
+	else
+	{
+		normal.x = 0;
+		normal.y = 0;
+		normal.z = 0;
+	}
 	return (normal);
 }
