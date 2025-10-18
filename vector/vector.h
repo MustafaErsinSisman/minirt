@@ -16,7 +16,6 @@
 # include <math.h>
 
 # include "../Libft/libft.h"
-# include "../collector/collector.h"
 
 typedef struct s_vector3
 {

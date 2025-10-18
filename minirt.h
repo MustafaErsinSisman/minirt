@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 17:34:44 by musisman         ###   ########.fr       */
+/*   Updated: 2025/10/18 12:43:32 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <stdbool.h>
 
 # include "minilibx-linux/mlx.h"
 # include "vector/vector.h"
-
-typedef struct s_ray
-{
-	t_vector3 origin;
-	t_vector3 direction;
-}t_ray;
 
 typedef struct s_ambient
 {
@@ -89,7 +84,33 @@ typedef enum e_type
 	CYLINDER
 }t_type;
 
-typedef struct s_obje_list
+typedef struct s_ray
+{
+	t_vector3 origin;
+	t_vector3 direction;
+}t_ray;
+
+typedef struct s_hit_record
+{
+	t_vector3	p;
+	t_vector3	normal;
+	double		t;
+	// t_material	*material;
+} t_hit_record;
+
+struct s_object;
+
+typedef bool (*t_hit_func)(struct s_object *object, const t_ray *ray,
+	double t_min, double t_max, t_hit_record *rec);
+
+typedef struct s_object // render için objeler
+{
+	t_type		type;
+	void		*data;
+	t_hit_func	hit;
+} t_object;
+
+typedef struct s_obje_list // parser için objeler
 {
 	t_type			type;
 	t_objects		objects;
