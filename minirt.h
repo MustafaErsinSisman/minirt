@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/10/18 12:43:32 by musisman         ###   ########.fr       */
+/*   Updated: 2025/10/19 16:53:27 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,105 +16,38 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdbool.h>
 
 # include "minilibx-linux/mlx.h"
-# include "vector/vector.h"
+# include "objects/objects.h"
 
-typedef struct s_ambient
+# define WIDTH 1920.0
+# define HEIGHT 1080.0
+
+typedef struct s_vars
 {
-	double		range;
-	t_vector3	rgb;
-}t_ambient;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		line_len;
+	int		bpp;
+	int		endian;
+}	t_vars;
 
-typedef struct s_camera
+typedef struct s_viewport
 {
-	t_vector3	pos;
-	t_vector3	normal;
-	double		fov;
-}t_camera;
+	t_vector3	pixel00_loc;
+	t_vector3	delta_u;
+	t_vector3	delta_v;
+	t_vector3	camera_center;
+}	t_viewport;
 
-typedef struct s_light
-{
-	t_vector3	pos;
-	double		range;
-	// t_vector3 rgb;
-}t_light;
-
-typedef struct s_sphere
-{
-	t_vector3	pos;
-	double		diameter;
-	t_vector3	rgb;
-}t_sphere;
-
-typedef struct s_plane
-{
-	t_vector3	pos;
-	t_vector3	normal;
-	t_vector3	rgb;
-}t_plane;
-
-typedef struct s_cylinder
-{
-	t_vector3	pos;
-	t_vector3	normal;
-	double		diameter;
-	double		height;
-	t_vector3	rgb;
-}t_cylinder;
-
-typedef union u_objects
-{
-	t_ambient	ambiant;
-	t_camera	camera;
-	t_light		light;
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
-}t_objects;
-
-typedef enum e_type
-{
-	AMBIANT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER
-}t_type;
-
-typedef struct s_ray
-{
-	t_vector3 origin;
-	t_vector3 direction;
-}t_ray;
-
-typedef struct s_hit_record
-{
-	t_vector3	p;
-	t_vector3	normal;
-	double		t;
-	// t_material	*material;
-} t_hit_record;
-
-struct s_object;
-
-typedef bool (*t_hit_func)(struct s_object *object, const t_ray *ray,
-	double t_min, double t_max, t_hit_record *rec);
-
-typedef struct s_object // render için objeler
-{
-	t_type		type;
-	void		*data;
-	t_hit_func	hit;
-} t_object;
-
-typedef struct s_obje_list // parser için objeler
-{
-	t_type			type;
-	t_objects		objects;
-	struct s_obje_list	*next;
-}t_obje_list;
+int					exit_func(t_vars *vars);
+int					key_hook(int keycode, t_vars *vars);
+void				render_scene(t_vars *vars, t_list *world);
+t_ray				new_ray(t_vector3 origin, t_vector3 direction);
+t_vector3			ray_at(t_ray r, double t);
+unsigned int		ray_color(t_ray ray, t_list *world);
+unsigned int		color(int r, int g, int b);
 
 #endif

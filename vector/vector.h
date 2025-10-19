@@ -22,7 +22,7 @@ typedef struct s_vector3
 	double	x;
 	double	y;
 	double	z;
-}t_vector3;
+}	t_vector3;
 
 t_vector3	new_vector(double new_x, double new_y, double new_z);
 t_vector3	vec_sum(t_vector3 v1, t_vector3 v2);

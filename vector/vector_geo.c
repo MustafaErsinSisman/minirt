@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 17:19:38 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/07 19:21:07 by musisman         ###   ########.fr       */
+/*   Updated: 2025/10/19 16:42:10 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ double	vec_len(t_vector3 v1)
 t_vector3	vec_normalize(t_vector3 v1)
 {
 	t_vector3	normal;
-	double	len = vec_len(v1);
+	double		len;
 
+	len = vec_len(v1);
 	if (len > 0)
 	{
 		normal.x = v1.x / len;
