@@ -30,7 +30,7 @@ static t_viewport	setup_viewport(void)
 	upper_left = vec_sub(upper_left, vec_scale(view_u, 0.5));
 	upper_left = vec_sub(upper_left, vec_scale(view_v, 0.5));
 	vp.pixel00_loc = vec_sum(upper_left,
-		vec_scale(vec_sum(vp.delta_u, vp.delta_v), 0.5));
+			vec_scale(vec_sum(vp.delta_u, vp.delta_v), 0.5));
 	return (vp);
 }
 
@@ -49,12 +49,12 @@ void	render_scene(t_vars *vars, t_list *world)
 		x = 0;
 		while (x < WIDTH)
 		{
-			pixel_center = vec_sum(vp.pixel00_loc,
-				vec_sum(vec_scale(vp.delta_u, x), vec_scale(vp.delta_v, y)));
+			pixel_center = vec_sum(vp.pixel00_loc, vec_sum(vec_scale(vp.delta_u,
+							x), vec_scale(vp.delta_v, y)));
 			r.origin = vp.camera_center;
 			r.direction = vec_sub(pixel_center, vp.camera_center);
 			*(unsigned int *)(vars->addr + y * vars->line_len + x
-				* (vars->bpp / 8)) = ray_color(r, world);
+					* (vars->bpp / 8)) = ray_color(r, world);
 			x++;
 		}
 		y++;
