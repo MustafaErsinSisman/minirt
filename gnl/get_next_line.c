@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:01:48 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/12 17:50:27 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:28:50 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,24 +58,20 @@ char	*ft_line_after(char *station)
 	char	*temp;
 
 	if (!station[0])
-		return (free(station), NULL);
+		return (NULL);
 	temp = ft_strchr_1(station, '\n');
 	if (temp)
 	{
 		after_station = ft_substr_1(temp, 1, ft_strlen_1(temp));
 		if (!after_station)
-		{
-			free(station);
 			return (NULL);
-		}
-		free(station);
 		return (after_station);
 	}
 	temp = ft_strchr_1(station, '\0');
 	after_station = ft_substr_1(temp, 0, ft_strlen_1(temp));
 	if (!after_station)
-		return (free(station), NULL);
-	return (free(station), after_station);
+		return (NULL);
+	return (after_station);
 }
 
 char	*station_read(char *buffer, char *station, int fd)
@@ -88,12 +84,8 @@ char	*station_read(char *buffer, char *station, int fd)
 		count = read(fd, buffer, BUFFER_SIZE);
 		if (count == -1)
 		{
-			free(buffer);
 			if (station)
-			{
-				free(station);
 				station = NULL;
-			}
 			return (NULL);
 		}
 		buffer[count] = '\0';
@@ -110,13 +102,12 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = malloc((BUFFER_SIZE + 1));
+	buffer = ft_malloc((BUFFER_SIZE + 1));
 	if (buffer == NULL)
 		return (NULL);
 	station = station_read(buffer, station, fd);
 	if (!station)
 		return (NULL);
-	free(buffer);
 	result = ft_line_before(station);
 	station = ft_line_after(station);
 	return (result);

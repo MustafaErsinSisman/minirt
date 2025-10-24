@@ -1,5 +1,3 @@
-
-
 #include "libft.h"
 
 double	ft_atod(const char *str, size_t i, int sign)

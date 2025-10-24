@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:01:56 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/09 19:01:58 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:20:13 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include "../collector/collector.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000000

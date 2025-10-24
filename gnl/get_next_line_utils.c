@@ -6,14 +6,14 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:02:05 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/12 17:50:32 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:25:32 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	*ft_memcpy(void *dst, const void *src, size_t n);
-static void	*ft_memmove(void *dst, const void *src, size_t len);
+static void	*gnl_ft_memcpy(void *dst, const void *src, size_t n);
+static void	*gnl_ft_memmove(void *dst, const void *src, size_t len);
 
 char	*ft_strjoin_1(char *s1, char const *s2)
 {
@@ -23,13 +23,12 @@ char	*ft_strjoin_1(char *s1, char const *s2)
 
 	s1_len = ft_strlen_1(s1);
 	s2_len = ft_strlen_1(s2);
-	size = malloc(s1_len + s2_len + 1);
+	size = ft_malloc(s1_len + s2_len + 1);
 	if (size == NULL)
-		return (free(size), NULL);
-	ft_memmove(size, s1, s1_len);
-	ft_memmove(size + s1_len, s2, s2_len);
+		return (NULL);
+	gnl_ft_memmove(size, s1, s1_len);
+	gnl_ft_memmove(size + s1_len, s2, s2_len);
 	size[s1_len + s2_len] = '\0';
-	free(s1);
 	return (size);
 }
 
@@ -58,24 +57,24 @@ char	*ft_substr_1(char *s, unsigned int start, size_t len)
 		return (NULL);
 	if (ft_strlen_1(s) < start)
 	{
-		c = malloc(1);
+		c = ft_malloc(1);
 		if (!c)
-			return (free(c), NULL);
+			return (NULL);
 		c[0] = '\0';
-		return (free(c), NULL);
+		return (NULL);
 	}
 	if (len > ft_strlen_1(s) - start)
 		len = ft_strlen_1(s) - start;
-	new = malloc(len + 1);
+	new = ft_malloc(len + 1);
 	if (new == NULL)
-		return (free(new), NULL);
+		return (NULL);
 	while (len--)
 		new[i++] = s[start++];
 	new[i] = 0;
 	return ((char *)new);
 }
 
-static void	*ft_memmove(void *dst, const void *src, size_t len)
+static void	*gnl_ft_memmove(void *dst, const void *src, size_t len)
 {
 	unsigned char		*ptr;
 	const unsigned char	*s = src;
@@ -85,7 +84,7 @@ static void	*ft_memmove(void *dst, const void *src, size_t len)
 		return (NULL);
 	if (dst < src)
 	{
-		ft_memcpy(dst, src, len);
+		gnl_ft_memcpy(dst, src, len);
 		return (dst);
 	}
 	else if (dst == src)
@@ -95,7 +94,7 @@ static void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
-static void	*ft_memcpy(void *dst, const void *src, size_t n)
+static void	*gnl_ft_memcpy(void *dst, const void *src, size_t n)
 {
 	unsigned char		*ptr;
 	const unsigned char	*s = src;

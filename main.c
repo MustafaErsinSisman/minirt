@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/02 16:49:51 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:51:42 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ int	map_height(char *file)
 	while (line)
 	{
 		i++;
-		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
@@ -48,7 +47,7 @@ char	**read_map(char *file)
 	char	**values;
 
 	line_count = map_height(file);/// VERİLEN DOSYAYI OKUYUP SONRASINDA KONTROLE GÖNDERECEĞİM
-	values = malloc(line_count * sizeof(char *) + 1);
+	values = ft_malloc((line_count + 1) * sizeof(char *));
 	if (!values)
 		return (0);
 	fd = open(file, O_RDONLY);
@@ -65,25 +64,83 @@ char	**read_map(char *file)
 		values[i++] = line;
 		line = get_next_line(fd);
 	}
+	values[i] = NULL;
 	close(fd);
 	return (values);
 }
 
-int main(int argc, char **argv)
+t_list	*world_objects(void)
+{
+	t_list	*world;
+
+	world = NULL;
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -1), 1.0)));
+	return (world);
+}
+
+static bool	mlx_process(t_list *world)
+{
+	t_vars	vars;
+
+	vars.mlx = mlx_init();
+	if (!vars.mlx)
+		return (false);
+	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT");
+	if (!vars.win)
+		return (false);
+	vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
+	if (!vars.img)
+		return (mlx_destroy_window(vars.mlx, vars.win), false);
+	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp,
+			&vars.line_len, &vars.endian);
+	render_scene(&vars, world);
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_hook(vars.win, 17, 0, exit_func, &vars);
+	mlx_loop(vars.mlx);
+	return (true);
+}
+
+int	main(int argc, char **argv)
 {
 	char **values;
 	
     if (argc == 1)
 		exit(EXIT_SUCCESS);
-    file_extension(argv[1]);
+	file_extension(argv[1]);
 	values = read_map(argv[1]);
 	if(chr_control(values))
 	{
 		//hata durumu
 	}
+	// int i = 0;
+	// while (values[i])
+	// 	printf("%s\n", values[i++]);
 	controller(values);
-	int i = 0;
-	while (values[i])
-		printf("%s\n", values[i++]);
-    return 0;
+	if (!mlx_process(world_objects()))
+		return (ft_free(), 1);
+	ft_free();
+	return (0);
+}
+
+int	exit_func(t_vars *vars)
+{
+	if (vars->img)
+		mlx_destroy_image(vars->mlx, vars->img);
+	if (vars->win)
+		mlx_destroy_window(vars->mlx, vars->win);
+	if (vars->mlx)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+	}
+	ft_free();
+	exit(0);
+}
+
+int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 65307) // ESC tuşu
+		exit_func(vars);
+	return (0);
 }

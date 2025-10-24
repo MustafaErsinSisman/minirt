@@ -6,11 +6,11 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/09/25 07:51:58 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:18:58 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "controller.h"
 
 int controller(char **values)
 {
@@ -21,7 +21,7 @@ int controller(char **values)
     while (values[i])
     {
         t_obje_list *obj; 
-        obj = malloc(sizeof(t_obje_list));
+        obj = ft_malloc(sizeof(t_obje_list));
         if (!ft_strcmp(values[i], "A "))
             return ambient_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "C "))

@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 17:11:53 by musisman          #+#    #+#             */
-/*   Updated: 2025/09/16 15:30:09 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 15:35:06 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include "../collector/collector.h"
 
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);

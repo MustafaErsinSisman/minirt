@@ -6,11 +6,11 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:12:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/02 16:47:22 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:34:59 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "controller.h"
 
 void add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj)
 {
@@ -36,8 +36,9 @@ int chr_control(char **values)
 	char *control;
 
 	count = 0;
-	i = 0;
-	while (values[i])
+	i = -1;
+	control = ft_strdup("");
+	while (values[++i])
 	{	
 		if (ft_strcmp(values[i], "A ") || ft_strcmp(values[i], "C ") || ft_strcmp(values[i], "L ")) // L de eklenecek
 		{
@@ -45,7 +46,6 @@ int chr_control(char **values)
 				control = ft_strcat(control, ft_substr(values[i], 0, 1));
 			count++;	
 		}
-		i++;
 	}
 	if (count >= 4 || !ft_strchr(control, 'A') || !ft_strchr(control, 'C') || !ft_strchr(control, 'L'))
 		return 1;

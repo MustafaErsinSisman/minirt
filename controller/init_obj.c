@@ -6,11 +6,11 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:27:19 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 15:17:01 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 15:57:39 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minirt.h"
+#include "controller.h"
 
 int ambient_obj(char *value, t_obje_list *obj)
 {

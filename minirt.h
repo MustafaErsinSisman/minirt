@@ -6,98 +6,45 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/10/02 16:49:38 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/10/24 16:00:19 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include "vector.h"
-# include "gnl/get_next_line.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <fcntl.h>
+# include "minilibx-linux/mlx.h"
+# include "collector/collector.h"
+# include "controller/controller.h"
 
-typedef struct s_ambient
+# define WIDTH 1920.0
+# define HEIGHT 1080.0
+
+typedef struct s_vars
 {
-	double		range;
-	t_vector3	rgb;
-}t_ambient;
+	void	*mlx;
+	void	*win;
+	void	*img;
+	char	*addr;
+	int		line_len;
+	int		bpp;
+	int		endian;
+}	t_vars;
 
-typedef struct s_camera
+typedef struct s_viewport
 {
-	t_vector3	pos;
-	t_vector3	normal;
-	double		fov;
-}t_camera;
+	t_vector3	pixel00_loc;
+	t_vector3	delta_u;
+	t_vector3	delta_v;
+	t_vector3	camera_center;
+}	t_viewport;
 
-typedef struct s_light
-{
-	t_vector3	pos;
-	double		range;
-	 // t_vector3 rgb;
-}t_light;
-
-typedef struct s_sphere
-{
-	t_vector3	pos;
-	double		diameter;
-	t_vector3	rgb;
-}t_sphere;
-
-typedef struct s_plane
-{
-	t_vector3	pos;
-	t_vector3	normal;
-	t_vector3	rgb;
-}t_plane;
-
-typedef struct s_cylinder
-{
-	t_vector3	pos;
-	t_vector3	normal;
-	double		diameter;
-	double		height;
-	t_vector3	rgb;
-}t_cylinder;
-
-typedef union u_objects
-{
-	t_ambient	ambiant;
-	t_camera	camera;
-	t_light		light;
-	t_sphere	sphere;
-	t_plane		plane;
-	t_cylinder	cylinder;
-}t_objects;
-
-typedef enum e_type
-{
-	AMBIANT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER
-}t_type;
-
-typedef struct s_obje_list
-{
-	t_type			type; // 0 AMBIANT 1 CAMERA 2 LIGHT 3 SPHERE 4 PLANE 5 CYLINDER //union için gerekli ama union neden gerekli
-	t_objects		objects;
-	struct s_obje_list	*next;
-}t_obje_list;
-
-void	file_extension(char *file_name);
-void 	add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj);
-int		controller(char **values);
-int 	chr_control(char **values);
-int 	ambient_obj(char *value, t_obje_list *obj);
-int 	camera_obj(char *value, t_obje_list *obj);
-int 	light_obj(char *value, t_obje_list *obj);
-int 	sphere_obj(char *value, t_obje_list *obj);
-
+int					exit_func(t_vars *vars);
+int					key_hook(int keycode, t_vars *vars);
+void				render_scene(t_vars *vars, t_list *world);
+t_ray				new_ray(t_vector3 origin, t_vector3 direction);
+t_vector3			ray_at(t_ray r, double t);
+unsigned int		ray_color(t_ray ray, t_list *world);
+unsigned int		color(int r, int g, int b);
 
 #endif
