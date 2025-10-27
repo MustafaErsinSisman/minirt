@@ -29,8 +29,8 @@ typedef struct s_vars
 	void	*win;
 	void	*img;
 	char	*addr;
-	int		line_len;
 	int		bpp;
+	int		size_line;
 	int		endian;
 }	t_vars;
 

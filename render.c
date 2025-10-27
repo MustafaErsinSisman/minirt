@@ -12,7 +12,7 @@
 
 #include "minirt.h"
 
-static t_viewport	setup_viewport(void)
+static t_viewport	setup_viewport(void) // TODO world structını al, t_objects_list structı olacak yani
 {
 	t_viewport	vp;
 	double		focal_length;
@@ -21,7 +21,7 @@ static t_viewport	setup_viewport(void)
 	t_vector3	upper_left;
 
 	focal_length = 1.0;
-	vp.camera_center = new_vector(0, 0, 0);
+	vp.camera_center = new_vector(0, 0, 0); // TODO parserdan gelecek
 	view_u = new_vector(2.0 * (WIDTH / HEIGHT), 0, 0);
 	view_v = new_vector(0, -2.0, 0);
 	vp.delta_u = vec_scale(view_u, 1.0 / WIDTH);
@@ -53,7 +53,7 @@ void	render_scene(t_vars *vars, t_list *world)
 							x), vec_scale(vp.delta_v, y)));
 			r.origin = vp.camera_center;
 			r.direction = vec_sub(pixel_center, vp.camera_center);
-			*(unsigned int *)(vars->addr + y * vars->line_len + x
+			*(unsigned int *)(vars->addr + y * vars->size_line + x
 					* (vars->bpp / 8)) = ray_color(r, world);
 			x++;
 		}

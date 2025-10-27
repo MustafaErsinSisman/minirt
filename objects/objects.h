@@ -103,17 +103,17 @@ typedef struct s_hit_status
 	t_hit_record	*rec;
 }	t_hit_status;
 
-typedef bool			(*t_hit_func)(struct s_object *object,
+typedef bool (*t_hit_func)(struct s_object *object,
 	t_hit_status *status);
 
-typedef struct s_object // render için objeler
+typedef struct s_object // * render için objeler
 {
 	t_type		type;
 	void		*data;
 	t_hit_func	hit;
 }	t_object;
 
-typedef struct s_obje_list // parser için objeler
+typedef struct s_obje_list // * parser için objeler
 {
 	t_type				type;
 	t_objects			objects;

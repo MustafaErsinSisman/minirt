@@ -60,7 +60,7 @@ unsigned int	ray_color(t_ray ray, t_list *world)
 	status.t_min = 0.001;
 	status.t_max = INFINITY;
 	status.rec = &rec;
-	if (hit_world(world, &status))
+	if (hit_world(world, &status)) // TODO nesneye göre olmalı şu an karışık
 	{
 		r = 0.5 * (rec.normal.x + 1.0);
 		g = 0.5 * (rec.normal.y + 1.0);
