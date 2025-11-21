@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/10/21 09:23:16 by musisman         ###   ########.fr       */
+/*   Updated: 2025/11/21 20:01:08 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,14 @@ typedef struct s_vars
 
 typedef struct s_viewport
 {
-	t_vector3	pixel00_loc;
+	double		focal_length;
+	t_vector3	camera_center;
+	t_vector3	view_u;
+	t_vector3	view_v;
 	t_vector3	delta_u;
 	t_vector3	delta_v;
-	t_vector3	camera_center;
+	t_vector3	upper_left;
+	t_vector3	pixel00_loc;
 }	t_viewport;
 
 int					exit_func(t_vars *vars);
