@@ -34,23 +34,23 @@ void	render_scene(t_vars *vars, t_list *world)
 {
 	int			x;
 	int			y;
-	t_viewport	vp;
-	t_vector3	pixel_center;
-	t_ray		r;
+	t_viewport	vp; // * viewport structı oluşturuldu 
+	t_vector3	pixel_center; // * her bir pikselin tam ortasının koordinatlarını tutacak 
+	t_ray		r; // * her bir piksel için oluşturulacak ışın
 
-	vp = setup_viewport();
+	vp = setup_viewport(); // * viewport setup fonksiyonu çağrıldı 
 	y = 0;
-	while (y < HEIGHT)
+	while (y < HEIGHT) // * her bir satır için 
 	{
 		x = 0;
-		while (x < WIDTH)
+		while (x < WIDTH) // * her bir sütun için
 		{
 			pixel_center = vec_sum(vp.pixel00_loc, vec_sum(vec_scale(vp.delta_u,
-							x), vec_scale(vp.delta_v, y)));
-			r.origin = vp.camera_center;
-			r.direction = vec_sub(pixel_center, vp.camera_center);
+							x), vec_scale(vp.delta_v, y))); // * her bir pikselin tam ortasının koordinatları hesaplandı
+			r.origin = vp.camera_center; // * ışının origini kamera merkezi
+			r.direction = vec_sub(pixel_center, vp.camera_center); // * ışının yönü pikselin tam ortasından kamera merkezine olan vektör
 			*(unsigned int *)(vars->addr + y * vars->size_line + x
-					* (vars->bpp / 8)) = ray_color(r, world);
+					* (vars->bpp / 8)) = ray_color(r, world); // * ray_color fonksiyonu çağrıldı ve dönen renk değeri görüntüye yazıldı
 			x++;
 		}
 		y++;
