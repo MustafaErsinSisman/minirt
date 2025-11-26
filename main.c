@@ -18,10 +18,35 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 
 	world = NULL;
 	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -1), 1.0)));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -100.15, -1), 200.0)));
+	// ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -100.15, -1), 200.0)));
 
 	return (world);
 }
+
+// TODO ileride parserdan gelen veriyi buna benzer bir fonksiyon ile işleyeceğiz ki direkt t_list olarak world e ekleyebilelim
+// // Bu fonksiyon parser'dan gelen ham veriyi, senin render sistemine çevirir
+// void convert_and_add_to_world(t_list **world, t_obje_list *parser_list)
+// {
+//     t_object *new_obj;
+
+//     while (parser_list)
+//     {
+//         if (parser_list->type == SPHERE)
+//         {
+//             // Arkadaşının struct'ından veriyi al, senin fonksiyonuna ver
+//             new_obj = new_sphere(parser_list->objects.sphere.pos, 
+//                                  parser_list->objects.sphere.diameter);
+//             // Senin dünyana ekle
+//             ft_lstadd_back(world, ft_lstnew(new_obj));
+//         }
+//         else if (parser_list->type == PLANE)
+//         {
+//             // new_plane(...)
+//         }
+//         parser_list = parser_list->next;
+//     }
+// }
+// TODO *************************************************************************
 
 static bool	mlx_process(t_list *world)
 {
