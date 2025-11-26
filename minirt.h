@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/11/21 20:01:08 by musisman         ###   ########.fr       */
+/*   Updated: 2025/11/26 16:47:02 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 
 typedef struct s_vars
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
-	int		bpp;
-	int		size_line;
-	int		endian;
+	void	*mlx; // * mlx instance
+	void	*win; // * window instance
+	void	*img; // * image instance
+	char	*addr; // * image data address
+	int		bpp; // * bits per pixel
+	int		size_line; // * size of a line in bytes
+	int		endian; // * endianess
 }	t_vars;
 
 typedef struct s_viewport
