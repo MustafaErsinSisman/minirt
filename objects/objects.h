@@ -92,6 +92,7 @@ typedef struct s_hit_record // * çarpma kaydı
 	t_vector3	p; // * çarpma noktası
 	t_vector3	normal; // * yüzey normali
 	double		t; // * t değeri çarpma noktasına olan uzaklık
+	bool		front_face; // * yüzeye dışarıdan mı yoksa içeriden mi çarpıldığı bilgisi
 	// t_material	*material; // * malzeme bilgisi çarpılan yüzeyin malzemesi olabilir ileride eklenebilir
 }	t_hit_record;
 
@@ -110,7 +111,7 @@ typedef bool (*t_hit_func)(struct s_object *object,
 
 typedef struct s_object // * render için objeler sadece obje türü ve verisi
 {
-	t_type		type; // * nesne türü
+	t_type		type; // * nesne türü // BEN BUNU KULLANMAYACAĞIM GALİBA
 	void		*data; // * nesne verisi
 	t_hit_func	hit; // * çarpma fonksiyonu
 }	t_object;

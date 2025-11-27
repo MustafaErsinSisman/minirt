@@ -12,6 +12,21 @@
 
 #include "../minirt.h"
 
+static void set_face_normal(t_hit_record *rec, const t_ray *r,
+	t_vector3 outward_normal)
+{
+	if (vec_dot(r->direction, outward_normal) < 0)
+	{
+		rec->front_face = true;
+		rec->normal = outward_normal;
+	}
+	else
+	{
+		rec->front_face = false;
+		rec->normal = vec_scale(outward_normal, -1);
+	}
+}
+
 static double	calculate_sphere_discriminant(t_sphere *sphere,
 	const t_ray *r, t_vector3 *oc)
 {
@@ -27,6 +42,18 @@ static double	calculate_sphere_discriminant(t_sphere *sphere,
 	c = vec_dot(*oc, *oc) - pow(radius, 2); // * (C - P).(C - P) - r^2 yani oc.oc - r^2
 	return (pow(half_b, 2) - a * c); // * diskriminant değeri hesaplandı b² - 4ac formülünde 4a kısmı yarıya indirildiği için half_b kullanıldı
 }
+
+static void	fill_hit_record(t_hit_status *params, t_sphere *sphere, double root) // * çarpma kaydı dolduruldu
+{
+	t_vector3	outward_normal;	// * yüzey normali
+
+	params->rec->t = root; // * çarpma noktasının t değeri atandı 
+	params->rec->p = ray_at(*(params->ray), params->rec->t); // * çarpma noktası hesaplandı
+	outward_normal = vec_scale(vec_sub(params->rec->p, sphere->pos),
+			1.0 / (sphere->diameter / 2.0)); // * yüzey normali hesaplandı (P - C) / r formülü kullanıldı burada P çarpma noktası C küre merkezi r ise yarıçap
+	set_face_normal(params->rec, params->ray, outward_normal); // * yüzey normali ayarlandı 
+}
+
 
 bool	hit_sphere(t_object *object, t_hit_status *params) // * küre çarpma testi fonksiyonu
 {
@@ -50,11 +77,7 @@ bool	hit_sphere(t_object *object, t_hit_status *params) // * küre çarpma testi
 		if (root < params->t_min || root > params->t_max) // * t değeri aralıkta mı kontrolü yapıldı
 			return (false);
 	}
-	params->rec->t = root; // * çarpma noktasının t değeri kaydedildi
-	params->rec->p = ray_at(*(params->ray), params->rec->t); // * çarpma noktası hesaplandı
-	params->rec->normal = vec_scale(vec_sub(params->rec->p, sphere->pos),
-			1.0 / (sphere->diameter / 2.0)); // * yüzey normali hesaplandı normal vektör birim vektör olmalı bu yüzden çarpma noktasından küre merkezine olan vektörün uzunluğu küre yarıçapına bölündü
-	// TODO buraya biraz daha bak
+	fill_hit_record(params, sphere, root); // * çarpma kaydı dolduruldu
 	return (true);
 }
 
@@ -67,7 +90,7 @@ t_object	*new_sphere(t_vector3 center, double diameter)
 	sphere_data = ft_malloc(sizeof(t_sphere));
 	sphere_data->pos = center;
 	sphere_data->diameter = diameter;
-	obj->type = SPHERE;
+	obj->type = SPHERE; // BEN BUNU KULLANMAYACAĞIM GALİBA
 	obj->data = sphere_data;
 	obj->hit = &hit_sphere;
 	return (obj);
