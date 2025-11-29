@@ -51,21 +51,23 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 static bool	mlx_process(t_list *world)
 {
 	t_vars	vars;
+	t_cam_status    cam;
 
 	vars.mlx = mlx_init(); // * mlx instance oluşturuldu
 	if (!vars.mlx)
 		return (false);
+	cam.aspect_ratio = 16.0 / 9.0;
+    	cam.image_width = 400;
 	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT"); // * window oluşturuldu
 	if (!vars.win)
 		return (false);
-	vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT); // * image oluşturuldu
+	vars.img = mlx_new_image(vars.mlx, cam.image_width, (int)(cam.image_width / cam.aspect_ratio)); // * image oluşturuldu
 	if (!vars.img)
 		return (mlx_destroy_window(vars.mlx, vars.win), false); // * image oluşturulamazsa window silindi ve false döndürüldü
-	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp,
-			&vars.size_line, &vars.endian); // * image data adresi alındı burada endianess da alındı ama kullanılmıyor şimdilik 
+	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line, &vars.endian); // * image data adresi alındı burada endianess da alındı ama kullanılmıyor şimdilik 
 							// * sistem mimarisine göre ayarlanıyor eğer little endian ise 0 BRGBA formatında, big endian ise 1 ABGR formatında oluyor 
 							// * ama biz zaten RGBA formatında çalışıyoruz sadece fonksiyona parametre olarak verildi ileride kullanılabilir mi bilmem 
-	render_scene(&vars, world); // * sahne renderlandı
+	camera_render(&cam, world, &vars); // * sahne renderlandı
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0); // * image windowa çizildi
 	mlx_key_hook(vars.win, key_hook, &vars); // * key hook eklendi bu fonksiyon pencere açıkken klavye girişlerini dinler ve belirli bir tuşa basıldığında belirli bir fonksiyonu çağırır
 	mlx_hook(vars.win, 17, 0, exit_func, &vars); // * pencere kapatma butonuna tıklanınca exit_func fonksiyonu çağrılır

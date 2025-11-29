@@ -20,7 +20,7 @@
 # include "plane.h"
 # include "cylinder.h"
 
-struct	s_object;
+// struct	s_object;
 
 typedef struct s_ambient
 {
