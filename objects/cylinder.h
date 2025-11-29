@@ -13,11 +13,6 @@
 #ifndef CYLINDER_H
 # define CYLINDER_H
 
-# include "../vector/vector.h"
-
-typedef struct s_object		t_object;
-typedef struct s_hit_status	t_hit_status;
-
 typedef struct s_cylinder
 {
 	t_vector3	pos;

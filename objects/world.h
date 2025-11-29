@@ -14,7 +14,9 @@
 # define WORLD_H
 
 # include "../vector/vector.h"
-# include "../Libft/libft.h"
+
+typedef struct s_object		t_object;
+typedef struct s_hit_status	t_hit_status;
 
 typedef struct s_ray
 {
@@ -39,7 +41,7 @@ typedef struct s_hit_status // * çarpma durumu
 	t_hit_record	*rec; // * çarpma kaydı bu yapıya çarpma bilgileri yazılır ve bu bilgiler render fonksiyonunda kullanılır
 }	t_hit_status;
 
-typedef bool (*t_hit_func)(struct s_object *object,
+typedef bool	(*t_hit_func)(struct s_object *object,
 	t_hit_status *status); // * çarpma fonksiyonu bu fonksiyon her bir nesne türü için farklı olacak çünkü her bir nesnenin çarpma testi farklıdır pointer to function ile tanımlandı ki her bir nesne türü için farklı fonksiyonlar atanabilsin
 
 bool		hit_world(t_list *world, t_hit_status *status); // * dünyadaki nesnelere çarpma testi fonksiyonu

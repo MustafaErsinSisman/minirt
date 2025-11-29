@@ -15,10 +15,10 @@
 
 # include <stdbool.h>
 
+# include "world.h"
 # include "sphere.h"
 # include "plane.h"
 # include "cylinder.h"
-# include "world.h"
 
 struct	s_object;
 

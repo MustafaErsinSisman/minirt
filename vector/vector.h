@@ -13,6 +13,7 @@
 #ifndef VECTOR_H
 # define VECTOR_H
 
+# define _USE_MATH_DEFINES  // * M_PI sabitini kullanabilmek için gerekli
 # include <math.h>
 
 # include "../Libft/libft.h"
