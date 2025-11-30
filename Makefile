@@ -3,7 +3,7 @@ CC		= cc
 CFLAGS		= -Wall -Wextra -Werror
 LDLIBS		= vector/vector.a collector/collector.a Libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -lm
 
-SRCS		= main.c ray.c render.c objects/sphere.c objects/world.c 
+SRCS		= main.c ray.c objects/sphere.c objects/world.c objects/camera.c 
 OBJS		= $(SRCS:.c=.o)
 
 RM		= rm -f

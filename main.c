@@ -56,12 +56,10 @@ static bool	mlx_process(t_list *world)
 	vars.mlx = mlx_init(); // * mlx instance oluşturuldu
 	if (!vars.mlx)
 		return (false);
-	cam.aspect_ratio = 16.0 / 9.0;
-    	cam.image_width = 400;
 	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT"); // * window oluşturuldu
 	if (!vars.win)
 		return (false);
-	vars.img = mlx_new_image(vars.mlx, cam.image_width, (int)(cam.image_width / cam.aspect_ratio)); // * image oluşturuldu
+	vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT); // * image oluşturuldu
 	if (!vars.img)
 		return (mlx_destroy_window(vars.mlx, vars.win), false); // * image oluşturulamazsa window silindi ve false döndürüldü
 	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line, &vars.endian); // * image data adresi alındı burada endianess da alındı ama kullanılmıyor şimdilik 

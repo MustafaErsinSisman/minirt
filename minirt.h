@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/11/29 22:42:14 by musisman         ###   ########.fr       */
+/*   Updated: 2025/11/30 22:19:10 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,12 @@ typedef struct s_vars
 	int		endian; // * endianess
 }	t_vars;
 
-typedef struct s_viewport
-{
-	double		focal_length;
-	t_vector3	camera_center;
-	t_vector3	view_u;
-	t_vector3	view_v;
-	t_vector3	delta_u;
-	t_vector3	delta_v;
-	t_vector3	upper_left;
-	t_vector3	pixel00_loc;
-}	t_viewport;
-
 int					exit_func(t_vars *vars);
 int					key_hook(int keycode, t_vars *vars);
-void				render_scene(t_vars *vars, t_list *world);
+// void				render_scene(t_vars *vars, t_list *world);
 t_ray				new_ray(t_vector3 origin, t_vector3 direction);
 t_vector3			ray_at(t_ray r, double t);
-unsigned int		ray_color(t_ray ray, t_list *world);
+// unsigned int		ray_color(t_ray ray, t_list *world);
 unsigned int		color(int r, int g, int b);
 
 #endif
