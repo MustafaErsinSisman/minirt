@@ -18,12 +18,13 @@ typedef struct s_cylinder
 	t_vector3	pos;
 	t_vector3	normal;
 	double		diameter;
+	double		radius;
 	double		height;
 	t_vector3	rgb;
 }	t_cylinder;
 
 // TODO Aynısını cylinder için yap
 
-// t_object	*new_sphere(t_vector3 center, double diameter);
-// bool		hit_sphere(t_object *object, t_hit_status *status);
+t_object	*new_cylinder(t_vector3 pos, t_vector3 normal, double diameter_height[2], t_vector3 rgb);
+bool		hit_cylinder(t_object *obj, t_hit_status *status);
 #endif

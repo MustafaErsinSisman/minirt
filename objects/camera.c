@@ -12,11 +12,13 @@
 
 #include "../minirt.h"
 
+// TODO LİGHT İŞLERİNE İNCELE DETAYLI
+
 // TODO zorunlu kısım bittikten sonra phong aydınlatma modeli ekle sanırım zorunlu bu da phong modeli şudur: ambient, diffuse, specular ışık bileşenleri ile hesaplama yaparız ve nesnenin parlaklığına göre ışık yansımalarını da hesaba katarız bu da kürede beyazı noktaların daha parlak görünmesini sağlar
 // Yardımcı: Sahne ışıklarını (geçici olarak) hazırlar
 static void	init_scene_lights(t_lighting_data *data)
 {
-	//TODO İleride bunlar parser'dan gelecek
+	//TODO İleride bunlar parser'dan gelecek şu an için sabit değerler kullanalım
 	data->light.pos = new_vector(10, 10, 10); // * ışık pozisyonu
 	data->light.range = 1.0; // * ışık şiddeti
 	data->light.rgb = new_vector(1, 1, 1);	// * beyaz ışık
@@ -40,7 +42,10 @@ static t_vector3	get_ray_color(t_ray ray, t_list *world)
 	{
 		init_scene_lights(&l_data);
 		l_data.ambient_col = calculate_ambient(l_data.ambient);
-		l_data.diffuse_col = calculate_diffuse(l_data.light, &rec);
+		if (is_in_shadow(world, l_data.light, rec.p))
+			l_data.diffuse_col = new_vector(0, 0, 0);
+		else
+			l_data.diffuse_col = calculate_diffuse(l_data.light, &rec);
 		// Sonuç = ObjeRengi * (Ambient + Diffuse)
 		return (vec_mul(l_data.obj_col,
 				vec_sum(l_data.ambient_col, l_data.diffuse_col)));
@@ -60,7 +65,7 @@ void	camera_init(t_cam_status *cam)
 	cam->samples_per_pixel = 5; // * EKLENDİ: Her piksel için örnek sayısı ne kadar yüksek olursa render kalitesi o kadar artar ancak performans düşer 100 yaptım çok yüksek 10 bile yüksek ne bu yaw
 	cam->pixel_samples_scale = 1.0 / cam->samples_per_pixel; // * EKLENDİ bu değer renk ortalamasını hesaplarken kullanılacak ne kadar çok örnek alınırsa bu değer o kadar küçük olur
 	cam->cam_center = new_vector(0, 0, 0);
-	vp.focal_length = 1.0;
+	vp.focal_length = 1.5;
 	vp.height = 2.0;
 	vp.width = vp.height * ((double)cam->image_width / cam->image_height);
 	vp.view_u = new_vector(vp.width, 0, 0);

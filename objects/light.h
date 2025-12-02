@@ -36,5 +36,6 @@ typedef struct s_lighting_data
 
 // Fonksiyonlar
 t_vector3	calculate_diffuse(t_light light, t_hit_record *rec);
+bool		is_in_shadow(t_list *world, t_light light, t_vector3 point);
 // color fonksiyonunun prototipi zaten vardı
 #endif
