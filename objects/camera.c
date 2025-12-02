@@ -37,10 +37,12 @@ void	camera_init(t_cam_status *cam)
 	t_viewport	vp;
 
 	cam->aspect_ratio = (double)WIDTH / (double)HEIGHT;
-    	cam->image_width = WIDTH;
+	cam->image_width = WIDTH;
 	cam->image_height = (int)(cam->image_width / cam->aspect_ratio);
 	if (cam->image_height < 1)
 		cam->image_height = 1;
+	cam->samples_per_pixel = 5; // * EKLENDİ: Her piksel için örnek sayısı ne kadar yüksek olursa render kalitesi o kadar artar ancak performans düşer 100 yaptım çok yüksek 10 bile yüksek ne bu yaw
+	cam->pixel_samples_scale = 1.0 / cam->samples_per_pixel; // * EKLENDİ bu değer renk ortalamasını hesaplarken kullanılacak ne kadar çok örnek alınırsa bu değer o kadar küçük olur
 	cam->cam_center = new_vector(0, 0, 0);
 	vp.focal_length = 1.0;
 	vp.height = 2.0;
@@ -56,30 +58,84 @@ void	camera_init(t_cam_status *cam)
 			vec_scale(vec_sum(cam->delta_u, cam->delta_v), 0.5));
 }
 
-void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars)
+// * EKLENDİ: Piksel karesi içinde rastgele bir sapma vektörü üretir [-0.5, 0.5]
+static t_vector3	sample_square(void)
 {
-	t_render	ren;
-	int			i;
-	int			j;
+	return (new_vector(random_double() - 0.5, random_double() - 0.5, 0));
+}
+
+// * EKLENDİ: Verilen i,j pikseli için rastgele sapmalı bir ışın üretir
+static t_ray	get_ray(t_cam_status *cam, int i, int j)
+{
+	t_vector3	offset;
+	t_vector3	pixel_sample;
+	t_vector3	ray_origin;
+	t_vector3	ray_direction;
+
+	offset = sample_square();
+	// pixel_sample = pixel00 + ((i + offset.x) * delta_u) + ((j + offset.y) * delta_v)
+	pixel_sample = vec_sum(cam->pixel00_loc,
+			vec_sum(vec_scale(cam->delta_u, i + offset.x),
+				vec_scale(cam->delta_v, j + offset.y)));
+	ray_origin = cam->cam_center;
+	ray_direction = vec_sub(pixel_sample, ray_origin);
+	return (new_ray(ray_origin, ray_direction));
+}
+
+// void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars)
+// {
+// 	t_render	ren;
+// 	int			i;
+// 	int			j;
+
+// 	camera_init(cam);
+// 	j = -1;
+// 	while (j++ < cam->image_height)
+// 	{
+// 		i = -1;
+// 		while (i++ < cam->image_width)
+// 		{
+// 			ren.pxl_cent = vec_sum(cam->pixel00_loc,
+// 					vec_sum(vec_scale(cam->delta_u, i),
+// 						vec_scale(cam->delta_v, j)));
+// 			ren.r_direc = vec_sub(ren.pxl_cent, cam->cam_center);
+// 			ren.r = new_ray(cam->cam_center, ren.r_direc);
+// 			ren.pxl_clr = get_ray_color(ren.r, world);
+// 			ren.clr = color((int)(255.999 * ren.pxl_clr.x),
+// 					(int)(255.999 * ren.pxl_clr.y),
+// 					(int)(255.999 * ren.pxl_clr.z));
+// 			*(unsigned int *)(vars->addr
+// 					+ (j * vars->size_line + i * (vars->bpp / 8))) = ren.clr;
+// 		}
+// 	}
+// }
+
+// GÜNCELLENDİ: Çoklu örnekleme (Multi-sampling) yapan render fonksiyonu
+void	camera_render(t_cam_status *cam, t_list *world, t_vars *vars)
+{
+	t_render		ren;
 
 	camera_init(cam);
-	j = -1;
-	while (j++ < cam->image_height)
+	ren.y = -1;
+	while (ren.y++ < cam->image_height)
 	{
-		i = -1;
-		while (i++ < cam->image_width)
+		ren.x = -1;
+		while (ren.x++ < cam->image_width)
 		{
-			ren.pxl_cent = vec_sum(cam->pixel00_loc,
-					vec_sum(vec_scale(cam->delta_u, i),
-						vec_scale(cam->delta_v, j)));
-			ren.r_direc = vec_sub(ren.pxl_cent, cam->cam_center);
-			ren.r = new_ray(cam->cam_center, ren.r_direc);
-			ren.pxl_clr = get_ray_color(ren.r, world);
-			ren.clr = color((int)(255.999 * ren.pxl_clr.x),
-					(int)(255.999 * ren.pxl_clr.y),
-					(int)(255.999 * ren.pxl_clr.z));
-			*(unsigned int *)(vars->addr
-					+ (j * vars->size_line + i * (vars->bpp / 8))) = ren.clr;
+			ren.pixel_color = new_vector(0, 0, 0);
+			ren.sample = 0;
+			while (ren.sample < cam->samples_per_pixel)
+			{
+				ren.r = get_ray(cam, ren.x, ren.y);
+				ren.pixel_color = vec_sum(ren.pixel_color, get_ray_color(ren.r, world));
+				ren.sample++;
+			}
+			ren.pixel_color = vec_scale(ren.pixel_color, cam->pixel_samples_scale);
+			*(unsigned int *)(vars->addr + (ren.y * vars->size_line + ren.x
+						* (vars->bpp / 8))) = color(
+					(int)(256 * clamp(ren.pixel_color.x, 0.0, 0.999)),
+					(int)(256 * clamp(ren.pixel_color.y, 0.0, 0.999)),
+					(int)(256 * clamp(ren.pixel_color.z, 0.0, 0.999)));
 		}
 	}
 }

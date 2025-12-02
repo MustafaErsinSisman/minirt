@@ -15,6 +15,13 @@
 
 struct	s_vars;
 
+typedef struct s_camera
+{
+	t_vector3	pos;
+	t_vector3	normal;
+	double		fov;
+}	t_camera; // parser için 
+
 typedef struct s_viewport
 {
 	double		focal_length;
@@ -27,26 +34,27 @@ typedef struct s_viewport
 
 typedef struct s_render
 {
-	t_vector3	pxl_cent; // * her bir pikselin tam ortasının koordinatlarını tutacak
-	t_vector3	r_direc; // * her bir piksel için oluşturulacak ışın yön vektörü
-	t_ray		r; // * her bir piksel için oluşturulacak ışın
-	t_vector3	pxl_clr; // * her bir pikselin rengi
-	int		clr; // * her bir pikselin renk değeri
+	int			sample;
+	t_vector3	pixel_color;
+	t_ray		r;
+	int			x;
+	int			y;
 }	t_render;
 
 typedef struct s_cam_status
 {
-    double      aspect_ratio;
-    int         image_width;
-    int         image_height;
-    t_vector3   cam_center;
-    t_vector3   pixel00_loc;
-    t_vector3   delta_u;
-    t_vector3   delta_v;
-    
-}   t_cam_status;
+	double		aspect_ratio;
+	int			image_width;
+	int			image_height;
+	int			samples_per_pixel; // * EKLENDİ: Örnek sayısı (örn: 100) bu, her piksel için kaç tane rastgele örnek alınacağını belirtir
+	double		pixel_samples_scale; // * EKLENDİ: 1.0 / samples_per_pixel bu, renk ortalamasını hesaplarken kullanılır
+	t_vector3	cam_center;
+	t_vector3	pixel00_loc;
+	t_vector3	delta_u;
+	t_vector3	delta_v;
+}	t_cam_status;
 
-void    camera_init(t_cam_status *cam);
-void    camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars);
+void	camera_init(t_cam_status *cam);
+void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars);
 
 #endif

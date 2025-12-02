@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/11/30 22:19:10 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/02 13:00:28 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include "objects/objects.h"
 # include "objects/camera.h"
 
-# define WIDTH 1920.0
-# define HEIGHT 1080.0
+# define WIDTH 800.0
+# define HEIGHT 450.0
 
 // * dereceyi radyana çevirme fonksiyonu 
 // * buradaki inline ifadesi derleyiciye bu fonksiyonu çağıran yere 
@@ -39,6 +39,28 @@
 static inline double	degrees_to_radians(double degrees)
 {
 	return (degrees * M_PI / 180.0); // * dereceyi radyana çevirme formülü
+}
+
+// * 0.0 (dahil) ile 1.0 (hariç) arasında rastgele double üretir. [0, 1) bunu şurada kullanıyoruz: her piksel için rastgele bir nokta seçmek istediğimizde
+static inline double random_double(void)
+{
+    // RAND_MAX + 1.0 yaparak sonucun asla 1.0 olmamasını garantiliyoruz (< 1.0)
+    return (rand() / (RAND_MAX + 1.0));
+}
+
+// * Belirtilen min ve max değerleri arasında rastgele double üretir. [min, max) bunu şurada kullanıyoruz: her piksel için rastgele bir nokta seçmek istediğimizde
+static inline double random_double_range(double min, double max)
+{
+    return (min + (max - min) * random_double());
+}
+
+static inline double clamp(double x, double min, double max) // * x değerini min ve max arasında sınırlama fonksiyonu bunu şurada kullanıyoruz: renk değerlerini 0-255 aralığında tutmak istediğimizde
+{
+	if (x < min)
+		return (min);
+	if (x > max)
+		return (max);
+	return (x);
 }
 
 typedef struct s_vars

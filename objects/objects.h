@@ -26,18 +26,11 @@ typedef struct s_ambient
 	t_vector3	rgb;
 }	t_ambient;
 
-typedef struct s_camera
-{
-	t_vector3	pos;
-	t_vector3	normal;
-	double		fov;
-}	t_camera;
-
 typedef struct s_light
 {
 	t_vector3	pos;
 	double		range;
-	// t_vector3 rgb;
+	// t_vector3 rgb; // * şimdilik beyaz ışık varsayalım
 }	t_light;
 
 typedef union u_objects // * tüm nesne türlerini içeren union kullanıldı ki tek bir yapı altında tüm nesne türlerine erişilebilsin ve bellek tasarrufu sağlansın
