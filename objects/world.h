@@ -30,7 +30,7 @@ typedef struct s_hit_record // * çarpma kaydı
 	t_vector3	normal; // * yüzey normali
 	double		t; // * t değeri çarpma noktasına olan uzaklık
 	bool		front_face; // * yüzeye dışarıdan mı yoksa içeriden mi çarpıldığı bilgisi
-	// t_material	*material; // * malzeme bilgisi çarpılan yüzeyin malzemesi olabilir ileride eklenebilir
+	t_vector3	color;
 }	t_hit_record;
 
 typedef struct s_hit_status // * çarpma durumu

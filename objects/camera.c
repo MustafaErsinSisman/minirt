@@ -24,8 +24,6 @@ static void	init_scene_lights(t_lighting_data *data)
 	data->light.rgb = new_vector(1, 1, 1);	// * beyaz ışık
 	data->ambient.range = 0.1; // * ortam ışık şiddeti
 	data->ambient.rgb = new_vector(1, 1, 1); // * beyaz ortam ışığı
-	// * Obje rengi şimdilik kırmızı (normalde sphere->rgb olacak)
-	data->obj_col = new_vector(1, 1, 1); // hawali renk :D
 }
 
 static t_vector3	get_ray_color(t_ray ray, t_list *world)
@@ -41,6 +39,7 @@ static t_vector3	get_ray_color(t_ray ray, t_list *world)
 	if (hit_world(world, &status))
 	{
 		init_scene_lights(&l_data);
+		l_data.obj_col = rec.color;
 		l_data.ambient_col = calculate_ambient(l_data.ambient);
 		if (is_in_shadow(world, l_data.light, rec.p))
 			l_data.diffuse_col = new_vector(0, 0, 0);

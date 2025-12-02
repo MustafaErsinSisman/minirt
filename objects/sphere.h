@@ -21,7 +21,7 @@ typedef struct s_sphere
 	t_vector3	rgb;
 }	t_sphere;
 
-t_object	*new_sphere(t_vector3 center, double radius); // * yeni küre nesnesi oluşturma fonksiyonu
+t_object	*new_sphere(t_vector3 center, double radius, t_vector3 rgb); // * yeni küre nesnesi oluşturma fonksiyonu
 bool		hit_sphere(t_object *object, t_hit_status *status); // * küre çarpma testi fonksiyonu
 
 #endif

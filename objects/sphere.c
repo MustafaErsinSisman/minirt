@@ -50,7 +50,8 @@ static void	fill_hit_record(t_hit_status *status, t_sphere *sphere, double root)
 	outward_normal = vec_scale(vec_sub(status->rec->p, sphere->pos),
 			1.0 / sphere->radius); // * yüzey normali hesaplandı (P - C) / r formülü kullanıldı burada P çarpma noktası C küre merkezi r ise yarıçap
 	// TODO outward_normal = vec_normalize(vec_sub(status->rec->p, sphere->pos)); // normalizasyon yapmak için bu da kullanılabilir ama yukaridaki daha optimize buradaki ise daha güvenli proje gidişine göre karar verilecek
-	set_face_normal(status->rec, status->ray, outward_normal); // * yüzey normali ayarlandı 
+	set_face_normal(status->rec, status->ray, outward_normal); // * yüzey normali ayarlandı
+	status->rec->color = sphere->rgb; // * küre rengi ayarlandı
 }
 
 bool	hit_sphere(t_object *object, t_hit_status *status) // * küre çarpma testi fonksiyonu
@@ -79,7 +80,7 @@ bool	hit_sphere(t_object *object, t_hit_status *status) // * küre çarpma testi
 	return (true);
 }
 
-t_object	*new_sphere(t_vector3 center, double radius)
+t_object	*new_sphere(t_vector3 center, double radius, t_vector3 rgb)
 {
 	t_object	*obj;
 	t_sphere	*sphere_data;
@@ -89,6 +90,7 @@ t_object	*new_sphere(t_vector3 center, double radius)
 	sphere_data->pos = center;
 	sphere_data->diameter = radius * 2.0;
 	sphere_data->radius = radius;
+	sphere_data->rgb = rgb;
 	obj->type = SPHERE; // BEN BUNU KULLANMAYACAĞIM GALİBA
 	obj->data = sphere_data;
 	obj->hit = &hit_sphere;

@@ -28,23 +28,23 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 		new_vector(1, 0, 0)       // Renk (Kırmızı)
 	)));
 	// Gövde Üst Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0.15, -1.5), 0.3))); // Silindirin üst ucu
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0.15, -1.5), 0.3, new_vector(1, 1, 0)))); // Silindirin üst ucu
 	// Gövde Alt Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -0.35, -1.5), 0.3))); // Silindirin alt ucu
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -0.35, -1.5), 0.3, new_vector(1, 1, 0)))); // Silindirin alt ucu
 
 	// 2. Vizör (Yana ve içeriye kaydırılmış Mavi Küre)
 	// Gövdenin önüne ve yanına, göz hizasına bir küre yerleştiriyoruz.
 	// Not: camera.c'deki `l_data.obj_col` rengi override ediyorsa, vizör de kırmızı görünebilir.
 	// Gerçek rengi görmek için orayı nesnenin kendi rengini alacak şekilde düzenlemelisiniz.
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, 0.1, -1.3), 0.2)));
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, 0.1, -1.3), 0.2, new_vector(1, 1, 0))));
 
 	// 3. Bacaklar (İki adet daha uzun kırmızı kapsül)
 	// Sol Bacak
 	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(-0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(-0.15, -0.75, -1.5), 0.125))); // Sol bacak alt küre
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(-0.15, -0.75, -1.5), 0.125, new_vector(1, 1, 0)))); // Sol bacak alt küre
 	// Sağ Bacak
 	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125))); // Sağ bacak alt küre
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125, new_vector(1, 1, 0)))); // Sağ bacak alt küre
 
 	// Zemin Düzlemi (Mavi)
 	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, -0.9, 0), new_vector(0, 1, 0), new_vector(0, 0, 1))));

@@ -52,6 +52,7 @@ bool	hit_plane(t_object *object, t_hit_status *status)
 	status->rec->t = t; // * çarpma noktasının t değeri atandı
 	status->rec->p = ray_at(*(status->ray), t); // * çarpma noktası hesaplandı
 	set_plane_normal(status->rec, status->ray, plane->normal); // * yüzey normali ayarlandı
+	status->rec->color = plane->rgb; // * düzlem rengi ayarlandı
 	return (true);
 }
 

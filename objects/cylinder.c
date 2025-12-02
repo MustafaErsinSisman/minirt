@@ -36,7 +36,7 @@ bool	hit_cylinder(t_object *obj, t_hit_status *status)
 		status->rec->normal = vec_scale(cy->normal, -1);
 	if (vec_dot(status->ray->direction, status->rec->normal) > 0)
 		status->rec->normal = vec_scale(status->rec->normal, -1);
-
+	status->rec->color = cy->rgb;
 	return (true);
 }
 
