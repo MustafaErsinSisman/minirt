@@ -18,8 +18,11 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 
 	world = NULL;
 	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -1), 0.5))); // * küre eklendi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -5), 3))); // * küre eklendi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -10), 7))); // * düzlem eklendi
+	ft_lstadd_back(&world, ft_lstnew(new_plane(
+		new_vector(0, -0.5, 0),      // Pozisyon (Kürenin tam altı)
+		new_vector(0, 1, 0),         // Normal (Yukarı bakıyor)
+		new_vector(0.5, 0.5, 0.5)    // Renk (Gri)
+	)));
 	return (world);
 }
 

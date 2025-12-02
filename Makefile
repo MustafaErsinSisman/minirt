@@ -3,7 +3,7 @@ CC		= cc
 CFLAGS		= -Wall -Wextra -Werror -O3 # bu flag şu işe yarar: optimizasyon yapar, kodu daha hızlı çalıştırır. çalışma mantığı da şöyledir: derleyici kodu analiz eder ve gereksiz işlemleri kaldırır, döngüleri optimize eder ve bellek erişimini iyileştirir. ama çok da bir işe yaradı mı anlamadım silinebilir ileride
 LDLIBS		= vector/vector.a collector/collector.a Libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -lm
 
-SRCS		= main.c ray.c objects/sphere.c objects/world.c objects/camera.c objects/light.c objects/ambient.c 
+SRCS		= main.c ray.c objects/sphere.c objects/world.c objects/camera.c objects/light.c objects/ambient.c  objects/plane.c
 OBJS		= $(SRCS:.c=.o)
 
 RM		= rm -f

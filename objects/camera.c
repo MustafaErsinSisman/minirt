@@ -23,7 +23,7 @@ static void	init_scene_lights(t_lighting_data *data)
 	data->ambient.range = 0.1; // * ortam ışık şiddeti
 	data->ambient.rgb = new_vector(1, 1, 1); // * beyaz ortam ışığı
 	// * Obje rengi şimdilik kırmızı (normalde sphere->rgb olacak)
-	data->obj_col = new_vector(1, 0, 0);
+	data->obj_col = new_vector(1, 1, 1); // hawali renk :D
 }
 
 static t_vector3	get_ray_color(t_ray ray, t_list *world)
@@ -31,8 +31,6 @@ static t_vector3	get_ray_color(t_ray ray, t_list *world)
 	t_hit_record	rec;
 	t_hit_status	status;
 	t_lighting_data	l_data;
-	t_vector3		unit_dir;
-	double			a;
 
 	status.ray = &ray;
 	status.t_min = 0.001;
@@ -47,11 +45,7 @@ static t_vector3	get_ray_color(t_ray ray, t_list *world)
 		return (vec_mul(l_data.obj_col,
 				vec_sum(l_data.ambient_col, l_data.diffuse_col)));
 	}
-	// Arka Plan (Gökyüzü)
-	unit_dir = vec_normalize(ray.direction);
-	a = 0.5 * (unit_dir.y + 1.0);
-	return (vec_sum(vec_scale(new_vector(1.0, 1.0, 1.0), 1.0 - a),
-			vec_scale(new_vector(0.5, 0.7, 1.0), a)));
+	return (new_vector(0, 0, 0)); // * arka plan rengi
 }
 
 void	camera_init(t_cam_status *cam)
