@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/02 13:00:28 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/02 15:16:51 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 
 # include "minilibx-linux/mlx.h"
 # include "objects/objects.h"
-# include "objects/camera.h"
 
 # define WIDTH 800.0
 # define HEIGHT 450.0

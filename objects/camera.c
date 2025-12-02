@@ -12,24 +12,42 @@
 
 #include "../minirt.h"
 
-static t_vector3	get_ray_color(t_ray ray, t_list *world)
-{
-	t_hit_record	rec;
-	t_hit_status	status;
-	t_vector3		unit_direction;
-	double			a_unit_direction;
+// TODO zorunlu kısım bittikten sonra phong aydınlatma modeli ekle
 
-	status.ray = &ray;
-	status.t_min = 0.001;
-	status.t_max = INFINITY;
-	status.rec = &rec;
-	if (hit_world(world, &status))
-		return (vec_scale(vec_sum(rec.normal, new_vector(1, 1, 1)), 0.5));
-	unit_direction = vec_normalize(ray.direction);
-	a_unit_direction = 0.5 * (unit_direction.y + 1.0);
-	return (vec_sum(
-			vec_scale(new_vector(1.0, 1.0, 1.0), 1.0 - a_unit_direction),
-			vec_scale(new_vector(0.5, 0.7, 1.0), a_unit_direction)));
+static t_vector3    get_ray_color(t_ray ray, t_list *world)
+{
+    t_hit_record    rec;
+    t_hit_status    status;
+//     t_vector3       final_color;
+    t_light     light;
+    t_ambient   ambient;
+
+    light.pos = new_vector(10, 10, 10); // Işık konumu (Sağ üst arka)
+    light.range = 1.0;                  // Tam parlaklık
+	light.rgb = new_vector(1, 1, 1);    // Beyaz ışık daha sonra renk eklenebilir
+    ambient.range = 0.1;                // %10 Ortam ışığı (Karanlık yerler simsiyah olmasın)
+    ambient.rgb = new_vector(1, 1, 1);  // Beyaz ortam
+    status.ray = &ray;
+    status.t_min = 0.001;
+    status.t_max = INFINITY;
+    status.rec = &rec;
+    if (hit_world(world, &status))
+    {
+        t_vector3 ambient_component = vec_scale(ambient.rgb, ambient.range);
+        t_vector3 light_dir = vec_sub(light.pos, rec.p);
+        light_dir = vec_normalize(light_dir);
+        double diff = vec_dot(rec.normal, light_dir);
+        if (diff < 0) diff = 0;
+        	t_vector3 diffuse_component = vec_scale(light.rgb, diff * light.range);
+        t_vector3 object_color = new_vector(1, 0, 0);
+        t_vector3 total_light = vec_sum(ambient_component, diffuse_component);
+        return (vec_mul(object_color, total_light));
+    }
+    t_vector3 unit_dir = vec_normalize(ray.direction);
+    double a = 0.5 * (unit_dir.y + 1.0);
+    return (vec_sum(
+            vec_scale(new_vector(1.0, 1.0, 1.0), 1.0 - a),
+            vec_scale(new_vector(0.5, 0.7, 1.0), a)));
 }
 
 void	camera_init(t_cam_status *cam)
@@ -81,34 +99,6 @@ static t_ray	get_ray(t_cam_status *cam, int i, int j)
 	ray_direction = vec_sub(pixel_sample, ray_origin);
 	return (new_ray(ray_origin, ray_direction));
 }
-
-// void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars)
-// {
-// 	t_render	ren;
-// 	int			i;
-// 	int			j;
-
-// 	camera_init(cam);
-// 	j = -1;
-// 	while (j++ < cam->image_height)
-// 	{
-// 		i = -1;
-// 		while (i++ < cam->image_width)
-// 		{
-// 			ren.pxl_cent = vec_sum(cam->pixel00_loc,
-// 					vec_sum(vec_scale(cam->delta_u, i),
-// 						vec_scale(cam->delta_v, j)));
-// 			ren.r_direc = vec_sub(ren.pxl_cent, cam->cam_center);
-// 			ren.r = new_ray(cam->cam_center, ren.r_direc);
-// 			ren.pxl_clr = get_ray_color(ren.r, world);
-// 			ren.clr = color((int)(255.999 * ren.pxl_clr.x),
-// 					(int)(255.999 * ren.pxl_clr.y),
-// 					(int)(255.999 * ren.pxl_clr.z));
-// 			*(unsigned int *)(vars->addr
-// 					+ (j * vars->size_line + i * (vars->bpp / 8))) = ren.clr;
-// 		}
-// 	}
-// }
 
 // GÜNCELLENDİ: Çoklu örnekleme (Multi-sampling) yapan render fonksiyonu
 void	camera_render(t_cam_status *cam, t_list *world, t_vars *vars)

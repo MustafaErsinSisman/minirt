@@ -24,30 +24,20 @@ t_vector3	new_vector(double new_x, double new_y, double new_z)
 
 t_vector3	vec_sum(t_vector3 v1, t_vector3 v2)
 {
-	t_vector3	sum;
-
-	sum.x = v1.x + v2.x;
-	sum.y = v1.y + v2.y;
-	sum.z = v1.z + v2.z;
-	return (sum);
+	return (new_vector(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z));
 }
 
 t_vector3	vec_sub(t_vector3 v1, t_vector3 v2)
 {
-	t_vector3	sub;
+	return (new_vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z));
+}
 
-	sub.x = v1.x - v2.x;
-	sub.y = v1.y - v2.y;
-	sub.z = v1.z - v2.z;
-	return (sub);
+t_vector3 vec_mul(t_vector3 v1, t_vector3 v2)
+{
+    return (new_vector(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z));
 }
 
 t_vector3	vec_scale(t_vector3 v1, double k)
 {
-	t_vector3	scale;
-
-	scale.x = k * v1.x;
-	scale.y = k * v1.y;
-	scale.z = k * v1.z;
-	return (scale);
+	return (new_vector(k * v1.x, k * v1.y, k * v1.z));
 }

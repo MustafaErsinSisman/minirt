@@ -19,19 +19,9 @@
 # include "sphere.h"
 # include "plane.h"
 # include "cylinder.h"
-
-typedef struct s_ambient
-{
-	double		range;
-	t_vector3	rgb;
-}	t_ambient;
-
-typedef struct s_light
-{
-	t_vector3	pos;
-	double		range;
-	// t_vector3 rgb; // * şimdilik beyaz ışık varsayalım
-}	t_light;
+# include "light.h"
+# include "ambient.h"
+# include "camera.h"
 
 typedef union u_objects // * tüm nesne türlerini içeren union kullanıldı ki tek bir yapı altında tüm nesne türlerine erişilebilsin ve bellek tasarrufu sağlansın
 {

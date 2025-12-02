@@ -17,8 +17,8 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 	t_list	*world;
 
 	world = NULL;
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -1), 0.5)));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -100.5, -1), 100.0)));
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0, -1), 0.5))); // * küre eklendi
+
 	return (world);
 }
 
