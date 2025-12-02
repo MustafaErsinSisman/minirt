@@ -19,4 +19,22 @@ typedef struct s_light
 	double		range;
 	t_vector3 rgb; // * şimdilik beyaz ışık varsayalım
 }	t_light;
+
+/* minirt.h içine ekle/güncelle */
+
+// Işıklandırma hesabı için yardımcı struct (Norm için)
+typedef struct s_lighting_data
+{
+	t_light		light;
+	t_ambient	ambient;
+	t_vector3	light_dir;
+	t_vector3	ambient_col;
+	t_vector3	diffuse_col;
+	t_vector3	obj_col;
+	double		diff;
+}	t_lighting_data;
+
+// Fonksiyonlar
+t_vector3	calculate_diffuse(t_light light, t_hit_record *rec);
+// color fonksiyonunun prototipi zaten vardı
 #endif

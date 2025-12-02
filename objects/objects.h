@@ -19,8 +19,8 @@
 # include "sphere.h"
 # include "plane.h"
 # include "cylinder.h"
-# include "light.h"
 # include "ambient.h"
+# include "light.h"
 # include "camera.h"
 
 typedef union u_objects // * tüm nesne türlerini içeren union kullanıldı ki tek bir yapı altında tüm nesne türlerine erişilebilsin ve bellek tasarrufu sağlansın

@@ -12,42 +12,46 @@
 
 #include "../minirt.h"
 
-// TODO zorunlu kısım bittikten sonra phong aydınlatma modeli ekle
-
-static t_vector3    get_ray_color(t_ray ray, t_list *world)
+// TODO zorunlu kısım bittikten sonra phong aydınlatma modeli ekle sanırım zorunlu bu da phong modeli şudur: ambient, diffuse, specular ışık bileşenleri ile hesaplama yaparız ve nesnenin parlaklığına göre ışık yansımalarını da hesaba katarız bu da kürede beyazı noktaların daha parlak görünmesini sağlar
+// Yardımcı: Sahne ışıklarını (geçici olarak) hazırlar
+static void	init_scene_lights(t_lighting_data *data)
 {
-    t_hit_record    rec;
-    t_hit_status    status;
-//     t_vector3       final_color;
-    t_light     light;
-    t_ambient   ambient;
+	//TODO İleride bunlar parser'dan gelecek
+	data->light.pos = new_vector(10, 10, 10); // * ışık pozisyonu
+	data->light.range = 1.0; // * ışık şiddeti
+	data->light.rgb = new_vector(1, 1, 1);	// * beyaz ışık
+	data->ambient.range = 0.1; // * ortam ışık şiddeti
+	data->ambient.rgb = new_vector(1, 1, 1); // * beyaz ortam ışığı
+	// * Obje rengi şimdilik kırmızı (normalde sphere->rgb olacak)
+	data->obj_col = new_vector(1, 0, 0);
+}
 
-    light.pos = new_vector(10, 10, 10); // Işık konumu (Sağ üst arka)
-    light.range = 1.0;                  // Tam parlaklık
-	light.rgb = new_vector(1, 1, 1);    // Beyaz ışık daha sonra renk eklenebilir
-    ambient.range = 0.1;                // %10 Ortam ışığı (Karanlık yerler simsiyah olmasın)
-    ambient.rgb = new_vector(1, 1, 1);  // Beyaz ortam
-    status.ray = &ray;
-    status.t_min = 0.001;
-    status.t_max = INFINITY;
-    status.rec = &rec;
-    if (hit_world(world, &status))
-    {
-        t_vector3 ambient_component = vec_scale(ambient.rgb, ambient.range);
-        t_vector3 light_dir = vec_sub(light.pos, rec.p);
-        light_dir = vec_normalize(light_dir);
-        double diff = vec_dot(rec.normal, light_dir);
-        if (diff < 0) diff = 0;
-        	t_vector3 diffuse_component = vec_scale(light.rgb, diff * light.range);
-        t_vector3 object_color = new_vector(1, 0, 0);
-        t_vector3 total_light = vec_sum(ambient_component, diffuse_component);
-        return (vec_mul(object_color, total_light));
-    }
-    t_vector3 unit_dir = vec_normalize(ray.direction);
-    double a = 0.5 * (unit_dir.y + 1.0);
-    return (vec_sum(
-            vec_scale(new_vector(1.0, 1.0, 1.0), 1.0 - a),
-            vec_scale(new_vector(0.5, 0.7, 1.0), a)));
+static t_vector3	get_ray_color(t_ray ray, t_list *world)
+{
+	t_hit_record	rec;
+	t_hit_status	status;
+	t_lighting_data	l_data;
+	t_vector3		unit_dir;
+	double			a;
+
+	status.ray = &ray;
+	status.t_min = 0.001;
+	status.t_max = INFINITY;
+	status.rec = &rec;
+	if (hit_world(world, &status))
+	{
+		init_scene_lights(&l_data);
+		l_data.ambient_col = calculate_ambient(l_data.ambient);
+		l_data.diffuse_col = calculate_diffuse(l_data.light, &rec);
+		// Sonuç = ObjeRengi * (Ambient + Diffuse)
+		return (vec_mul(l_data.obj_col,
+				vec_sum(l_data.ambient_col, l_data.diffuse_col)));
+	}
+	// Arka Plan (Gökyüzü)
+	unit_dir = vec_normalize(ray.direction);
+	a = 0.5 * (unit_dir.y + 1.0);
+	return (vec_sum(vec_scale(new_vector(1.0, 1.0, 1.0), 1.0 - a),
+			vec_scale(new_vector(0.5, 0.7, 1.0), a)));
 }
 
 void	camera_init(t_cam_status *cam)
@@ -74,30 +78,6 @@ void	camera_init(t_cam_status *cam)
 	vp.upper_left = vec_sub(vp.upper_left, vec_scale(vp.view_v, 0.5));
 	cam->pixel00_loc = vec_sum(vp.upper_left,
 			vec_scale(vec_sum(cam->delta_u, cam->delta_v), 0.5));
-}
-
-// * EKLENDİ: Piksel karesi içinde rastgele bir sapma vektörü üretir [-0.5, 0.5]
-static t_vector3	sample_square(void)
-{
-	return (new_vector(random_double() - 0.5, random_double() - 0.5, 0));
-}
-
-// * EKLENDİ: Verilen i,j pikseli için rastgele sapmalı bir ışın üretir
-static t_ray	get_ray(t_cam_status *cam, int i, int j)
-{
-	t_vector3	offset;
-	t_vector3	pixel_sample;
-	t_vector3	ray_origin;
-	t_vector3	ray_direction;
-
-	offset = sample_square();
-	// pixel_sample = pixel00 + ((i + offset.x) * delta_u) + ((j + offset.y) * delta_v)
-	pixel_sample = vec_sum(cam->pixel00_loc,
-			vec_sum(vec_scale(cam->delta_u, i + offset.x),
-				vec_scale(cam->delta_v, j + offset.y)));
-	ray_origin = cam->cam_center;
-	ray_direction = vec_sub(pixel_sample, ray_origin);
-	return (new_ray(ray_origin, ray_direction));
 }
 
 // GÜNCELLENDİ: Çoklu örnekleme (Multi-sampling) yapan render fonksiyonu

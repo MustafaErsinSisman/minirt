@@ -19,4 +19,6 @@ typedef struct s_ambient
 	t_vector3	rgb;
 }	t_ambient;
 
+t_vector3	calculate_ambient(t_ambient ambient);
+
 #endif
