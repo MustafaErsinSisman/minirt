@@ -62,7 +62,7 @@ void	camera_init(t_cam_status *cam)
 	cam->image_height = (int)(cam->image_width / cam->aspect_ratio);
 	if (cam->image_height < 1)
 		cam->image_height = 1;
-	cam->samples_per_pixel = 5; // * EKLENDİ: Her piksel için örnek sayısı ne kadar yüksek olursa render kalitesi o kadar artar ancak performans düşer 100 yaptım çok yüksek 10 bile yüksek ne bu yaw
+	cam->samples_per_pixel = 2; // * EKLENDİ: Her piksel için örnek sayısı ne kadar yüksek olursa render kalitesi o kadar artar ancak performans düşer 100 yaptım çok yüksek 10 bile yüksek ne bu yaw
 	cam->pixel_samples_scale = 1.0 / cam->samples_per_pixel; // * EKLENDİ bu değer renk ortalamasını hesaplarken kullanılacak ne kadar çok örnek alınırsa bu değer o kadar küçük olur
 	cam->cam_center = new_vector(0, 0, 0);
 	vp.focal_length = 1.5;

@@ -46,6 +46,11 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
 	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125))); // Sağ bacak alt küre
 
+	// Zemin Düzlemi (Mavi)
+	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, -0.9, 0), new_vector(0, 1, 0), new_vector(0, 0, 1))));
+	// Açılı Arka Duvar Düzlemi (Gri) - Gölgenin düşeceği yer
+	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, 0, -2.7), new_vector(0.5, 0, 1), new_vector(0.5, 0.5, 0.5))));
+
 	
 	return (world);
 }
