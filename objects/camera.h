@@ -30,6 +30,9 @@ typedef struct s_viewport
 	t_vector3	view_u;
 	t_vector3	view_v;
 	t_vector3	upper_left;
+	double		theta; // Radyan cinsinden açı
+	double		h;     // Viewport yarı yüksekliği oranı
+	t_vector3	v_center;
 }	t_viewport;
 
 typedef struct s_render
@@ -48,6 +51,13 @@ typedef struct s_cam_status
 	int			image_height;
 	int			samples_per_pixel; // * EKLENDİ: Örnek sayısı (örn: 100) bu, her piksel için kaç tane rastgele örnek alınacağını belirtir
 	double		pixel_samples_scale; // * EKLENDİ: 1.0 / samples_per_pixel bu, renk ortalamasını hesaplarken kullanılır
+	double		vfov;
+	t_vector3	lookfrom;	// Kameranın durduğu yer (Point3)
+	t_vector3	orientation; // YENİ: Yön Vektörü (Örn: 0,0,1) - lookat SİLİNDİ
+	t_vector3	vup;		// Kameranın "Yukarı" vektörü (Başın tavanı nereye bakıyor?)
+	t_vector3	u;			// Kamera Sağ
+	t_vector3	v;			// Kamera Yukarı
+	t_vector3	w;			// Kamera Arkası (Bakışın tersi)
 	t_vector3	cam_center;
 	t_vector3	pixel00_loc;
 	t_vector3	delta_u;

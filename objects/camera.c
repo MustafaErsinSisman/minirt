@@ -52,6 +52,27 @@ static t_vector3	get_ray_color(t_ray ray, t_list *world)
 	return (new_vector(0, 0, 0)); // * arka plan rengi
 }
 
+static void	init_viewport_geometry(t_cam_status *cam, t_viewport *vp)
+{
+	vp->theta = degrees_to_radians(cam->vfov);
+	vp->h = tan(vp->theta / 2.0);
+	vp->focal_length = 1.0;
+	vp->height = 2.0 * vp->h * vp->focal_length;
+	vp->width = vp->height * ((double)cam->image_width / cam->image_height);
+	cam->w = vec_normalize(vec_scale(cam->orientation, -1));
+	// GIMBAL LOCK KORUMASI:
+	// Eğer kamera tam tepeye (0,1,0) veya tam dibe (0,-1,0) bakıyorsa,
+	// "Yukarı" vektörümüz ile "Bakış" vektörümüz paralel olur.
+	// Bu durumda sağ tarafı (u) hesaplayamayız.
+	// Çözüm: Kafamızı hafifçe yana yatırıyormuş gibi "Yukarı"yı değiştiririz.
+	if (fabs(cam->orientation.y) > 0.99999)
+		cam->vup = new_vector(0, 0, 1); // Z eksenini yukarı kabul et
+	cam->u = vec_normalize(vec_cross(cam->vup, cam->w));
+	cam->v = vec_cross(cam->w, cam->u); 
+	vp->view_u = vec_scale(cam->u, vp->width);
+	vp->view_v = vec_scale(cam->v, -vp->height); // DİKKAT: -height değil, vektörün tersi
+}
+
 void	camera_init(t_cam_status *cam)
 {
 	t_viewport	vp;
@@ -63,16 +84,16 @@ void	camera_init(t_cam_status *cam)
 		cam->image_height = 1;
 	cam->samples_per_pixel = 2; // * EKLENDİ: Her piksel için örnek sayısı ne kadar yüksek olursa render kalitesi o kadar artar ancak performans düşer 100 yaptım çok yüksek 10 bile yüksek ne bu yaw
 	cam->pixel_samples_scale = 1.0 / cam->samples_per_pixel; // * EKLENDİ bu değer renk ortalamasını hesaplarken kullanılacak ne kadar çok örnek alınırsa bu değer o kadar küçük olur
-	cam->cam_center = new_vector(0, 0, 0);
-	vp.focal_length = 1.5;
-	vp.height = 2.0;
-	vp.width = vp.height * ((double)cam->image_width / cam->image_height);
-	vp.view_u = new_vector(vp.width, 0, 0);
-	vp.view_v = new_vector(0, -vp.height, 0);
+	cam->vfov = 90; // TODO parser fov
+	cam->lookfrom = new_vector(0, 0, 0); // TODO parser coordinat xyz
+	cam->orientation = new_vector(0, 0, -1);// TODO parser normal vector 
+	cam->vup = new_vector(0, 1, 0); // TODO NO parser 
+	init_viewport_geometry(cam, &vp);
+	cam->cam_center = cam->lookfrom;
 	cam->delta_u = vec_scale(vp.view_u, 1.0 / cam->image_width);
 	cam->delta_v = vec_scale(vp.view_v, 1.0 / cam->image_height);
-	vp.upper_left = vec_sub(cam->cam_center, new_vector(0, 0, vp.focal_length));
-	vp.upper_left = vec_sub(vp.upper_left, vec_scale(vp.view_u, 0.5));
+	vp.v_center = vec_sub(cam->cam_center, vec_scale(cam->w, vec_len(vec_sub(cam->lookfrom, cam->orientation))));
+	vp.upper_left = vec_sub(vp.v_center, vec_scale(vp.view_u, 0.5));
 	vp.upper_left = vec_sub(vp.upper_left, vec_scale(vp.view_v, 0.5));
 	cam->pixel00_loc = vec_sum(vp.upper_left,
 			vec_scale(vec_sum(cam->delta_u, cam->delta_v), 0.5));

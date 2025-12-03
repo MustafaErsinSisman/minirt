@@ -28,28 +28,28 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 		new_vector(1, 0, 0)       // Renk (Kırmızı)
 	)));
 	// Gövde Üst Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0.15, -1.5), 0.3, new_vector(1, 1, 0)))); // Silindirin üst ucu
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0.15, -1.5), 0.3, new_vector(1, 0, 0)))); // Silindirin üst ucu (Kırmızı)
 	// Gövde Alt Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -0.35, -1.5), 0.3, new_vector(1, 1, 0)))); // Silindirin alt ucu
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -0.35, -1.5), 0.3, new_vector(1, 0, 0)))); // Silindirin alt ucu (Kırmızı)
 
 	// 2. Vizör (Yana ve içeriye kaydırılmış Mavi Küre)
 	// Gövdenin önüne ve yanına, göz hizasına bir küre yerleştiriyoruz.
 	// Not: camera.c'deki `l_data.obj_col` rengi override ediyorsa, vizör de kırmızı görünebilir.
 	// Gerçek rengi görmek için orayı nesnenin kendi rengini alacak şekilde düzenlemelisiniz.
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, 0.1, -1.3), 0.2, new_vector(1, 1, 0))));
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, 0.1, -1.3), 0.2, new_vector(0.25, 0.8, 0.9)))); // Renk (Turkuaz)
 
 	// 3. Bacaklar (İki adet daha uzun kırmızı kapsül)
 	// Sol Bacak
 	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(-0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(-0.15, -0.75, -1.5), 0.125, new_vector(1, 1, 0)))); // Sol bacak alt küre
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(-0.15, -0.75, -1.5), 0.125, new_vector(1, 0, 0)))); // Sol bacak alt küre (Kırmızı)
 	// Sağ Bacak
 	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125, new_vector(1, 1, 0)))); // Sağ bacak alt küre
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125, new_vector(1, 0, 0)))); // Sağ bacak alt küre (Kırmızı)
 
-	// Zemin Düzlemi (Mavi)
-	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, -0.9, 0), new_vector(0, 1, 0), new_vector(0, 0, 1))));
+	// Zemin Düzlemi (Koyu Gri)
+	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, -0.9, 0), new_vector(0, 1, 0), new_vector(0.2, 0.2, 0.2))));
 	// Açılı Arka Duvar Düzlemi (Gri) - Gölgenin düşeceği yer
-	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, 0, -2.7), new_vector(0.5, 0, 1), new_vector(0.5, 0.5, 0.5))));
+	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, 0, -2.7), new_vector(0.5, 0, 1), new_vector(0.4, 0.4, 0.4))));
 
 	
 	return (world);
@@ -103,6 +103,33 @@ static bool	mlx_process(t_list *world)
 	mlx_hook(vars.win, 17, 0, exit_func, &vars); // * pencere kapatma butonuna tıklanınca exit_func fonksiyonu çağrılır
 	mlx_loop(vars.mlx); // * mlx döngüsü başlatıldı bu fonksiyon, pencere açık olduğu sürece sürekli olarak çalışır ve olayları dinler
 	return (true);
+}
+
+t_list	*test_fov_scene(void)
+{
+	t_list		*world;
+	double		r; // Yarıçap
+
+	world = NULL;
+	r = cos(M_PI / 4.0); // Kitapta: auto R = cos(pi/4);
+
+	// Sol Küre (Mavi)
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(
+		new_vector(-r, 0, -1.0),
+		r,
+		new_vector(0, 0, 1))));
+
+	// Sağ Küre (Kırmızı)
+	ft_lstadd_back(&world, ft_lstnew(new_sphere(
+		new_vector(r, 0, -1.0),
+		r,
+		new_vector(1, 0, 0))));
+
+    // Arka Plan için ışık verisi lazım (Bizim sistemimizde)
+    // Bu yüzden sahneye görünmez de olsa bir ışık ve ambient eklemek iyi olur
+    // Ama şu an camera.c içinde hardcode ışık kullandığın için sorun olmaz.
+    
+	return (world);
 }
 
 int	main(void)

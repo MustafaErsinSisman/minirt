@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/02 18:00:13 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/03 19:10:23 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 
 # define WIDTH 800.0
 # define HEIGHT 450.0
+
+
 
 // * dereceyi radyana çevirme fonksiyonu 
 // * buradaki inline ifadesi derleyiciye bu fonksiyonu çağıran yere 
