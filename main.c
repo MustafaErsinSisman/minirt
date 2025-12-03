@@ -12,6 +12,8 @@
 
 #include "minirt.h"
 
+// !AMOGUS
+
 t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu olacak
 {
 	t_list	*world;
@@ -55,6 +57,39 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 	return (world);
 }
 
+static void	init_test_data(t_data *data)
+{
+
+	// 1. AMBIENT
+	data->ambient.range = 0.1;
+	data->ambient.rgb = new_vector(1, 1, 1);
+
+	// 2. LIGHT (Sağ-Üst-Ön)
+	data->light.pos = new_vector(5, 5, 5);
+	data->light.range = 1.0;
+	data->light.rgb = new_vector(1, 1, 1);
+
+	// 3. CAMERA (Standart Bakış)
+	// Kamerayı Z ekseninde geriye (5) ve biraz yukarı (1) koyuyoruz.
+	data->camera.pos = new_vector(0, 1, 5);
+	
+	// Kamerayı Z ekseninde ileriye (-1) ve biraz aşağı (-0.2) baktırıyoruz.
+	data->camera.normal = new_vector(0, -0.2, -1);
+	
+	data->camera.fov = 70.0;
+
+	// 4. OBJECTS
+	// Önce listeyi NULL yap, sonra world_objects ile doldur
+	data->world = world_objects(); 
+	
+	// world_objects() fonksiyonunda Among Us, Zemin ve Arka Duvar (Gri) var.
+	// Gri ekran görmenin sebebi muhtemelen arka duvardı. 
+	// Şimdi kamerayı düzelttiğimiz için karakteri duvarın önünde göreceksin.
+	
+	// Ekstra test küresi (Eğer istersen)
+	// ft_lstadd_back(&data->world, ft_lstnew(new_sphere(new_vector(1, 0, -1), 0.5, red)));
+}
+
 // TODO ileride parserdan gelen veriyi buna benzer bir fonksiyon ile işleyeceğiz ki direkt t_list olarak world e ekleyebilelim
 // // Bu fonksiyon parser'dan gelen ham veriyi, senin render sistemine çevirir
 // void convert_and_add_to_world(t_list **world, t_obje_list *parser_list)
@@ -80,9 +115,8 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 // }
 // TODO *************************************************************************
 
-static bool	mlx_process(t_list *world)
+static bool	mlx_process(t_data *data)
 {
-	t_cam_status	cam;
 	t_vars			vars;
 
 	vars.mlx = mlx_init(); // * mlx instance oluşturuldu
@@ -97,7 +131,7 @@ static bool	mlx_process(t_list *world)
 	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line, &vars.endian); // * image data adresi alındı burada endianess da alındı ama kullanılmıyor şimdilik 
 							// * sistem mimarisine göre ayarlanıyor eğer little endian ise 0 BRGBA formatında, big endian ise 1 ABGR formatında oluyor 
 							// * ama biz zaten RGBA formatında çalışıyoruz sadece fonksiyona parametre olarak verildi ileride kullanılabilir mi bilmem 
-	camera_render(&cam, world, &vars); // * sahne renderlandı
+	camera_render(data, &vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0); // * image windowa çizildi
 	mlx_key_hook(vars.win, key_hook, &vars); // * key hook eklendi bu fonksiyon pencere açıkken klavye girişlerini dinler ve belirli bir tuşa basıldığında belirli bir fonksiyonu çağırır
 	mlx_hook(vars.win, 17, 0, exit_func, &vars); // * pencere kapatma butonuna tıklanınca exit_func fonksiyonu çağrılır
@@ -105,37 +139,15 @@ static bool	mlx_process(t_list *world)
 	return (true);
 }
 
-t_list	*test_fov_scene(void)
-{
-	t_list		*world;
-	double		r; // Yarıçap
-
-	world = NULL;
-	r = cos(M_PI / 4.0); // Kitapta: auto R = cos(pi/4);
-
-	// Sol Küre (Mavi)
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(
-		new_vector(-r, 0, -1.0),
-		r,
-		new_vector(0, 0, 1))));
-
-	// Sağ Küre (Kırmızı)
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(
-		new_vector(r, 0, -1.0),
-		r,
-		new_vector(1, 0, 0))));
-
-    // Arka Plan için ışık verisi lazım (Bizim sistemimizde)
-    // Bu yüzden sahneye görünmez de olsa bir ışık ve ambient eklemek iyi olur
-    // Ama şu an camera.c içinde hardcode ışık kullandığın için sorun olmaz.
-    
-	return (world);
-}
-
 int	main(void)
 {
 	// srand(time(NULL)); // TODO rastgele sayı üreteci başlatıldı şimdilik sabit değerlerle çalışıyoruz ileride açılacak
-	if (!mlx_process(world_objects())) // * world_objects fonksiyonu çağrıldı ve dönen liste mlx_process fonksiyonuna parametre olarak verildi // TODO parserdan gelecek şimdi sabit objeler var
+	t_data  data; // Stack'te veya malloc ile oluşturabilirsin
+
+	// Verileri doldur (İlerde burayı parser yapacak)
+	init_test_data(&data); // TODO PARSER OLACAK
+
+	if (!mlx_process(&data)) // * world_objects fonksiyonu çağrıldı ve dönen liste mlx_process fonksiyonuna parametre olarak verildi // TODO parserdan gelecek şimdi sabit objeler var
 		return (ft_free(), 1); // * mlx_process fonksiyonu false dönerse program sonlandırıldı ve bellekteki tüm dinamik olarak ayrılmış veriler serbest bırakıldı
 	ft_free(); // * program sonlandırılmadan önce bellekteki tüm dinamik olarak ayrılmış veriler serbest bırakıldı
 	return (0);

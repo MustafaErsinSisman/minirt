@@ -13,7 +13,8 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
-struct	s_vars;
+struct s_data;
+struct s_vars;
 
 typedef struct s_camera
 {
@@ -38,7 +39,7 @@ typedef struct s_viewport
 typedef struct s_render
 {
 	int			sample;
-	t_vector3	pixel_color;
+	t_vector3	pxl_clr;
 	t_ray		r;
 	int			x;
 	int			y;
@@ -64,7 +65,8 @@ typedef struct s_cam_status
 	t_vector3	delta_v;
 }	t_cam_status;
 
-void	camera_init(t_cam_status *cam);
-void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars);
+void	camera_init(t_cam_status *cam, struct s_data *data);
+// void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars);
+void    camera_render(struct s_data *d, struct s_vars *vars);
 
 #endif

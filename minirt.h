@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/03 19:10:23 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/03 20:59:20 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,15 @@ typedef struct s_vars
 	int		size_line; // * size of a line in bytes
 	int		endian; // * endianess
 }	t_vars;
+
+typedef struct s_data
+{
+    t_ambient       ambient;
+    t_camera        camera;
+    t_light         light;
+    t_cam_status    c_stat;
+    t_list          *world;
+}   t_data;
 
 int					exit_func(t_vars *vars);
 int					key_hook(int keycode, t_vars *vars);
