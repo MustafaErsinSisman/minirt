@@ -37,9 +37,13 @@
 // * fonksiyonun kodunu çağıran yere direkt olarak yerleştirir 
 // * böylece fonksiyon çağrısına bağlı zaman kaybı ortadan kalkar
 
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846264338327950288
+# endif
+
 static inline double	degrees_to_radians(double degrees)
 {
-	return (degrees * M_PI / 180.0); // * dereceyi radyana çevirme formülü
+	return (degrees * M_PI / 180.0); // * dereceyi radyana çevirme formülü 
 }
 
 // * 0.0 (dahil) ile 1.0 (hariç) arasında rastgele double üretir. [0, 1) bunu şurada kullanıyoruz: her piksel için rastgele bir nokta seçmek istediğimizde

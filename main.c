@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "minirt.h"
+// TODO renk değerleri 255 mi 1 mi olacak onu sor 255'e bölüp bir daha çarpıyoruz neden böyle önemli
+
 
 // !AMOGUS
-
 t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu olacak
 {
 	t_list	*world;
@@ -56,130 +57,32 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 	
 	return (world);
 }
+///! ********************************
 
 
 
 
-// TODO renk değerleri 255 mi 1 mi olacak onu sor 255'e bölüp bir daha çarpıyoruz neden böyle önemli
+
+
 //! TEST*****************************
-
-
-// Rastgele renk üreten yardımcı fonksiyon (0.0 - 1.0 arası)
-static t_vector3	random_color(void)
-{
-	return (new_vector(random_double(), random_double(), random_double()));
-}
-
-// Rastgele renk üreten yardımcı fonksiyon (min - max arası) - Parlak renkler için
-static t_vector3	random_color_range(double min, double max)
-{
-	return (new_vector(random_double_range(min, max),
-			random_double_range(min, max),
-			random_double_range(min, max)));
-}
 
 static void	init_test_data(t_data *data)
 {
-	int			a;
-	int			b;
-	double		choose_mat;
-	t_vector3	center;
-
-	// 1. AMBIENT & LIGHT
-	data->ambient.range = 0.4; // Biraz daha aydınlık olsun
+	data->ambient.range = 0.25; // Biraz daha aydınlık olsun
 	data->ambient.rgb = new_vector(1, 1, 1);
 	data->light.pos = new_vector(-10, 50, 10); // Işık yukarıda
 	data->light.range = 0.8;
 	data->light.rgb = new_vector(1, 1, 1);
 
-	// 2. CAMERA (Uzaktan ve yüksekten bakış)
-	data->camera.pos = new_vector(13, 2, 3);
-	data->camera.normal = new_vector(-1, -0.2, -0.3); // Merkeze doğru bakış (yaklaşık)
-	// Tam merkeze (0,0,0) baktırmak için orientation hesabı:
-	// w = normalize(0,0,0 - 13,2,3) -> direction
+	data->camera.pos = new_vector(-4, 7, 15);
+	data->camera.normal = new_vector(0, 0, -1);
 	t_vector3 lookat_dir = vec_normalize(vec_sub(new_vector(0,0,0), data->camera.pos));
 	data->camera.normal = lookat_dir; 
-	
-	data->camera.fov = 20.0; // Zoom yapılmış gibi
-
-	data->world = NULL;
-
-	// 3. ZEMİN (Devasa bir düzlem)
-	// Kitapta dev küre kullanıyor ama biz sonsuz Plane ile daha iyisini yapabiliriz.
-	ft_lstadd_back(&data->world, ft_lstnew(new_plane(
-		new_vector(0, 0, 0), new_vector(0, 1, 0), new_vector(0.5, 0.5, 0.5))));
-
-	// 4. RASTGELE KÜRELER (Döngü ile)
-	a = -11;
-	while (a < 11)
-	{
-		b = -11;
-		while (b < 11)
-		{
-			choose_mat = random_double();
-			// Küre merkezi: x = a + rastgele, y = 0.2 (yarıçap), z = b + rastgele
-			center = new_vector(a + 0.9 * random_double(), 0.2, b + 0.9 * random_double());
-
-			// Büyük kürelere çarpmıyorsa ekle
-			if (vec_len(vec_sub(center, new_vector(4, 0.2, 0))) > 0.9)
-			{
-				if (choose_mat < 0.8) // Diffuse (Mat Renk)
-				{
-					ft_lstadd_back(&data->world, ft_lstnew(new_sphere(
-						center, 0.2, random_color()))); // Rastgele renk
-				}
-				else // Metal (Parlak Renk - Bizde sadece renk farkı var)
-				{
-					ft_lstadd_back(&data->world, ft_lstnew(new_sphere(
-						center, 0.2, random_color_range(0.5, 1.0)))); // Daha açık renkler
-				}
-			}
-			b++;
-		}
-		a++;
-	}
-
-	// 5. BÜYÜK ANA KÜRELER
-	// Sol (Mat/Toprak rengi)
-	ft_lstadd_back(&data->world, ft_lstnew(new_sphere(
-		new_vector(-4, 1, 0), 1.0, new_vector(0.4, 0.2, 0.1))));
-	
-	// Orta (Cam olması gerekirdi ama biz Beyaz/Açık Mavi yapalım)
-	ft_lstadd_back(&data->world, ft_lstnew(new_sphere(
-		new_vector(0, 1, 0), 1.0, new_vector(0.9, 0.9, 0.9))));
-	
-	// Sağ (Metal olması gerekirdi ama biz Altın Sarısı yapalım)
-	ft_lstadd_back(&data->world, ft_lstnew(new_sphere(
-		new_vector(4, 1, 0), 1.0, new_vector(0.7, 0.6, 0.5))));
+	data->camera.fov = 100.0; // Zoom yapılmış gibi
+	data->world = world_objects();
 }
 
 //! *****************************
-
-
-// TODO ileride parserdan gelen veriyi buna benzer bir fonksiyon ile işleyeceğiz ki direkt t_list olarak world e ekleyebilelim
-// // Bu fonksiyon parser'dan gelen ham veriyi, senin render sistemine çevirir
-// void convert_and_add_to_world(t_list **world, t_obje_list *parser_list)
-// {
-//     t_object *new_obj;
-
-//     while (parser_list)
-//     {
-//         if (parser_list->type == SPHERE)
-//         {
-//             // Arkadaşının struct'ından veriyi al, senin fonksiyonuna ver
-//             new_obj = new_sphere(parser_list->objects.sphere.pos, 
-//                                  parser_list->objects.sphere.diameter);
-//             // Senin dünyana ekle
-//             ft_lstadd_back(world, ft_lstnew(new_obj));
-//         }
-//         else if (parser_list->type == PLANE)
-//         {
-//             // new_plane(...)
-//         }
-//         parser_list = parser_list->next;
-//     }
-// }
-// TODO *************************************************************************
 
 static bool	mlx_process(t_data *data)
 {
