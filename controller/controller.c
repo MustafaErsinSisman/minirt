@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 16:18:58 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/08 19:22:59 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int controller(char **values, t_obje_list *objects)
             return sphere_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "pl "))
         {
-            // DÜZLEM FONKSİYONU
+            // DÜZLEM FONKSİYONU    
         }
         else if (!ft_strcmp(values[i], "cy "))
         {
