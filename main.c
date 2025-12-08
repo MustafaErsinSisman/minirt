@@ -69,75 +69,52 @@ char	**read_map(char *file)
 	return (values);
 }
 
-// !AMOGUS
-t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu olacak
+t_list	*world_objects(t_obje_list *pre_objects)  // TODO parserdan gelecek t_objects_list structu olacak
 {
 	t_list	*world;
+	t_obje_list *temp;
 
-	world = NULL;
-	// --- Among Us Karakteri ---
-
-	// 1. Gövde (Kırmızı Kapsül = Silindir + 2 Küre)
-	// Ana gövdeyi oluşturur. Y ekseninde dikey olarak duruyor. Kapsül görünümü için alt ve üstüne küreler eklenmiştir.
-	ft_lstadd_back(&world, ft_lstnew(new_cylinder(
-		new_vector(0, -0.1, -1.5),    // Konum (Biraz aşağıda ve kameradan uzakta)
-		new_vector(0, 1, 0),      // Yön (Dikey)
-		(double[2]){0.6, 0.5},    // Çap ve Yükseklik (Yükseklik azaltıldı)
-		new_vector(1, 0, 0)       // Renk (Kırmızı)
-	)));
-	// Gövde Üst Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, 0.15, -1.5), 0.3, new_vector(1, 0, 0)))); // Silindirin üst ucu (Kırmızı)
-	// Gövde Alt Küresi
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0, -0.35, -1.5), 0.3, new_vector(1, 0, 0)))); // Silindirin alt ucu (Kırmızı)
-
-	// 2. Vizör (Yana ve içeriye kaydırılmış Mavi Küre)
-	// Gövdenin önüne ve yanına, göz hizasına bir küre yerleştiriyoruz.
-	// Not: camera.c'deki `l_data.obj_col` rengi override ediyorsa, vizör de kırmızı görünebilir.
-	// Gerçek rengi görmek için orayı nesnenin kendi rengini alacak şekilde düzenlemelisiniz.
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, 0.1, -1.3), 0.2, new_vector(0.25, 0.8, 0.9)))); // Renk (Turkuaz)
-
-	// 3. Bacaklar (İki adet daha uzun kırmızı kapsül)
-	// Sol Bacak
-	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(-0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(-0.15, -0.75, -1.5), 0.125, new_vector(1, 0, 0)))); // Sol bacak alt küre (Kırmızı)
-	// Sağ Bacak
-	ft_lstadd_back(&world, ft_lstnew(new_cylinder(new_vector(0.15, -0.55, -1.5), new_vector(0, 1, 0), (double[2]){0.25, 0.4}, new_vector(1, 0, 0))));
-	ft_lstadd_back(&world, ft_lstnew(new_sphere(new_vector(0.15, -0.75, -1.5), 0.125, new_vector(1, 0, 0)))); // Sağ bacak alt küre (Kırmızı)
-
-	// Zemin Düzlemi (Koyu Gri)
-	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, -0.9, 0), new_vector(0, 1, 0), new_vector(0.2, 0.2, 0.2))));
-	// Açılı Arka Duvar Düzlemi (Gri) - Gölgenin düşeceği yer
-	ft_lstadd_back(&world, ft_lstnew(new_plane(new_vector(0, 0, -2.7), new_vector(0.5, 0, 1), new_vector(0.4, 0.4, 0.4))));
-
-	
+	temp = pre_objects;
+	while (temp)
+	{
+		if (temp->type == SPHERE)
+			ft_lstadd_back(&world, ft_lstnew(new_sphere(temp->objects.sphere.pos, temp->objects.sphere.radius, temp->objects.sphere.rgb)));
+		else if (temp->type == PLANE)
+			ft_lstadd_back(&world, ft_lstnew(new_plane(temp->objects.plane.pos, temp->objects.plane.normal, temp->objects.plane.rgb)));
+		else if (temp->type == CYLINDER)
+			ft_lstadd_back(&world, ft_lstnew(new_cylinder(temp->objects.cylinder.pos, temp->objects.cylinder.normal, (double[2]){temp->objects.cylinder.diameter, temp->objects.cylinder.height}, temp->objects.cylinder.rgb)));
+		temp = temp->next;
+	}
 	return (world);
 }
-///! ********************************
 
-
-
-
-
-
-//! TEST*****************************
-
-static void	init_test_data(t_data *data)
+t_data *prepare_datas(t_obje_list *pre_objects)
 {
-	data->ambient.range = 0.1; // Biraz daha aydınlık olsun
-	data->ambient.rgb = new_vector(1, 1, 1);
-	data->light.pos = new_vector(10, 10, 10); // Işık yukarıda
-	data->light.range = 1.0;
-	data->light.rgb = new_vector(1, 1, 1);
+	t_data *datas;
 
-	data->camera.pos = new_vector(0, 0.2, 1.5);
-	data->camera.normal = new_vector(0, 0, -1);
-	t_vector3 lookat_dir = vec_normalize(vec_sub(new_vector(0,0,0), data->camera.pos));
-	data->camera.normal = lookat_dir; 
-	data->camera.fov = 65.0; // Zoom yapılmış gibi
-	data->world = world_objects();
+	datas->world = world_objects(pre_objects);
+	while (pre_objects)
+	{
+		if (pre_objects->type == AMBIANT)
+		{
+			datas->ambient.range = pre_objects->objects.ambiant.range;
+			datas->ambient.rgb = pre_objects->objects.ambiant.rgb;
+		}
+		else if (pre_objects->type == CAMERA)
+		{
+			datas->camera.fov = pre_objects->objects.camera.fov;
+			datas->camera.normal = pre_objects->objects.camera.normal;
+			datas->camera.pos = pre_objects->objects.camera.pos;
+		}
+		else if (pre_objects->type == LIGHT)
+		{
+			datas->light.pos = pre_objects->objects.light.pos;
+			datas->light.range = pre_objects->objects.light.range;
+			datas->light.rgb = pre_objects->objects.light.rgb;
+		}
+		pre_objects = pre_objects->next;
+	}
 }
-
-//! *****************************
 
 static bool	mlx_process(t_data *data)
 {
@@ -163,11 +140,12 @@ static bool	mlx_process(t_data *data)
 	return (true);
 }
 
+
+
 int	main(int argc, char **argv)
 {
 	char **values;
-	t_data *data;
-	t_obje_list *objects;
+	t_obje_list *pre_objects;
 	
     	if (argc == 1)
 		exit(EXIT_SUCCESS);
@@ -180,9 +158,8 @@ int	main(int argc, char **argv)
 	// int i = 0;
 	// while (values[i])
 	// 	printf("%s\n", values[i++]);
-	controller(values, objects);
-	
-	if (!mlx_process(world_objects()))
+	controller(values, pre_objects);
+	if (!mlx_process(world_objects(prepare_datas(pre_objects))))
 		return (ft_free(), 1);
 	ft_free();
 	return (0);
