@@ -3,16 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/19 16:05:56 by musisman          #+#    #+#             */
-/*   Updated: 2025/10/19 16:05:56 by musisman         ###   ########.fr       */
+/*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
+/*   Updated: 2025/10/24 16:51:42 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-// TODO renk değerleri 255 mi 1 mi olacak onu sor 255'e bölüp bir daha çarpıyoruz neden böyle önemli
 
+int	map_height(char *file)
+{
+	char	*line;
+	int		fd;
+	int		i;
+	
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		//hata durumu gelecek
+	}
+	i = 0;
+	line = get_next_line(fd);
+	if (!line)
+	{
+		//hata durumu gelecek
+	}
+	while (line)
+	{
+		i++;
+		line = get_next_line(fd);
+	}
+	close(fd);
+	return (i);
+}
+
+char	**read_map(char *file)
+{
+	int		i;
+	int		fd;
+    int     line_count;
+	char	*line;
+	char	**values;
+
+	line_count = map_height(file);/// VERİLEN DOSYAYI OKUYUP SONRASINDA KONTROLE GÖNDERECEĞİM
+	values = ft_malloc((line_count + 1) * sizeof(char *));
+	if (!values)
+		return (0);
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		//hata durumu gelecek
+	}
+	i = 0;
+	line = get_next_line(fd);
+	while (line != NULL)
+	{
+		if (line[ft_strlen(line) - 1] == '\n')
+			line[ft_strlen(line) - 1] = '\0';
+		values[i++] = line;
+		line = get_next_line(fd);
+	}
+	values[i] = NULL;
+	close(fd);
+	return (values);
+}
 
 // !AMOGUS
 t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu olacak
@@ -108,17 +163,27 @@ static bool	mlx_process(t_data *data)
 	return (true);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	// srand(time(NULL)); // TODO rastgele sayı üreteci başlatıldı şimdilik sabit değerlerle çalışıyoruz ileride açılacak
-	t_data  data; // Stack'te veya malloc ile oluşturabilirsin
-
-	// Verileri doldur (İlerde burayı parser yapacak)
-	init_test_data(&data); // TODO PARSER OLACAK
-
-	if (!mlx_process(&data)) // * world_objects fonksiyonu çağrıldı ve dönen liste mlx_process fonksiyonuna parametre olarak verildi // TODO parserdan gelecek şimdi sabit objeler var
-		return (ft_free(), 1); // * mlx_process fonksiyonu false dönerse program sonlandırıldı ve bellekteki tüm dinamik olarak ayrılmış veriler serbest bırakıldı
-	ft_free(); // * program sonlandırılmadan önce bellekteki tüm dinamik olarak ayrılmış veriler serbest bırakıldı
+	char **values;
+	t_data *data;
+	
+    	if (argc == 1)
+		exit(EXIT_SUCCESS);
+	file_extension(argv[1]);
+	values = read_map(argv[1]);
+	if(chr_control(values))
+	{
+		//hata durumu
+	}
+	// int i = 0;
+	// while (values[i])
+	// 	printf("%s\n", values[i++]);
+	controller(values);
+	
+	if (!mlx_process(world_objects()))
+		return (ft_free(), 1);
+	ft_free();
 	return (0);
 }
 

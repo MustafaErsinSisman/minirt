@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
 /*   Updated: 2025/12/03 20:59:20 by musisman         ###   ########.fr       */
@@ -13,12 +13,9 @@
 #ifndef MINIRT_H
 # define MINIRT_H
 
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-
 # include "minilibx-linux/mlx.h"
-# include "objects/objects.h"
+# include "collector/collector.h"
+# include "controller/controller.h"
 
 # define WIDTH 800.0
 # define HEIGHT 450.0
