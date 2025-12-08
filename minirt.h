@@ -20,8 +20,8 @@
 # include "minilibx-linux/mlx.h"
 # include "objects/objects.h"
 
-# define WIDTH 800.0
-# define HEIGHT 450.0
+# define WIDTH 1920.0
+# define HEIGHT 1080.0
 
 
 
@@ -36,6 +36,10 @@
 // * inline fonksiyonlarda ise derleyici fonksiyon çağrısını kaldırır ve
 // * fonksiyonun kodunu çağıran yere direkt olarak yerleştirir 
 // * böylece fonksiyon çağrısına bağlı zaman kaybı ortadan kalkar
+
+# ifndef M_PI
+#  define M_PI 3.14159265358979323846264338327950288
+# endif
 
 static inline double	degrees_to_radians(double degrees)
 {
