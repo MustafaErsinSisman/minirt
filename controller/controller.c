@@ -12,33 +12,37 @@
 
 #include "controller.h"
 
-int controller(char **values, t_obje_list *objects)
+/* minirt/controller/controller.c */
+
+int controller(char **values, t_obje_list **objects)
 {
     t_obje_list *head = NULL;
     t_obje_list *last = NULL;
-    int i;
-    i = 0;
+    t_obje_list *obj;
+    int i = 0;
+    int error = 0; // Hata kontrolü için
+
     while (values[i])
     {
-        t_obje_list *obj; 
         obj = ft_malloc(sizeof(t_obje_list));
-        if (!ft_strcmp(values[i], "A "))
-            return ambient_obj(values[i], obj);
-        else if (!ft_strcmp(values[i], "C "))
-            return camera_obj(values[i], obj);
-        else if (!ft_strcmp(values[i], "L "))
-            return light_obj(values[i], obj);
-        else if (!ft_strcmp(values[i], "sp "))
-            return sphere_obj(values[i], obj);
-        else if (!ft_strcmp(values[i], "pl "))
-            return plane_obj(values[i], obj);
-        else if (!ft_strcmp(values[i], "cy "))
-            return cylinder_obj(values[i], obj);
-        else
-            return /*free gelcek*/ 1;
-        add_obj_to_list(&head, &last, obj);
+        if (ft_strncmp(values[i], "A ", 2) == 0) // strncmp daha güvenli
+            error = ambient_obj(values[i], obj);
+        else if (ft_strncmp(values[i], "C ", 2) == 0)
+            error = camera_obj(values[i], obj);
+        else if (ft_strncmp(values[i], "L ", 2) == 0)
+            error = light_obj(values[i], obj);
+        else if (ft_strncmp(values[i], "sp ", 3) == 0)
+            error = sphere_obj(values[i], obj);
+        else if (ft_strncmp(values[i], "pl ", 3) == 0)
+            error = plane_obj(values[i], obj);
+        else if (ft_strncmp(values[i], "cy ", 3) == 0)
+            error = cylinder_obj(values[i], obj);
+        if (error) // Eğer ayrıştırma hatası varsa
+            return (1);
+
+        add_obj_to_list(&head, &last, obj); // Listeye ekle
         i++;
     }
-    objects = head;
-    return 0;
+    *objects = head; // Listeyi main'e gönder
+    return (0);
 }

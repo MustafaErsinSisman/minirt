@@ -17,7 +17,7 @@ typedef struct s_light
 {
 	t_vector3	pos;
 	double		range;
-	t_vector3 rgb; // * şimdilik beyaz ışık varsayalım
+	t_vector3 rgb;
 }	t_light;
 
 /* minirt.h içine ekle/güncelle */

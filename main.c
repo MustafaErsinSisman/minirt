@@ -74,6 +74,7 @@ t_list	*world_objects(t_obje_list *pre_objects)  // TODO parserdan gelecek t_obj
 	t_list	*world;
 	t_obje_list *temp;
 
+	world = NULL;
 	temp = pre_objects;
 	while (temp)
 	{
@@ -150,7 +151,7 @@ int	main(int argc, char **argv)
 	t_obje_list *pre_objects;
 	
 	pre_objects = NULL;
-    if (argc == 1)
+	if (argc == 1)
 		exit(EXIT_SUCCESS);
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
@@ -161,7 +162,7 @@ int	main(int argc, char **argv)
 	// int i = 0;
 	// while (values[i])
 	// 	printf("%s\n", values[i++]);
-	controller(values, pre_objects);
+	controller(values, &pre_objects);
 	if (!mlx_process(prepare_datas(pre_objects)))
 		return (ft_free(), 1);
 	ft_free();

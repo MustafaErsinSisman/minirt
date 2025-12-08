@@ -32,7 +32,7 @@ int ambient_obj(char *value, t_obje_list *obj)
 	while (rgb[++i])
 		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
 			return 1;
-	obj->objects.ambiant.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	obj->objects.ambiant.rgb = new_vector(ft_atoi(rgb[0]) / 255.0, ft_atoi(rgb[1]) / 255.0, ft_atoi(rgb[2]) / 255.0);
 	return 0;
 }
 
@@ -82,7 +82,7 @@ int light_obj(char *value, t_obje_list *obj)
 	if (ft_atod(temp[2], 0, 1) < 0.0 || ft_atod(temp[2], 0, 1) > 1.0)
 		return 1;
 	obj->objects.light.range = ft_atod(temp[2], 0, 1);
-	//RGB VE TEMP FRELENECEK
+	obj->objects.light.rgb = new_vector(1.0, 1.0, 1.0);
 	return 0;
 }
 
@@ -103,13 +103,14 @@ int sphere_obj(char *value, t_obje_list *obj)
 	obj->objects.sphere.diameter = ft_atod(temp[2], 0, 1);
 	if(obj->objects.sphere.diameter <= 0)
 		return 1;
+	obj->objects.sphere.radius = obj->objects.sphere.diameter / 2.0;
 	rgb = ft_split(temp[3], ',');
 	if (!rgb)
 		return 1;
 	while (rgb[++i])
 		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
 			return 1;
-	obj->objects.sphere.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	obj->objects.sphere.rgb = new_vector(ft_atoi(rgb[0]) / 255.0, ft_atoi(rgb[1]) / 255.0, ft_atoi(rgb[2]) / 255.0);
 	//RGB VE TEMP FRELENECEK
 	return 0;
 }
@@ -144,7 +145,7 @@ int plane_obj(char *value, t_obje_list *obj)
 		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
 			return 1;
 	}
-	obj->objects.plane.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	obj->objects.plane.rgb = new_vector(ft_atoi(rgb[0]) / 255.0, ft_atoi(rgb[1]) / 255.0, ft_atoi(rgb[2]) / 255.0);
     return 0;
 }
 
@@ -189,6 +190,6 @@ int cylinder_obj(char *value, t_obje_list *obj)
 		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
 			return 1;
 	}
-	obj->objects.cylinder.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
+	obj->objects.cylinder.rgb = new_vector(ft_atoi(rgb[0]) / 255.0, ft_atoi(rgb[1]) / 255.0, ft_atoi(rgb[2]) / 255.0);
     return 0;
 }
