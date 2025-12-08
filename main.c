@@ -167,6 +167,7 @@ int	main(int argc, char **argv)
 {
 	char **values;
 	t_data *data;
+	t_obje_list *objects;
 	
     	if (argc == 1)
 		exit(EXIT_SUCCESS);
@@ -179,7 +180,7 @@ int	main(int argc, char **argv)
 	// int i = 0;
 	// while (values[i])
 	// 	printf("%s\n", values[i++]);
-	controller(values);
+	controller(values, objects);
 	
 	if (!mlx_process(world_objects()))
 		return (ft_free(), 1);

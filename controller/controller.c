@@ -12,7 +12,7 @@
 
 #include "controller.h"
 
-int controller(char **values)
+int controller(char **values, t_obje_list *objects)
 {
     t_obje_list *head = NULL;
     t_obje_list *last = NULL;
@@ -43,5 +43,6 @@ int controller(char **values)
         add_obj_to_list(&head, &last, obj);
         i++;
     }
+    objects = head;
     return 0;
 }

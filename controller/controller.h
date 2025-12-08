@@ -19,12 +19,12 @@
 # include "../objects/objects.h"
 
 void	file_extension(char *file_name);
-void 	add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj);
-int		controller(char **values);
-int 	chr_control(char **values);
-int 	ambient_obj(char *value, t_obje_list *obj);
-int 	camera_obj(char *value, t_obje_list *obj);
-int 	light_obj(char *value, t_obje_list *obj);
-int 	sphere_obj(char *value, t_obje_list *obj);
+void	add_obj_to_list(t_obje_list **head, t_obje_list **last, t_obje_list *new_obj);
+int	controller(char **values, t_obje_list *objects);
+int	chr_control(char **values);
+int	ambient_obj(char *value, t_obje_list *obj);
+int	camera_obj(char *value, t_obje_list *obj);
+int	light_obj(char *value, t_obje_list *obj);
+int	sphere_obj(char *value, t_obje_list *obj);
 
 #endif
