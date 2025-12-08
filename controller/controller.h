@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 15:45:03 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 16:20:51 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/08 19:43:57 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ int	ambient_obj(char *value, t_obje_list *obj);
 int	camera_obj(char *value, t_obje_list *obj);
 int	light_obj(char *value, t_obje_list *obj);
 int	sphere_obj(char *value, t_obje_list *obj);
+int plane_obj(char *value, t_obje_list *obj);
+int cylinder_obj(char *value, t_obje_list *obj);
 
 #endif

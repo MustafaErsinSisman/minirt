@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/08 19:22:59 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/08 19:45:02 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,9 @@ int controller(char **values, t_obje_list *objects)
         else if (!ft_strcmp(values[i], "sp "))
             return sphere_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "pl "))
-        {
-            // DÜZLEM FONKSİYONU    
-        }
+            return plane_obj(values[i], obj);
         else if (!ft_strcmp(values[i], "cy "))
-        {
-            // SİLİNDİR FONKSİYONU
-        }
+            return cylinder_obj(values[i], obj);
         else
             return /*free gelcek*/ 1;
         add_obj_to_list(&head, &last, obj);

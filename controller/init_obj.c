@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:27:19 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/08 19:32:07 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/08 19:40:53 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,10 @@ int plane_obj(char *value, t_obje_list *obj)
     i = -1;
     rgb = ft_split(temp[3], ',');
     while (rgb[++i])
-        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
-            return 1;
+	{
+		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+			return 1;
+	}
 	obj->objects.plane.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
     return 0;
 }
@@ -165,8 +167,10 @@ int cylinder_obj(char *value, t_obje_list *obj)
 		ft_atod(xyz[1], 0, 1), ft_atod(xyz[2], 0, 1));
     normal = ft_split(temp[2], ',');
     while (normal[++i])
-        if (ft_atod(normal[i], 0, 1) < -1.0 || ft_atod(normal[i], 0, 1) > 1.0)
-            return 1;
+	{
+		if (ft_atod(normal[i], 0, 1) < -1.0 || ft_atod(normal[i], 0, 1) > 1.0)
+			return 1;
+	}
 	obj->objects.cylinder.normal = new_vector(ft_atod(normal[0], 0, 1),
 		ft_atod(normal[1], 0, 1), ft_atod(normal[2], 0, 1));
 	if (vec_len(new_vector(obj->objects.cylinder.normal.x,
@@ -181,9 +185,10 @@ int cylinder_obj(char *value, t_obje_list *obj)
     i = -1;
     rgb = ft_split(temp[5], ',');
     while (rgb[++i])
-        if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
-            return 1;
+	{
+		if (ft_atoi(rgb[i]) < 0 || ft_atoi(rgb[i]) > 255)
+			return 1;
+	}
 	obj->objects.cylinder.rgb = new_vector(ft_atoi(rgb[0]), ft_atoi(rgb[1]), ft_atoi(rgb[2]));
-
     return 0;
 }

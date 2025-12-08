@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 16:51:42 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/08 19:39:30 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_data *prepare_datas(t_obje_list *pre_objects)
 {
 	t_data *datas;
 
+	datas = ft_malloc(sizeof(t_data));
 	datas->world = world_objects(pre_objects);
 	while (pre_objects)
 	{
@@ -114,6 +115,7 @@ t_data *prepare_datas(t_obje_list *pre_objects)
 		}
 		pre_objects = pre_objects->next;
 	}
+	return (datas);
 }
 
 static bool	mlx_process(t_data *data)
@@ -147,7 +149,8 @@ int	main(int argc, char **argv)
 	char **values;
 	t_obje_list *pre_objects;
 	
-    	if (argc == 1)
+	pre_objects = NULL;
+    if (argc == 1)
 		exit(EXIT_SUCCESS);
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
@@ -159,7 +162,7 @@ int	main(int argc, char **argv)
 	// while (values[i])
 	// 	printf("%s\n", values[i++]);
 	controller(values, pre_objects);
-	if (!mlx_process(world_objects(prepare_datas(pre_objects))))
+	if (!mlx_process(prepare_datas(pre_objects)))
 		return (ft_free(), 1);
 	ft_free();
 	return (0);
