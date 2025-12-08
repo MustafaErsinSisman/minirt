@@ -68,17 +68,17 @@ t_list	*world_objects(void)  // TODO parserdan gelecek t_objects_list structu ol
 
 static void	init_test_data(t_data *data)
 {
-	data->ambient.range = 0.25; // Biraz daha aydınlık olsun
+	data->ambient.range = 0.1; // Biraz daha aydınlık olsun
 	data->ambient.rgb = new_vector(1, 1, 1);
-	data->light.pos = new_vector(-10, 50, 10); // Işık yukarıda
-	data->light.range = 0.8;
+	data->light.pos = new_vector(10, 10, 10); // Işık yukarıda
+	data->light.range = 1.0;
 	data->light.rgb = new_vector(1, 1, 1);
 
-	data->camera.pos = new_vector(-4, 7, 15);
+	data->camera.pos = new_vector(0, 0.2, 1.5);
 	data->camera.normal = new_vector(0, 0, -1);
 	t_vector3 lookat_dir = vec_normalize(vec_sub(new_vector(0,0,0), data->camera.pos));
 	data->camera.normal = lookat_dir; 
-	data->camera.fov = 100.0; // Zoom yapılmış gibi
+	data->camera.fov = 65.0; // Zoom yapılmış gibi
 	data->world = world_objects();
 }
 
