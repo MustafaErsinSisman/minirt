@@ -1,7 +1,6 @@
 # --- ORTAM AYARLARI ---
 # Ambient: Biraz arttırdım ki gölgeler zifiri karanlık olmasın
-A 0.3 255,255,255 
-
+A 0.3 255,255,255
 # Kamera: Karakterin tam karşısında ve hafif yukarıda (Portre modu)
 # FOV: 70 idealdir, 120 çok büker (Balıkgözü)
 C -0.5,0.9,15.0 0,0,-1 120
@@ -47,10 +46,9 @@ cy 0.15,-0.6,-1.5 0,1,0 0.25 0.3 255,0,0
 # 8. SAĞ AYAK (Küre)
 sp 0.15,-0.75,-1.5 0.25 255,0,0
 
-
 # --- SAHNE ---
 # 9. ZEMİN (Gri) - y=-0.9 (Ayakların tam altı)
 pl 0,-0.9,0 0,1,0 50,50,50
 
 # 10. ARKA DUVAR (Açık Gri)
-pl 0,0,-4.0 0,0,1 100,100,100
+pl 0,0,-4.0 0,0,1 100,100,100 
