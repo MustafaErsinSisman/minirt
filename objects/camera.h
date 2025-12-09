@@ -13,15 +13,15 @@
 #ifndef CAMERA_H
 # define CAMERA_H
 
-struct s_data;
-struct s_vars;
+struct	s_data;
+struct	s_vars;
 
 typedef struct s_camera
 {
 	t_vector3	pos;
 	t_vector3	normal;
 	double		fov;
-}	t_camera; // parser için 
+}	t_camera;
 
 typedef struct s_viewport
 {
@@ -31,8 +31,8 @@ typedef struct s_viewport
 	t_vector3	view_u;
 	t_vector3	view_v;
 	t_vector3	upper_left;
-	double		theta; // Radyan cinsinden açı
-	double		h;     // Viewport yarı yüksekliği oranı
+	double		theta;
+	double		h;
 	t_vector3	v_center;
 }	t_viewport;
 
@@ -50,15 +50,15 @@ typedef struct s_cam_status
 	double		aspect_ratio;
 	int			image_width;
 	int			image_height;
-	int			samples_per_pixel; // * EKLENDİ: Örnek sayısı (örn: 100) bu, her piksel için kaç tane rastgele örnek alınacağını belirtir
-	double		pixel_samples_scale; // * EKLENDİ: 1.0 / samples_per_pixel bu, renk ortalamasını hesaplarken kullanılır
+	int			samples_per_pixel;
+	double		pixel_samples_scale;
 	double		vfov;
-	t_vector3	lookfrom;	// Kameranın durduğu yer (Point3)
-	t_vector3	orientation; // YENİ: Yön Vektörü (Örn: 0,0,1) - lookat SİLİNDİ
-	t_vector3	vup;		// Kameranın "Yukarı" vektörü (Başın tavanı nereye bakıyor?)
-	t_vector3	u;			// Kamera Sağ
-	t_vector3	v;			// Kamera Yukarı
-	t_vector3	w;			// Kamera Arkası (Bakışın tersi)
+	t_vector3	lookfrom;
+	t_vector3	orientation;
+	t_vector3	vup;
+	t_vector3	u;
+	t_vector3	v;
+	t_vector3	w;
 	t_vector3	cam_center;
 	t_vector3	pixel00_loc;
 	t_vector3	delta_u;
@@ -66,7 +66,6 @@ typedef struct s_cam_status
 }	t_cam_status;
 
 void	camera_init(t_cam_status *cam, struct s_data *data);
-// void	camera_render(t_cam_status *cam, t_list *world, struct s_vars *vars);
-void    camera_render(struct s_data *d, struct s_vars *vars);
+void	camera_render(struct s_data *d, struct s_vars *vars);
 
 #endif

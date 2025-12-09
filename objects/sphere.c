@@ -13,70 +13,69 @@
 #include "../minirt.h"
 
 static void	set_face_normal(t_hit_record *rec, const t_ray *r,
-	t_vector3 outward_normal) // * yüzey normalini ayarlama fonksiyonu bunun sebebi ise ışının yüzeye dışarıdan mı yoksa içeriden mi çarptığını bilmemiz gerekiyor çünkü normal vektörü her zaman yüzeyin dışarısına doğru olmalı
+	t_vector3 outward_normal)
 {
-	if (vec_dot(r->direction, outward_normal) < 0) // * ışın ile normalin noktasal çarpımı negatif ise yüzeye dışarıdan çarpmıştır
+	if (vec_dot(r->direction, outward_normal) < 0)
 	{
 		rec->front_face = true;
-		rec->normal = outward_normal; // * normal olduğu gibi atandı
+		rec->normal = outward_normal;
 	}
-	else // * ışın ile normalin noktasal çarpımı pozitif ise yüzeye içeriden çarpmıştır
+	else
 	{
 		rec->front_face = false;
-		rec->normal = vec_scale(outward_normal, -1); // * normal ters çevrildi
+		rec->normal = vec_scale(outward_normal, -1);
 	}
 }
 
 static double	calculate_sphere_discriminant(t_sphere *sphere,
 	const t_ray *r, t_vector3 *oc)
 {
-	double	a; // * direction vektörünün uzunluğunun karesi
-	double	half_b; // * oc ile direction vektörünün noktasal çarpımı
-	double	c; // * oc vektörünün uzunluğunun karesi eksi yarıçapın karesi
+	double	a;
+	double	half_b;
+	double	c;
 
-	*oc = vec_sub(sphere->pos, r->origin); // * (C - P)
-	a = vec_dot(r->direction, r->direction); // * d.d
-	half_b = vec_dot(*oc, r->direction); // * d.(C - P) yani d.oc
-	c = vec_dot(*oc, *oc) - pow(sphere->radius, 2); // * (C - P).(C - P) - r^2 yani oc.oc - r^2
-	return (pow(half_b, 2) - a * c); // * diskriminant değeri hesaplandı b² - 4ac formülünde 4a kısmı yarıya indirildiği için half_b kullanıldı
+	*oc = vec_sub(sphere->pos, r->origin);
+	a = vec_dot(r->direction, r->direction);
+	half_b = vec_dot(*oc, r->direction);
+	c = vec_dot(*oc, *oc) - pow(sphere->radius, 2);
+	return (pow(half_b, 2) - a * c);
 }
 
-static void	fill_hit_record(t_hit_status *status, t_sphere *sphere, double root) // * çarpma kaydı dolduruldu
+static void	fill_hit_record(t_hit_status *status, t_sphere *sphere, double root)
 {
-	t_vector3	outward_normal;	// * yüzey normali
+	t_vector3	outward_normal;
 
-	status->rec->t = root; // * çarpma noktasının t değeri atandı 
-	status->rec->p = ray_at(*(status->ray), status->rec->t); // * çarpma noktası hesaplandı
+	status->rec->t = root;
+	status->rec->p = ray_at(*(status->ray), status->rec->t);
 	outward_normal = vec_scale(vec_sub(status->rec->p, sphere->pos),
-			1.0 / sphere->radius); // * yüzey normali hesaplandı (P - C) / r formülü kullanıldı burada P çarpma noktası C küre merkezi r ise yarıçap
-	// TODO outward_normal = vec_normalize(vec_sub(status->rec->p, sphere->pos)); // normalizasyon yapmak için bu da kullanılabilir ama yukaridaki daha optimize buradaki ise daha güvenli proje gidişine göre karar verilecek
-	set_face_normal(status->rec, status->ray, outward_normal); // * yüzey normali ayarlandı
-	status->rec->color = sphere->rgb; // * küre rengi ayarlandı
+			1.0 / sphere->radius);
+	set_face_normal(status->rec, status->ray, outward_normal);
+	status->rec->color = sphere->rgb;
 }
 
-bool	hit_sphere(t_object *object, t_hit_status *status) // * küre çarpma testi fonksiyonu
+bool	hit_sphere(t_object *object, t_hit_status *status)
 {
-	t_sphere	*sphere; // * küre nesnesi
-	t_vector3	oc; // * ray origin ile küre merkezi arasındaki vektör
-	double		discriminant; // * diskriminant değeri bu değer negatif ise çarpma yok pozitif ise çarpma var
-	double		root; // * çarpma noktasının t değeri bu değer köklerden biri olacak
-	double		sqrtd; // * diskriminantın karekökü bu formülde kullanılıyor -b ± √(b² - 4ac) / 2a formülünde b² - 4ac kısmı diskriminantı temsil eder ve kök kısmında kullanılır
+	t_sphere	*sphere;
+	t_vector3	oc;
+	double		discriminant;
+	double		root;
+	double		sqrtd;
 
-	sphere = (t_sphere *)object->data; // * küre nesnesi alındı
-	discriminant = calculate_sphere_discriminant(sphere, status->ray, &oc); // * diskriminant değeri hesaplandı
+	sphere = (t_sphere *)object->data;
+	discriminant = calculate_sphere_discriminant(sphere, status->ray, &oc);
 	if (discriminant < 0)
 		return (false);
-	sqrtd = sqrt(discriminant); // * diskriminantın karekökü hesaplandı 
+	sqrtd = sqrt(discriminant);
 	root = (vec_dot(oc, status->ray->direction) - sqrtd)
-		/ vec_dot(status->ray->direction, status->ray->direction); // * çarpma noktasının t değeri hesaplandı burada -b - √(b² - 4ac) / 2a formülü kullanıldı ancak 2a kısmı yarıya indirildiği için direkt olarak a ile bölündü
-	if (root < status->t_min || root > status->t_max) // * t değeri aralıkta mı kontrolü yapıldı
+		/ vec_dot(status->ray->direction, status->ray->direction);
+	if (root < status->t_min || root > status->t_max)
 	{
 		root = (vec_dot(oc, status->ray->direction) + sqrtd)
-			/ vec_dot(status->ray->direction, status->ray->direction); // * diğer t değeri hesaplandı
-		if (root < status->t_min || root > status->t_max) // * t değeri aralıkta mı kontrolü yapıldı
+			/ vec_dot(status->ray->direction, status->ray->direction);
+		if (root < status->t_min || root > status->t_max)
 			return (false);
 	}
-	fill_hit_record(status, sphere, root); // * çarpma kaydı dolduruldu
+	fill_hit_record(status, sphere, root);
 	return (true);
 }
 
@@ -91,7 +90,7 @@ t_object	*new_sphere(t_vector3 center, double radius, t_vector3 rgb)
 	sphere_data->diameter = radius * 2.0;
 	sphere_data->radius = radius;
 	sphere_data->rgb = rgb;
-	obj->type = SPHERE; // BEN BUNU KULLANMAYACAĞIM GALİBA
+	obj->type = SPHERE;
 	obj->data = sphere_data;
 	obj->hit = &hit_sphere;
 	return (obj);

@@ -20,10 +20,6 @@ typedef struct s_plane
 	t_vector3	rgb;
 }	t_plane;
 
-// TODO Aynısını plane için yap
-// Yeni düzlem oluşturma
 t_object	*new_plane(t_vector3 pos, t_vector3 normal, t_vector3 rgb);
-
-// Çarpma testi
 bool		hit_plane(t_object *object, t_hit_status *status);
 #endif

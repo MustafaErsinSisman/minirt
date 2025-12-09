@@ -14,6 +14,5 @@
 
 t_vector3	calculate_ambient(t_ambient ambient)
 {
-	// Ambient Renk = Ortam Rengi * Ortam Şiddeti
 	return (vec_scale(ambient.rgb, ambient.range));
 }

@@ -23,7 +23,7 @@
 # include "light.h"
 # include "camera.h"
 
-typedef union u_objects // * tüm nesne türlerini içeren union kullanıldı ki tek bir yapı altında tüm nesne türlerine erişilebilsin ve bellek tasarrufu sağlansın
+typedef union u_objects
 {
 	t_ambient	ambiant;
 	t_camera	camera;
@@ -33,7 +33,7 @@ typedef union u_objects // * tüm nesne türlerini içeren union kullanıldı ki
 	t_cylinder	cylinder;
 }	t_objects;
 
-typedef enum e_type // * nesne türü enum kullanıldı ki her bir nesne türü için sabit bir değer atansın ve kodun okunabilirliği artsın bellek tasarrufu da sağlar
+typedef enum e_type
 {
 	AMBIANT,
 	CAMERA,
@@ -43,18 +43,18 @@ typedef enum e_type // * nesne türü enum kullanıldı ki her bir nesne türü 
 	CYLINDER
 }	t_type;
 
-typedef struct s_object // * render için objeler sadece obje türü ve verisi
+typedef struct s_object
 {
-	t_type		type; // * nesne türü // BEN BUNU KULLANMAYACAĞIM GALİBA
-	void		*data; // * nesne verisi
-	t_hit_func	hit; // * çarpma fonksiyonu
+	t_type		type;
+	void		*data;
+	t_hit_func	hit;
 }	t_object;
 
-typedef struct s_obje_list // * parser için objeler liste yapısı
+typedef struct s_obje_list
 {
-	t_type				type; // * nesne türü
-	t_objects			objects; // * nesne verisi
-	struct s_obje_list	*next; // * sonraki nesne
+	t_type				type;
+	t_objects			objects;
+	struct s_obje_list	*next;
 }	t_obje_list;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/09 18:58:32 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/09 20:20:16 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	map_height(char *file)
 	char	*line;
 	int		fd;
 	int		i;
-	
+
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_message("Failed to open the file\n");
@@ -38,11 +38,11 @@ char	**read_map(char *file)
 {
 	int		i;
 	int		fd;
-    int     line_count;
+	int		line_count;
 	char	*line;
 	char	**values;
 
-	line_count = map_height(file);/// VERİLEN DOSYAYI OKUYUP SONRASINDA KONTROLE GÖNDERECEĞİM
+	line_count = map_height(file);
 	values = ft_malloc((line_count + 1) * sizeof(char *));
 	if (!values)
 		return (0);
@@ -63,30 +63,36 @@ char	**read_map(char *file)
 	return (values);
 }
 
-t_list	*world_objects(t_obje_list *pre_objects)  // TODO parserdan gelecek t_objects_list structu olacak
+t_list	*world_objects(t_obje_list *pre_objects)
 {
-	t_list	*world;
-	t_obje_list *temp;
+	t_list		*world;
+	t_obje_list	*temp;
 
 	world = NULL;
 	temp = pre_objects;
 	while (temp)
 	{
 		if (temp->type == SPHERE)
-			ft_lstadd_back(&world, ft_lstnew(new_sphere(temp->objects.sphere.pos, temp->objects.sphere.radius, temp->objects.sphere.rgb)));
+			ft_lstadd_back(&world, ft_lstnew(new_sphere
+					(temp->objects.sphere.pos, temp->objects.sphere.radius,
+						temp->objects.sphere.rgb)));
 		else if (temp->type == PLANE)
-			ft_lstadd_back(&world, ft_lstnew(new_plane(temp->objects.plane.pos, temp->objects.plane.normal, temp->objects.plane.rgb)));
+			ft_lstadd_back(&world, ft_lstnew(new_plane
+					(temp->objects.plane.pos, temp->objects.plane.normal,
+						temp->objects.plane.rgb)));
 		else if (temp->type == CYLINDER)
-			ft_lstadd_back(&world, ft_lstnew(new_cylinder(temp->objects.cylinder.pos, temp->objects.cylinder.normal, (double[2]){temp->objects.cylinder.diameter, temp->objects.cylinder.height}, temp->objects.cylinder.rgb)));
+			ft_lstadd_back(&world, ft_lstnew(new_cylinder
+					(temp->objects.cylinder.pos, temp->objects.cylinder.normal,
+						(double[2]){temp->objects.cylinder.diameter,
+						temp->objects.cylinder.height},
+						temp->objects.cylinder.rgb)));
 		temp = temp->next;
 	}
 	return (world);
 }
 
-t_data *prepare_datas(t_obje_list *pre_objects)
+t_data	*prepare_datas(t_obje_list *pre_objects, t_data *datas)
 {
-	t_data *datas;
-
 	datas = ft_malloc(sizeof(t_data));
 	datas->world = world_objects(pre_objects);
 	while (pre_objects)
@@ -117,33 +123,32 @@ static bool	mlx_process(t_data *data)
 {
 	t_vars			vars;
 
-	vars.mlx = mlx_init(); // * mlx instance oluşturuldu
+	vars.mlx = mlx_init();
 	if (!vars.mlx)
 		return (false);
-	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT"); // * window oluşturuldu
+	vars.win = mlx_new_window(vars.mlx, WIDTH, HEIGHT, "miniRT");
 	if (!vars.win)
 		return (false);
-	vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT); // * image oluşturuldu
+	vars.img = mlx_new_image(vars.mlx, WIDTH, HEIGHT);
 	if (!vars.img)
-		return (mlx_destroy_window(vars.mlx, vars.win), false); // * image oluşturulamazsa window silindi ve false döndürüldü
-	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line, &vars.endian); // * image data adresi alındı burada endianess da alındı ama kullanılmıyor şimdilik 
-							// * sistem mimarisine göre ayarlanıyor eğer little endian ise 0 BRGBA formatında, big endian ise 1 ABGR formatında oluyor 
-							// * ama biz zaten RGBA formatında çalışıyoruz sadece fonksiyona parametre olarak verildi ileride kullanılabilir mi bilmem 
+		return (mlx_destroy_window(vars.mlx, vars.win), false);
+	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line,
+			&vars.endian);
 	camera_render(data, &vars);
-	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0); // * image windowa çizildi
-	mlx_key_hook(vars.win, key_hook, &vars); // * key hook eklendi bu fonksiyon pencere açıkken klavye girişlerini dinler ve belirli bir tuşa basıldığında belirli bir fonksiyonu çağırır
-	mlx_hook(vars.win, 17, 0, exit_func, &vars); // * pencere kapatma butonuna tıklanınca exit_func fonksiyonu çağrılır
-	mlx_loop(vars.mlx); // * mlx döngüsü başlatıldı bu fonksiyon, pencere açık olduğu sürece sürekli olarak çalışır ve olayları dinler
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
+	mlx_key_hook(vars.win, key_hook, &vars);
+	mlx_hook(vars.win, 17, 0, exit_func, &vars);
+	mlx_loop(vars.mlx);
 	return (true);
 }
 
-
-
 int	main(int argc, char **argv)
 {
-	char **values;
-	t_obje_list *pre_objects;
-	
+	char		**values;
+	t_obje_list	*pre_objects;
+	t_data		*datas;
+
+	datas = NULL;
 	pre_objects = NULL;
 	if (argc == 1)
 		exit(EXIT_SUCCESS);
@@ -151,7 +156,7 @@ int	main(int argc, char **argv)
 	values = read_map(argv[1]);
 	chr_control(values);
 	controller(values, &pre_objects);
-	if (!mlx_process(prepare_datas(pre_objects)))
+	if (!mlx_process(prepare_datas(pre_objects, datas)))
 		return (ft_free(), 1);
 	ft_free();
 	return (0);
@@ -160,12 +165,12 @@ int	main(int argc, char **argv)
 int	exit_func(t_vars *vars)
 {
 	if (vars->img)
-		mlx_destroy_image(vars->mlx, vars->img); // * image silindi bu fonksiyon, oluşturulan görüntü verilerini serbest bırakır ve bellekte yer açar
+		mlx_destroy_image(vars->mlx, vars->img);
 	if (vars->win)
-		mlx_destroy_window(vars->mlx, vars->win); // * window silindi bu fonksiyon, oluşturulan pencereyi kapatır ve bellekte yer açar
+		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->mlx)
 	{
-		mlx_destroy_display(vars->mlx); // * mlx display silindi bu fonksiyon, oluşturulan grafik ortamını serbest bırakır ve bellekte yer açar
+		mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
 	ft_free();
@@ -174,7 +179,7 @@ int	exit_func(t_vars *vars)
 
 int	key_hook(int keycode, t_vars *vars)
 {
-	if (keycode == 65307) // * ESC tuşu basıldıysa
-		exit_func(vars); // * exit_func fonksiyonu çağrıldı
+	if (keycode == 65307)
+		exit_func(vars);
 	return (0);
 }

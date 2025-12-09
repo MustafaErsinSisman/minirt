@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../minirt.h"
-// Statik'i kaldırdık, cylinder.h'a ekledik
+
 bool	solve_cylinder_quadratic(t_cylinder *cy, const t_ray *r, double *t)
 {
 	t_vector3	oc;
@@ -35,7 +35,6 @@ bool	solve_cylinder_quadratic(t_cylinder *cy, const t_ray *r, double *t)
 	return (true);
 }
 
-// Sadece boy kontrolü yapar (Quadratic zaten çözülmüş olacak)
 void	check_body_height(t_cylinder *cy, t_hit_status *st, t_cy_vars *v)
 {
 	t_vector3	p;
@@ -59,7 +58,6 @@ void	check_body_height(t_cylinder *cy, t_hit_status *st, t_cy_vars *v)
 	}
 }
 
-// 4 parametre kuralına uygun check_cap (statik kalabilir)
 bool	check_cap_intersection(t_cylinder *cy, const t_ray *ray,
 	t_vector3 p_cap, double *t)
 {
