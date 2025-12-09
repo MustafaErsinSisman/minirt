@@ -6,43 +6,54 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/08 19:45:02 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/09 18:59:01 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "controller.h"
 
-/* minirt/controller/controller.c */
-
-int controller(char **values, t_obje_list **objects)
+static int	parse_object_type(char *value, t_obje_list *obj)
 {
-    t_obje_list *head = NULL;
-    t_obje_list *last = NULL;
-    t_obje_list *obj;
-    int i = 0;
-    int error = 0; // Hata kontrolü için
+	if (ft_strncmp(value, "A ", 2) == 0)
+		return (ambient_obj(value, obj));
+	else if (ft_strncmp(value, "C ", 2) == 0)
+		return (camera_obj(value, obj));
+	else if (ft_strncmp(value, "L ", 2) == 0)   
+		return (light_obj(value, obj));
+	else if (ft_strncmp(value, "sp ", 3) == 0)
+		return (sphere_obj(value, obj));
+	else if (ft_strncmp(value, "pl ", 3) == 0)
+		return (plane_obj(value, obj));
+	else if (ft_strncmp(value, "cy ", 3) == 0)
+		return (cylinder_obj(value, obj));
+	else
+		return (1);
+	return (0);
+}
 
-    while (values[i])
-    {
-        obj = ft_malloc(sizeof(t_obje_list));
-        if (ft_strncmp(values[i], "A ", 2) == 0) // strncmp daha güvenli
-            error = ambient_obj(values[i], obj);
-        else if (ft_strncmp(values[i], "C ", 2) == 0)
-            error = camera_obj(values[i], obj);
-        else if (ft_strncmp(values[i], "L ", 2) == 0)
-            error = light_obj(values[i], obj);
-        else if (ft_strncmp(values[i], "sp ", 3) == 0)
-            error = sphere_obj(values[i], obj);
-        else if (ft_strncmp(values[i], "pl ", 3) == 0)
-            error = plane_obj(values[i], obj);
-        else if (ft_strncmp(values[i], "cy ", 3) == 0)
-            error = cylinder_obj(values[i], obj);
-        if (error) // Eğer ayrıştırma hatası varsa
-            return (1);
+void	controller(char **values, t_obje_list **objects)
+{
+	t_obje_list	*head;
+	t_obje_list	*last;
+	t_obje_list	*obj;
+	int			error;
+    int			i;
 
-        add_obj_to_list(&head, &last, obj); // Listeye ekle
+	head = NULL;
+	last = NULL;
+    i = 0;
+	while (values[i++])
+	{
+        if (values[i][0] == '\0' || values[i][0] == '#' || values[i][0] == '\n')
+            continue;
+		obj = ft_malloc(sizeof(t_obje_list));
+		if (!obj)
+			error_message("Memory allocation failed\n");
+		error = parse_object_type(values[i], obj);
+		if (error)
+			error_message("Invalid value\n");;
+		add_obj_to_list(&head, &last, obj);
         i++;
-    }
-    *objects = head; // Listeyi main'e gönder
-    return (0);
+	}
+	*objects = head;
 }

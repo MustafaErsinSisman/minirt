@@ -1,6 +1,6 @@
 # --- ORTAM AYARLARI ---
 # Ambient: Biraz arttırdım ki gölgeler zifiri karanlık olmasın
-A 0.3 255,255,255
+A 0.3 255,255,255 
 
 # Kamera: Karakterin tam karşısında ve hafif yukarıda (Portre modu)
 # FOV: 70 idealdir, 120 çok büker (Balıkgözü)

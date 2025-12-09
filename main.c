@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/08 19:39:30 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/09 18:58:32 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,11 @@ int	map_height(char *file)
 	
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		//hata durumu gelecek
-	}
+		error_message("Failed to open the file\n");
 	i = 0;
 	line = get_next_line(fd);
 	if (!line)
-	{
-		//hata durumu gelecek
-	}
+		error_message("File is empty\n");
 	while (line)
 	{
 		i++;
@@ -52,9 +48,7 @@ char	**read_map(char *file)
 		return (0);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		//hata durumu gelecek
-	}
+		error_message("Failed to open the file\n");
 	i = 0;
 	line = get_next_line(fd);
 	while (line != NULL)
@@ -155,13 +149,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_SUCCESS);
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
-	if(chr_control(values))
-	{
-		//hata durumu
-	}
-	// int i = 0;
-	// while (values[i])
-	// 	printf("%s\n", values[i++]);
+	chr_control(values);
 	controller(values, &pre_objects);
 	if (!mlx_process(prepare_datas(pre_objects)))
 		return (ft_free(), 1);
