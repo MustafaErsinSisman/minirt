@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/09 18:58:32 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/10 15:34:07 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int	main(int argc, char **argv)
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
 	chr_control(values);
-	controller(values, &pre_objects);
+	controller(values, &pre_objects, NULL, NULL);
 	if (!mlx_process(prepare_datas(pre_objects)))
 		return (ft_free(), 1);
 	ft_free();

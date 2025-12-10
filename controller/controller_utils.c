@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:12:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/09 19:01:10 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/10 16:31:49 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	chr_control(char **values)
 			control = ft_strjoin(control, ft_substr(line, 0, 1));
 		}
 	}
-	if (!ft_strchr(control, 'A') || !ft_strchr(control, 'C')
-		|| !ft_strchr(control, 'L'))
+	if (!ft_strchr(control, 'A') || !ft_strchr(control, 'C'))
 		error_message("Invalid number of ambient, camera or light sources\n");
 }
 
