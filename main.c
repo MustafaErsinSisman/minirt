@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/09 20:20:16 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:52:25 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ int	main(int argc, char **argv)
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
 	chr_control(values);
-	controller(values, &pre_objects);
+	controller(values, &pre_objects, NULL, NULL);
 	if (!mlx_process(prepare_datas(pre_objects, datas)))
 		return (ft_free(), 1);
 	ft_free();

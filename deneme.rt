@@ -1,56 +1,13 @@
-# --- ORTAM AYARLARI ---
-# Ambient: Biraz arttırdım ki gölgeler zifiri karanlık olmasın
-A 0.3 255,255,255 
-
-# Kamera: Karakterin tam karşısında ve hafif yukarıda (Portre modu)
-# FOV: 70 idealdir, 120 çok büker (Balıkgözü)
-C -0.5,0.9,15.0 0,0,-1 120
-
-# Işık: Sağ-Üst-Ön taraftan vuruyor
+A 0.3 255,255,255
+C -0.5,0.9,15.0 0,0,-1 120     
 L 5,5,5 0.8 255,255,255
-
-
-# --- AMONG US KARAKTERİ (KIRMIZI) ---
-# Merkez Z = -1.5
-
-# 1. GÖVDE (Silindir)
-# cy <pos> <axis> <diam> <height> <rgb>
 cy 0,0,-1.5 0,1,0 0.6 0.6 255,0,0
-
-# 2. KAFA (Üst Küre)
-# sp <pos> <diam> <rgb>
 sp 0,0.3,-1.5 0.6 255,0,0
-
-# 3. ALT GÖVDE (Alt Küre)
 sp 0,-0.3,-1.5 0.6 255,0,0
-
-# 4. VİZÖR (Mavi Gözlük - Önde ve biraz sağda)
-# Çapı 0.4 (Yarıçap 0.2)
 sp 0.2,0.15,-1.3 0.4 100,200,255
-
-
-# --- BACAKLAR (DÜZELTİLDİ) ---
-# Zemin y=-0.9'da olduğu için bacaklar oraya basmalı.
-
-# 5. SOL BACAK (Silindir)
-# x=-0.15 (Sola kaydırıldı), y=-0.6 (Gövde altından zemine), Çap=0.25
 cy -0.15,-0.6,-1.5 0,1,0 0.25 0.3 255,0,0
-
-# 6. SOL AYAK (Küre)
-# y=-0.75 (Silindirin alt ucu)
 sp -0.15,-0.75,-1.5 0.25 255,0,0
-
-# 7. SAĞ BACAK (Silindir)
-# x=0.15 (Sağa kaydırıldı)
 cy 0.15,-0.6,-1.5 0,1,0 0.25 0.3 255,0,0
-
-# 8. SAĞ AYAK (Küre)
 sp 0.15,-0.75,-1.5 0.25 255,0,0
-
-
-# --- SAHNE ---
-# 9. ZEMİN (Gri) - y=-0.9 (Ayakların tam altı)
 pl 0,-0.9,0 0,1,0 50,50,50
-
-# 10. ARKA DUVAR (Açık Gri)
-pl 0,0,-4.0 0,0,1 100,100,100
+pl 0,0,-4.0 0,0,1 100,100,100 
