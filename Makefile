@@ -1,6 +1,6 @@
 NAME		= minirt
 CC		= cc
-CFLAGS		= -Wall -Wextra -Werror -O3 # bu flag şu işe yarar: optimizasyon yapar, kodu daha hızlı çalıştırır. çalışma mantığı da şöyledir: derleyici kodu analiz eder ve gereksiz işlemleri kaldırır, döngüleri optimize eder ve bellek erişimini iyileştirir. ama çok da bir işe yaradı mı anlamadım silinebilir ileride
+CFLAGS		= -Wall -Wextra -Werror
 LDLIBS		= vector/vector.a collector/collector.a Libft/libft.a minilibx-linux/libmlx.a -lXext -lX11 -lm
 
 SRCS		= main.c ray.c mlx_process.c objects/sphere.c objects/world.c objects/camera.c objects/light.c objects/ambient.c  objects/plane.c objects/cylinder.c objects/cylinder_utils.c gnl/get_next_line.c gnl/get_next_line_utils.c controller/controller.c controller/controller_utils.c controller/env_obj.c controller/error.c controller/sphere_obj.c controller/plane_obj.c controller/cylinder_obj.c
@@ -21,12 +21,6 @@ $(NAME): $(OBJS)
 	make -s -C $(DIR_VECTOR)
 	make -s -C $(DIR_MINILBIX)
 	$(CC) $(OBJS) $(LDLIBS) -o $(NAME)
-
-run: all
-	@./$(NAME)
-
-leak:all
-	valgrind --leak-check=full --show-leak-kinds=all ./${NAME}
 
 clean:
 	$(RM) $(OBJS)
