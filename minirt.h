@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/09 20:07:40 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/10 18:58:31 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_data
 	t_list			*world;
 }	t_data;
 
+bool				mlx_process(t_data *data);
 int					exit_func(t_vars *vars);
 int					key_hook(int keycode, t_vars *vars);
 t_ray				new_ray(t_vector3 origin, t_vector3 direction);

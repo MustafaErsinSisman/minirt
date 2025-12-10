@@ -32,9 +32,9 @@ t_vector3	vec_sub(t_vector3 v1, t_vector3 v2)
 	return (new_vector(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z));
 }
 
-t_vector3 vec_mul(t_vector3 v1, t_vector3 v2)
+t_vector3	vec_mul(t_vector3 v1, t_vector3 v2)
 {
-    return (new_vector(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z));
+	return (new_vector(v1.x * v2.x, v1.y * v2.y, v1.z * v2.z));
 }
 
 t_vector3	vec_scale(t_vector3 v1, double k)
