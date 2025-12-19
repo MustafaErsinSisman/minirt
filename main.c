@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 18:58:03 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:49:37 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,13 +128,13 @@ int	main(int argc, char **argv)
 	datas = NULL;
 	pre_objects = NULL;
 	if (argc == 1)
-		exit(EXIT_SUCCESS);
+		error_message("No filename\n");
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
 	chr_control(values);
 	controller(values, &pre_objects, NULL, NULL);
 	if (!mlx_process(prepare_datas(pre_objects, datas)))
-		return (ft_free(), 1);
+		error_message("MLX process failed\n");
 	ft_free();
 	return (0);
 }
