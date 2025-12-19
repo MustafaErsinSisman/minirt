@@ -41,7 +41,8 @@ typedef struct s_hit_status
 	t_hit_record	*rec;
 }	t_hit_status;
 
-typedef bool	(*t_hit_func)(struct s_object *object, t_hit_status *status);
+typedef bool				(*t_hit_func)(struct s_object *object,
+						t_hit_status *status);
 bool	hit_world(t_list *world, t_hit_status *status);
 
 #endif
