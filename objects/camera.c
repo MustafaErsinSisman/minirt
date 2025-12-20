@@ -38,15 +38,16 @@ static t_vector3	get_ray_color(t_ray ray, t_data *data)
 	return (new_vector(0, 0, 0));
 }
 
-static void	init_viewport_geometry(t_cam_status *cam, t_viewport *vp)
+static void	init_viewport_geometry(struct s_data *data, t_cam_status *cam,
+					t_viewport *vp)
 {
-	vp->theta = degrees_to_radians(cam->vfov);
+	vp->theta = degrees_to_radians(data->camera.fov);
 	vp->h = tan(vp->theta / 2.0);
 	vp->focal_length = 1.0;
 	vp->height = 2.0 * vp->h * vp->focal_length;
 	vp->width = vp->height * ((double)cam->image_width / cam->image_height);
-	cam->w = vec_normalize(vec_scale(cam->orientation, -1));
-	if (fabs(cam->orientation.y) > 0.99999)
+	cam->w = vec_normalize(vec_scale(data->camera.normal, -1));
+	if (fabs(data->camera.normal.y) > 0.99999)
 		cam->vup = new_vector(0, 0, 1);
 	cam->u = vec_normalize(vec_cross(cam->vup, cam->w));
 	cam->v = vec_cross(cam->w, cam->u);
@@ -65,16 +66,12 @@ void	camera_init(t_cam_status *cam, struct s_data *data)
 		cam->image_height = 1;
 	cam->samples_per_pixel = 2;
 	cam->pixel_samples_scale = 1.0 / cam->samples_per_pixel;
-	cam->lookfrom = data->camera.pos;
-	cam->orientation = data->camera.normal;
-	cam->vfov = data->camera.fov;
 	cam->vup = new_vector(0, 1, 0);
-	init_viewport_geometry(cam, &vp);
-	cam->cam_center = cam->lookfrom;
+	init_viewport_geometry(data, cam, &vp);
 	cam->delta_u = vec_scale(vp.view_u, 1.0 / cam->image_width);
 	cam->delta_v = vec_scale(vp.view_v, 1.0 / cam->image_height);
-	vp.v_center = vec_sub(cam->cam_center, vec_scale(cam->w,
-				vec_len(vec_sub(cam->lookfrom, cam->orientation))));
+	vp.v_center = vec_sub(data->camera.pos, vec_scale(cam->w,
+				vec_len(vec_sub(data->camera.pos, data->camera.normal))));
 	vp.upper_left = vec_sub(vp.v_center, vec_scale(vp.view_u, 0.5));
 	vp.upper_left = vec_sub(vp.upper_left, vec_scale(vp.view_v, 0.5));
 	cam->pixel00_loc = vec_sum(vp.upper_left,
@@ -96,7 +93,7 @@ void	camera_render(struct s_data *d, struct s_vars *vars)
 			ren.sample = -1;
 			while (ren.sample++ < d->c_stat.samples_per_pixel)
 			{
-				ren.r = get_ray(&d->c_stat, ren.x, ren.y);
+				ren.r = get_ray(d, ren.x, ren.y);
 				ren.pxl_clr = vec_sum(ren.pxl_clr,
 						get_ray_color(ren.r, d));
 			}

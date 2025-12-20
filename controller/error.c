@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 15:34:29 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 16:45:35 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/20 16:59:43 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*check_if_number(char *str)
 		i++;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != '.' && str[i] != '\n')
+		if (!ft_isdigit(str[i]) && str[i] != '.' && str[i] != '\n' && str[i] != '\r')
 			error_message("Invalid character found in numeric value\n");
 		i++;
 	}

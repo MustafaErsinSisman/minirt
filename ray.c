@@ -36,7 +36,7 @@ static t_vector3	sample_square(void)
 	return (new_vector(random_double() - 0.5, random_double() - 0.5, 0));
 }
 
-t_ray	get_ray(t_cam_status *cam, int i, int j)
+t_ray	get_ray(t_data *data, int i, int j)
 {
 	t_vector3	offset;
 	t_vector3	pixel_sample;
@@ -44,10 +44,10 @@ t_ray	get_ray(t_cam_status *cam, int i, int j)
 	t_vector3	ray_direction;
 
 	offset = sample_square();
-	pixel_sample = vec_sum(cam->pixel00_loc,
-			vec_sum(vec_scale(cam->delta_u, i + offset.x),
-				vec_scale(cam->delta_v, j + offset.y)));
-	ray_origin = cam->cam_center;
+	pixel_sample = vec_sum(data->c_stat.pixel00_loc,
+			vec_sum(vec_scale(data->c_stat.delta_u, i + offset.x),
+				vec_scale(data->c_stat.delta_v, j + offset.y)));
+	ray_origin = data->camera.pos;
 	ray_direction = vec_sub(pixel_sample, ray_origin);
 	return (new_ray(ray_origin, ray_direction));
 }

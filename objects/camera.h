@@ -52,14 +52,10 @@ typedef struct s_cam_status
 	int			image_height;
 	int			samples_per_pixel;
 	double		pixel_samples_scale;
-	double		vfov;
-	t_vector3	lookfrom;
-	t_vector3	orientation;
 	t_vector3	vup;
 	t_vector3	u;
 	t_vector3	v;
 	t_vector3	w;
-	t_vector3	cam_center;
 	t_vector3	pixel00_loc;
 	t_vector3	delta_u;
 	t_vector3	delta_v;

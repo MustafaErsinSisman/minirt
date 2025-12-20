@@ -6,7 +6,7 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/10 18:58:31 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/20 15:56:52 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int					exit_func(t_vars *vars);
 int					key_hook(int keycode, t_vars *vars);
 t_ray				new_ray(t_vector3 origin, t_vector3 direction);
 t_vector3			ray_at(t_ray r, double t);
-t_ray				get_ray(t_cam_status *cam, int i, int j);
+t_ray				get_ray(t_data *data, int i, int j);
 unsigned int		color(int r, int g, int b);
 
 #endif
