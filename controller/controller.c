@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/12 18:02:59 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 16:45:17 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:28:17 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ void	controller(char **values, t_obje_list **objects, t_obje_list *head,
 		if (*line == '\0' || *line == '#' || *line == '\n')
 			continue ;
 		obj = ft_malloc(sizeof(t_obje_list));
-		if (!obj)
-			error_message("Memory allocation failed\n");
 		error = parse_object_type(line, obj);
 		if (error)
 			error_message("Invalid value\n");

@@ -6,11 +6,22 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 16:27:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/09 20:46:58 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:00:17 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "controller.h"
+
+static int	check_cylinder_params(char **temp, t_obje_list *obj)
+{
+	obj->objects.cylinder.diameter = ft_atod(check_if_number(temp[3]), 0, 1);
+	if (obj->objects.cylinder.diameter <= 0)
+		return (1);
+	obj->objects.cylinder.height = ft_atod(check_if_number(temp[4]), 0, 1);
+	if (obj->objects.cylinder.height <= 0)
+		return (1);
+	return (0);
+}
 
 static int	check_cylinder_normal(char **normal, t_obje_list *obj)
 {

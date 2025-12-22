@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:02:05 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 16:25:32 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:30:24 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ char	*ft_strjoin_1(char *s1, char const *s2)
 	s1_len = ft_strlen_1(s1);
 	s2_len = ft_strlen_1(s2);
 	size = ft_malloc(s1_len + s2_len + 1);
-	if (size == NULL)
-		return (NULL);
 	gnl_ft_memmove(size, s1, s1_len);
 	gnl_ft_memmove(size + s1_len, s2, s2_len);
 	size[s1_len + s2_len] = '\0';
@@ -58,16 +56,12 @@ char	*ft_substr_1(char *s, unsigned int start, size_t len)
 	if (ft_strlen_1(s) < start)
 	{
 		c = ft_malloc(1);
-		if (!c)
-			return (NULL);
 		c[0] = '\0';
 		return (NULL);
 	}
 	if (len > ft_strlen_1(s) - start)
 		len = ft_strlen_1(s) - start;
 	new = ft_malloc(len + 1);
-	if (new == NULL)
-		return (NULL);
 	while (len--)
 		new[i++] = s[start++];
 	new[i] = 0;

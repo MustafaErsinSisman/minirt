@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:27:19 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 16:44:56 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:01:36 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,25 @@ static int	check_camera_normal(char **normal, t_obje_list *obj)
 				obj->objects.camera.normal.y,
 				obj->objects.camera.normal.z)) == 0.0)
 		return (1);
+	return (0);
+}
+
+static int	parse_light_rgb(char *str, t_obje_list *obj)
+{
+	char	**rgb;
+	int		i;
+
+	rgb = ft_split(str, ',');
+	if (!rgb || !rgb[0] || !rgb[1] || !rgb[2] || rgb[3])
+		return (1);
+	i = -1;
+	while (rgb[++i])
+		if (ft_atoi(check_if_number(rgb[i])) < 0
+			|| ft_atoi(check_if_number(rgb[i])) > 255)
+			return (1);
+	obj->objects.light.rgb = new_vector(ft_atoi(check_if_number(rgb[0]))
+			/ 255.0, ft_atoi(check_if_number(rgb[1])) / 255.0,
+			ft_atoi(check_if_number(rgb[2])) / 255.0);
 	return (0);
 }
 

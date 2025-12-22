@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 19:01:48 by yozlu             #+#    #+#             */
-/*   Updated: 2025/10/24 16:28:50 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:30:28 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = ft_malloc((BUFFER_SIZE + 1));
-	if (buffer == NULL)
-		return (NULL);
 	station = station_read(buffer, station, fd);
 	if (!station)
 		return (NULL);

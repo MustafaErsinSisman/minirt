@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 15:45:03 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 16:45:26 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:01:46 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,9 @@ void	controller(char **values, t_obje_list **objects, t_obje_list *head,
 void	error_message(char *message);
 void	chr_control(char **values);
 char	*check_if_number(char *str);
-int		parse_light_rgb(char *str, t_obje_list *obj);
 int		ambient_obj(char *value, t_obje_list *obj);
 int		camera_obj(char *value, t_obje_list *obj);
 int		light_obj(char *value, t_obje_list *obj);
-int		check_cylinder_params(char **temp, t_obje_list *obj);
 int		sphere_obj(char *value, t_obje_list *obj);
 int		plane_obj(char *value, t_obje_list *obj);
 int		cylinder_obj(char *value, t_obje_list *obj);

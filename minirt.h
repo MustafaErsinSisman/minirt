@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/20 20:27:43 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/22 15:52:31 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "collector/collector.h"
 # include "controller/controller.h"
 
-# define WIDTH 1920.0
-# define HEIGHT 1080.0
+# define WIDTH 800.0
+# define HEIGHT 450.0
 
 # ifndef M_PI
 #  define M_PI 3.14159265358979323846264338327950288

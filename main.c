@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/03 16:31:32 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/20 16:58:02 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/22 16:30:05 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ char	**read_map(char *file)
 
 	line_count = map_height(file);
 	values = ft_malloc((line_count + 1) * sizeof(char *));
-	if (!values)
-		return (0);
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 		error_message("Failed to open the file\n");

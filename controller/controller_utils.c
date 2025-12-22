@@ -6,7 +6,7 @@
 /*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:12:50 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/10 16:31:49 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/22 16:28:35 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,32 @@ void	file_extension(char *file_name)
 	if (len < 4 || ft_strcmp(file_name + len - 3, ".rt")
 		|| file_name[len - 4] == '/')
 		error_message("Invalid file extension. Expected a .rt file.\n");
+}
+
+char	*check_if_number(char *str)
+{
+	int	i;
+	int	dot;
+
+	i = 0;
+	dot = 0;
+	while (str && str[i] && (str[i] == ' ' || str[i] == '\t'))
+		i++;
+	if (!str || !str[i])
+		error_message("Missing value\n");
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	while (str[i])
+	{
+		if (str[i] == '.')
+		{
+			if (++dot > 1)
+				error_message("Invalid format: Multiple dots\n");
+		}
+		else if (!ft_isdigit(str[i]) && str[i] != '\n' && str[i] != '\r'
+			&& str[i] != ' ' && str[i] != '\t')
+			error_message("Invalid character found in numeric value\n");
+		i++;
+	}
+	return (str);
 }
