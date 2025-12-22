@@ -30,7 +30,8 @@ char	*check_if_number(char *str)
 		i++;
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != '.' && str[i] != '\n' && str[i] != '\r')
+		if (!ft_isdigit(str[i]) && str[i] != '.' && str[i] != '\n'
+			&& str[i] != '\r')
 			error_message("Invalid character found in numeric value\n");
 		i++;
 	}
