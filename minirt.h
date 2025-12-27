@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/22 15:52:31 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/27 13:40:07 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static inline double	random_double(void)
 	return (rand() / (RAND_MAX + 1.0));
 }
 
-static inline double	random_double_range(double min, double max)
-{
-	return (min + (max - min) * random_double());
-}
+// static inline double	random_double_range(double min, double max)
+// {
+// 	return (min + (max - min) * random_double());
+// }
 
 static inline double	clamp(double x, double min, double max)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_obj.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
+/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 17:27:19 by yozlu             #+#    #+#             */
-/*   Updated: 2025/12/22 16:01:36 by yozlu            ###   ########.fr       */
+/*   Updated: 2025/12/27 14:47:16 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	camera_obj(char *value, t_obje_list *obj)
 	if (check_camera_normal(normal, obj))
 		return (1);
 	if (ft_atod(check_if_number(temp[3]), 0, 1) < 0
-		|| ft_atod(check_if_number(temp[3]), 0, 1) > 180)
+		|| ft_atod(check_if_number(temp[3]), 0, 1) >= 180)
 		return (1);
 	obj->objects.camera.fov = ft_atod(check_if_number(temp[3]), 0, 1);
 	return (0);

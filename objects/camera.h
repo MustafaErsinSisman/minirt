@@ -25,14 +25,12 @@ typedef struct s_camera
 
 typedef struct s_viewport
 {
-	double		focal_length;
 	double		height;
 	double		width;
 	t_vector3	view_u;
 	t_vector3	view_v;
 	t_vector3	upper_left;
 	double		theta;
-	double		h;
 	t_vector3	v_center;
 }	t_viewport;
 

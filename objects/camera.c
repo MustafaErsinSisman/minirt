@@ -41,12 +41,10 @@ static t_vector3	get_ray_color(t_ray ray, t_data *data)
 static void	init_viewport_geometry(struct s_data *data, t_cam_status *cam,
 					t_viewport *vp)
 {
-	vp->theta = degrees_to_radians(data->camera.fov);
-	vp->h = tan(vp->theta / 2.0);
-	vp->focal_length = 1.0;
-	vp->height = 2.0 * vp->h * vp->focal_length;
+	vp->theta = degrees_to_radians(data->camera.fov) / 2.0;
+	vp->height = 2.0 * tan(vp->theta);
 	vp->width = vp->height * ((double)cam->image_width / cam->image_height);
-	cam->w = vec_normalize(vec_scale(data->camera.normal, -1));
+	cam->w = vec_scale(data->camera.normal, -1);
 	if (fabs(data->camera.normal.y) > 0.99999)
 		cam->vup = new_vector(0, 0, 1);
 	cam->u = vec_normalize(vec_cross(cam->vup, cam->w));
@@ -84,14 +82,14 @@ void	camera_render(struct s_data *d, struct s_vars *vars)
 
 	camera_init(&(d->c_stat), d);
 	ren.y = -1;
-	while (ren.y++ < d->c_stat.image_height)
+	while (++ren.y < d->c_stat.image_height)
 	{
 		ren.x = -1;
-		while (ren.x++ < d->c_stat.image_width)
+		while (++ren.x < d->c_stat.image_width)
 		{
 			ren.pxl_clr = new_vector(0, 0, 0);
 			ren.sample = -1;
-			while (ren.sample++ < d->c_stat.samples_per_pixel)
+			while (++ren.sample < d->c_stat.samples_per_pixel)
 			{
 				ren.r = get_ray(d, ren.x, ren.y);
 				ren.pxl_clr = vec_sum(ren.pxl_clr,
