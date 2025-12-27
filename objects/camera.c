@@ -68,8 +68,7 @@ void	camera_init(t_cam_status *cam, struct s_data *data)
 	init_viewport_geometry(data, cam, &vp);
 	cam->delta_u = vec_scale(vp.view_u, 1.0 / cam->image_width);
 	cam->delta_v = vec_scale(vp.view_v, 1.0 / cam->image_height);
-	vp.v_center = vec_sub(data->camera.pos, vec_scale(cam->w,
-				vec_len(vec_sub(data->camera.pos, data->camera.normal))));
+	vp.v_center = vec_sub(data->camera.pos, cam->w);
 	vp.upper_left = vec_sub(vp.v_center, vec_scale(vp.view_u, 0.5));
 	vp.upper_left = vec_sub(vp.upper_left, vec_scale(vp.view_v, 0.5));
 	cam->pixel00_loc = vec_sum(vp.upper_left,
