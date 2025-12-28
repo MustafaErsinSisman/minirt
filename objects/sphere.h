@@ -13,6 +13,16 @@
 #ifndef SPHERE_H
 # define SPHERE_H
 
+typedef struct s_func
+{
+	double	disc;
+	double	root;
+	double	sqrtd;
+	double	a;
+	double	half_b;
+	double	c;
+}	t_func;
+
 typedef struct s_sphere
 {
 	t_vector3	pos;

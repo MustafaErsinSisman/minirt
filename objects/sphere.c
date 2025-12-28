@@ -28,17 +28,13 @@ static void	set_face_normal(t_hit_record *rec, const t_ray *r,
 }
 
 static double	calculate_sphere_discriminant(t_sphere *sphere,
-	const t_ray *r, t_vector3 *oc)
+	const t_ray *r, t_vector3 *oc, t_func *func)
 {
-	double	a;
-	double	half_b;
-	double	c;
-
 	*oc = vec_sub(sphere->pos, r->origin);
-	a = vec_dot(r->direction, r->direction);
-	half_b = vec_dot(*oc, r->direction);
-	c = vec_dot(*oc, *oc) - pow(sphere->radius, 2);
-	return (pow(half_b, 2) - a * c);
+	func->a = vec_dot(r->direction, r->direction);
+	func->half_b = vec_dot(*oc, r->direction);
+	func->c = vec_dot(*oc, *oc) - pow(sphere->radius, 2);
+	return (pow(func->half_b, 2) - func->a * func->c);
 }
 
 static void	fill_hit_record(t_hit_status *status, t_sphere *sphere, double root)
@@ -57,25 +53,21 @@ bool	hit_sphere(t_object *object, t_hit_status *status)
 {
 	t_sphere	*sphere;
 	t_vector3	oc;
-	double		discriminant;
-	double		root;
-	double		sqrtd;
+	t_func		func;
 
 	sphere = (t_sphere *)object->data;
-	discriminant = calculate_sphere_discriminant(sphere, status->ray, &oc);
-	if (discriminant < 0)
+	func.disc = calculate_sphere_discriminant(sphere, status->ray, &oc, &func);
+	if (func.disc < 0)
 		return (false);
-	sqrtd = sqrt(discriminant);
-	root = (vec_dot(oc, status->ray->direction) - sqrtd)
-		/ vec_dot(status->ray->direction, status->ray->direction);
-	if (root < status->t_min || root > status->t_max)
+	func.sqrtd = sqrt(func.disc);
+	func.root = (func.half_b - func.sqrtd) / func.a;
+	if (func.root < status->t_min || func.root > status->t_max)
 	{
-		root = (vec_dot(oc, status->ray->direction) + sqrtd)
-			/ vec_dot(status->ray->direction, status->ray->direction);
-		if (root < status->t_min || root > status->t_max)
+		func.root = (func.half_b + func.sqrtd) / func.a;
+		if (func.root < status->t_min || func.root > status->t_max)
 			return (false);
 	}
-	fill_hit_record(status, sphere, root);
+	fill_hit_record(status, sphere, func.root);
 	return (true);
 }
 
