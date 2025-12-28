@@ -18,8 +18,7 @@ t_vector3	calculate_diffuse(t_light light, t_hit_record *rec)
 	t_vector3	diffuse_color;
 	double		diff;
 
-	light_dir = vec_sub(light.pos, rec->p);
-	light_dir = vec_normalize(light_dir);
+	light_dir = vec_normalize(vec_sub(light.pos, rec->p));
 	diff = vec_dot(rec->normal, light_dir);
 	if (diff < 0)
 		diff = 0;
