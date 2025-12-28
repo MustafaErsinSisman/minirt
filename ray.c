@@ -33,7 +33,8 @@ unsigned int	color(int r, int g, int b)
 
 static t_vector3	sample_square(unsigned int *seed)
 {
-	return (new_vector(ft_random_double(seed) - 0.5, ft_random_double(seed) - 0.5, 0));
+	return (new_vector(ft_random_double(seed) - 0.5,
+			ft_random_double(seed) - 0.5, 0));
 }
 
 t_ray	get_ray(t_data *data, int i, int j, unsigned int *seed)

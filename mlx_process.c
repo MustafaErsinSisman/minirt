@@ -15,11 +15,11 @@
 bool	mlx_process(t_data *data)
 {
 	t_vars			vars;
-	unsigned int    seed;
-   	struct timeval  tv;
+	unsigned int	seed;
+	struct timeval	tv;
 
-    	gettimeofday(&tv, NULL);
-    	seed = (unsigned int)(tv.tv_sec * 1000000 + tv.tv_usec);
+	gettimeofday(&tv, NULL);
+	seed = (unsigned int)(tv.tv_sec * 1000000 + tv.tv_usec);
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
 		return (false);

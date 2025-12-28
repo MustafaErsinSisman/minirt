@@ -6,14 +6,14 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/28 17:33:28 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/28 18:16:19 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
- #include <sys/time.h>
+# include <sys/time.h>
 
 # include "minilibx-linux/mlx.h"
 # include "collector/collector.h"
@@ -33,7 +33,7 @@ static inline double	degrees_to_radians(double degrees)
 
 static inline double	ft_random_double(unsigned int *seed)
 {
-	*seed = *seed * 1103515245 + 12345;   
+	*seed = *seed * 1103515245 + 12345;
 	return ((double)(*seed & 0x7FFFFFFF) / 2147483648.0);
 }
 

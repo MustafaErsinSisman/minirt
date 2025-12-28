@@ -60,6 +60,7 @@ typedef struct s_cam_status
 }	t_cam_status;
 
 void	camera_init(t_cam_status *cam, struct s_data *data);
-void	camera_render(struct s_data *d, struct s_vars *vars, unsigned int *seed);
+void	camera_render(struct s_data *d, struct s_vars *vars,
+			unsigned int *seed);
 
 #endif
