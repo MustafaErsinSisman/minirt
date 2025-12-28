@@ -6,12 +6,14 @@
 /*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/07 16:06:18 by musisman          #+#    #+#             */
-/*   Updated: 2025/12/27 13:40:07 by musisman         ###   ########.fr       */
+/*   Updated: 2025/12/28 17:33:28 by musisman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
+
+ #include <sys/time.h>
 
 # include "minilibx-linux/mlx.h"
 # include "collector/collector.h"
@@ -29,15 +31,11 @@ static inline double	degrees_to_radians(double degrees)
 	return (degrees * M_PI / 180.0);
 }
 
-static inline double	random_double(void)
+static inline double	ft_random_double(unsigned int *seed)
 {
-	return (rand() / (RAND_MAX + 1.0));
+	*seed = *seed * 1103515245 + 12345;   
+	return ((double)(*seed & 0x7FFFFFFF) / 2147483648.0);
 }
-
-// static inline double	random_double_range(double min, double max)
-// {
-// 	return (min + (max - min) * random_double());
-// }
 
 static inline double	clamp(double x, double min, double max)
 {
@@ -73,7 +71,7 @@ int					exit_func(t_vars *vars);
 int					key_hook(int keycode, t_vars *vars);
 t_ray				new_ray(t_vector3 origin, t_vector3 direction);
 t_vector3			ray_at(t_ray r, double t);
-t_ray				get_ray(t_data *data, int i, int j);
+t_ray				get_ray(t_data *data, int i, int j, unsigned int *seed);
 unsigned int		color(int r, int g, int b);
 
 #endif

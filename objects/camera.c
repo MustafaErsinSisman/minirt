@@ -43,7 +43,7 @@ static void	init_viewport_geometry(struct s_data *data, t_cam_status *cam,
 {
 	vp->theta = degrees_to_radians(data->camera.fov) / 2.0;
 	vp->height = 2.0 * tan(vp->theta);
-	vp->width = vp->height * ((double)cam->image_width / cam->image_height);
+	vp->width = vp->height * cam->aspect_ratio;
 	cam->w = vec_scale(data->camera.normal, -1);
 	if (fabs(data->camera.normal.y) > 0.99999)
 		cam->vup = new_vector(0, 0, 1);
@@ -75,7 +75,7 @@ void	camera_init(t_cam_status *cam, struct s_data *data)
 			vec_scale(vec_sum(cam->delta_u, cam->delta_v), 0.5));
 }
 
-void	camera_render(struct s_data *d, struct s_vars *vars)
+void	camera_render(struct s_data *d, struct s_vars *vars, unsigned int *seed)
 {
 	t_render		ren;
 
@@ -90,7 +90,7 @@ void	camera_render(struct s_data *d, struct s_vars *vars)
 			ren.sample = -1;
 			while (++ren.sample < d->c_stat.samples_per_pixel)
 			{
-				ren.r = get_ray(d, ren.x, ren.y);
+				ren.r = get_ray(d, ren.x, ren.y, seed);
 				ren.pxl_clr = vec_sum(ren.pxl_clr,
 						get_ray_color(ren.r, d));
 			}

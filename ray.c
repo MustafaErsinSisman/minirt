@@ -31,19 +31,19 @@ unsigned int	color(int r, int g, int b)
 	return ((r << 16) | (g << 8) | b);
 }
 
-static t_vector3	sample_square(void)
+static t_vector3	sample_square(unsigned int *seed)
 {
-	return (new_vector(random_double() - 0.5, random_double() - 0.5, 0));
+	return (new_vector(ft_random_double(seed) - 0.5, ft_random_double(seed) - 0.5, 0));
 }
 
-t_ray	get_ray(t_data *data, int i, int j)
+t_ray	get_ray(t_data *data, int i, int j, unsigned int *seed)
 {
 	t_vector3	offset;
 	t_vector3	pixel_sample;
 	t_vector3	ray_origin;
 	t_vector3	ray_direction;
 
-	offset = sample_square();
+	offset = sample_square(seed);
 	pixel_sample = vec_sum(data->c_stat.pixel00_loc,
 			vec_sum(vec_scale(data->c_stat.delta_u, i + offset.x),
 				vec_scale(data->c_stat.delta_v, j + offset.y)));

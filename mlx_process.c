@@ -15,7 +15,11 @@
 bool	mlx_process(t_data *data)
 {
 	t_vars			vars;
+	unsigned int    seed;
+   	struct timeval  tv;
 
+    	gettimeofday(&tv, NULL);
+    	seed = (unsigned int)(tv.tv_sec * 1000000 + tv.tv_usec);
 	vars.mlx = mlx_init();
 	if (!vars.mlx)
 		return (false);
@@ -27,7 +31,7 @@ bool	mlx_process(t_data *data)
 		return (mlx_destroy_window(vars.mlx, vars.win), false);
 	vars.addr = mlx_get_data_addr(vars.img, &vars.bpp, &vars.size_line,
 			&vars.endian);
-	camera_render(data, &vars);
+	camera_render(data, &vars, &seed);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.img, 0, 0);
 	mlx_key_hook(vars.win, key_hook, &vars);
 	mlx_hook(vars.win, 17, 0, exit_func, &vars);
