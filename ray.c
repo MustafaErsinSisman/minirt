@@ -49,6 +49,6 @@ t_ray	get_ray(t_data *data, int i, int j, unsigned int *seed)
 			vec_sum(vec_scale(data->c_stat.delta_u, i + offset.x),
 				vec_scale(data->c_stat.delta_v, j + offset.y)));
 	ray_origin = data->camera.pos;
-	ray_direction = vec_sub(pixel_sample, ray_origin);
+	ray_direction = vec_normalize(vec_sub(pixel_sample, ray_origin));
 	return (new_ray(ray_origin, ray_direction));
 }
