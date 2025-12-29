@@ -26,7 +26,7 @@ bool	solve_cylinder_quadratic(t_cylinder *cy, const t_ray *r, double *t)
 	b = 2 * (vec_dot(r->direction, oc)
 			- (vec_dot(r->direction, cy->normal) * vec_dot(oc, cy->normal)));
 	c = vec_dot(oc, oc)
-		- pow(vec_dot(oc, cy->normal), 2) - (cy->radius * cy->radius);
+		- pow(vec_dot(oc, cy->normal), 2) - pow(cy->radius, 2);
 	disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (false);
