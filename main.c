@@ -125,7 +125,7 @@ int	main(int argc, char **argv)
 
 	datas = NULL;
 	pre_objects = NULL;
-	if (argc == 1)
+	if (argc != 2)
 		error_message("No filename\n");
 	file_extension(argv[1]);
 	values = read_map(argv[1]);
