@@ -83,8 +83,8 @@ char	*check_if_number(char *str)
 	{
 		if (str[i] == '.')
 		{
-			if (++dot > 1)
-				error_message("Invalid format: Multiple dots\n");
+			if (++dot > 1 || str[0] == '.')
+				error_message("Invalid format: Incorrect dot\n");
 		}
 		else if (!ft_isdigit(str[i]) && str[i] != '\n' && str[i] != '\r'
 			&& str[i] != ' ' && str[i] != '\t')
