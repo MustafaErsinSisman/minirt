@@ -41,12 +41,12 @@ static int	parse_light_rgb(char *str, t_obje_list *obj)
 		return (1);
 	i = -1;
 	while (rgb[++i])
-		if (ft_atoi(check_if_number(rgb[i])) < 0
-			|| ft_atoi(check_if_number(rgb[i])) > 255)
+		if (ft_atod(check_if_number(rgb[i]), 0, 1) < 0
+			|| ft_atod(check_if_number(rgb[i]), 0, 1) > 255)
 			return (1);
-	obj->objects.light.rgb = new_vector(ft_atoi(check_if_number(rgb[0]))
-			/ 255.0, ft_atoi(check_if_number(rgb[1])) / 255.0,
-			ft_atoi(check_if_number(rgb[2])) / 255.0);
+	obj->objects.light.rgb = new_vector(ft_atod(check_if_number(rgb[0]), 0, 1)
+			/ 255.0, ft_atod(check_if_number(rgb[1]), 0, 1) / 255.0,
+			ft_atod(check_if_number(rgb[2]), 0, 1) / 255.0);
 	return (0);
 }
 
@@ -69,12 +69,12 @@ int	ambient_obj(char *value, t_obje_list *obj)
 		return (1);
 	obj->objects.ambiant.range = ft_atod(check_if_number(temp[1]), 0, 1);
 	while (rgb[++i])
-		if (ft_atoi(check_if_number(rgb[i])) < 0
-			|| ft_atoi(check_if_number(rgb[i])) > 255)
+		if (ft_atod(check_if_number(rgb[i]), 0, 1) < 0
+			|| ft_atod(check_if_number(rgb[i]), 0, 1) > 255)
 			return (1);
-	obj->objects.ambiant.rgb = new_vector(ft_atoi(check_if_number(rgb[0]))
-			/ 255.0, ft_atoi(check_if_number(rgb[1])) / 255.0,
-			ft_atoi(check_if_number(rgb[2])) / 255.0);
+	obj->objects.ambiant.rgb = new_vector(ft_atod(check_if_number(rgb[0]), 0, 1)
+			/ 255.0, ft_atod(check_if_number(rgb[1]), 0, 1) / 255.0,
+			ft_atod(check_if_number(rgb[2]), 0, 1) / 255.0);
 	return (0);
 }
 

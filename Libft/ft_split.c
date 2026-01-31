@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: musisman <musisman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yozlu <yozlu@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 19:06:20 by musisman          #+#    #+#             */
-/*   Updated: 2025/10/18 12:15:26 by musisman         ###   ########.fr       */
+/*   Updated: 2026/01/03 17:20:42 by yozlu            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	check_consecutive(char const *s, char c)
+{
+	size_t	i;
+
+	i = 0;
+	if (c != ',')
+		return (0);
+	while (s[i])
+	{
+		if (s[i] == c && s[i + 1] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static size_t	world_count(char const *s, char c)
 {
@@ -71,6 +87,8 @@ char	**ft_split(char const *s, char c)
 	char	**sp;
 	size_t	wc;
 
+	if (check_consecutive(s, c))
+		return (NULL);
 	wc = world_count(s, c);
 	sp = ft_calloc(wc + 1, sizeof(char *));
 	if (!sp)

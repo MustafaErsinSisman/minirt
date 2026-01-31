@@ -52,14 +52,14 @@ static int	parse_cylinder_rgb(char **rgb, t_obje_list *obj)
 	i = -1;
 	while (rgb[++i])
 	{
-		if (ft_atoi(check_if_number(rgb[i])) < 0
-			|| ft_atoi(check_if_number(rgb[i])) > 255)
+		if (ft_atod(check_if_number(rgb[i]), 0, 1) < 0
+			|| ft_atod(check_if_number(rgb[i]), 0, 1) > 255)
 			return (1);
 	}
 	obj->objects.cylinder.rgb = new_vector(
-			ft_atoi(check_if_number(rgb[0])) / 255.0,
-			ft_atoi(check_if_number(rgb[1])) / 255.0,
-			ft_atoi(check_if_number(rgb[2])) / 255.0);
+			ft_atod(check_if_number(rgb[0]), 0, 1) / 255.0,
+			ft_atod(check_if_number(rgb[1]), 0, 1) / 255.0,
+			ft_atod(check_if_number(rgb[2]), 0, 1) / 255.0);
 	return (0);
 }
 
